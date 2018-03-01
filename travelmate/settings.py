@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
+    'app',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'travelmate.urls'
@@ -54,7 +57,7 @@ ROOT_URLCONF = 'travelmate.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -62,6 +65,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -69,6 +74,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'travelmate.wsgi.application'
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    )
+SOCIAL_AUTH_FACEBOOK_KEY = '406765996415804'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'f865b8e0b042c8477a4d5b30e4e5c8b1'
+
+SOCIAL_AUTH_TWITTER_KEY = 'rh1ddTuG9DvBDe3aX4IsJPm3c'
+SOCIAL_AUTH_TWITTER_SECRET = '7odWy86cQOuIMBk9lrJTzJ8yS7CPnDFe9IhVYbvCvx3RZq8u8Q'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases

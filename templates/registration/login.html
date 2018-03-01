@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+    <div>
+        <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a> <br />
+        <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>
+    </div>
+</body>
+</html>
