@@ -3,6 +3,13 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+	<style>
+      #map {
+        width: 50%;
+        height: 500px;
+        background-color: grey;
+      }
+    </style>
     <title>Home - Travelmate</title>
 </head>
 <body>
@@ -12,5 +19,40 @@
     <div>
         <a href="{% url 'login' %}">Login</a>
     </div>
+	<h3>Google Map API Test</h3>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var c = {lat: 55.873543, lng: -4.289058};
+		var glaEdi = [{lat: 55.873543, lng: -4.289058},{lat: 55.9417628996, lng: -3.1856492574}]
+		var glaLnd = [{lat: 55.873543, lng: -4.289058},{lat: 51.507351, lng: -0.127758}]
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 5,
+          center: c,
+		  mapTypeId: 'terrain'
+        });
+		
+        var testLine = new google.maps.Polyline({
+          path: glaEdi,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        testLine.setMap(map);
+		
+		var testLine2 = new google.maps.Polyline({
+          path: glaLnd,
+          geodesic: true,
+          strokeColor: '#a55dad',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        testLine2.setMap(map);
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-R2PpdSaF_ER0VvYoxoCuiNVWDaZ60m4&callback=initMap">
+    </script>
 </body>
 </html>
