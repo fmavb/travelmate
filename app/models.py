@@ -15,7 +15,7 @@ class UserProfile(models.Model):
 	user = models.OneToOneField(User)
 	profileID = models.AutoField(primary_key=True)
 	profilePic = models.ImageField(upload_to='profile_images', blank=True)
-	homeCity = models.CharField(max_length=85)
+	homeCountry = models.ForeignKey(Destination,on_delete=models.CASCADE)
 	public = models.BooleanField(default=False)
 	
 	def __str__(self):
