@@ -24,13 +24,14 @@ from datetime import datetime
 
 # Create your views here.
 def home(request):
-	trip_list = Trip.objects.filter(owner__exact=request.user)
-	trip_serial = [ trip.as_dict() for trip in trip_list ]
-	if request.user.is_superuser:
+	if (request.user.is_superuser or request.user.is_anonymous):
 		start_dict = {"lat":51.509865,"lng":-0.118092}
+		trip_serial = [{"lat":51.509865,"lng":-0.118092}]
 	else:
 		userprofile = UserProfile.objects.get(user__exact=request.user)
 		start_dict = userprofile.as_dict()
+		trip_list = Trip.objects.filter(owner__exact=request.user)
+		trip_serial = [ trip.as_dict() for trip in trip_list ]
 	compile = {'trips':trip_serial, 'start':start_dict}
 	data = json.dumps(compile)
 	context_dict = {'json_data': data}

@@ -40,7 +40,7 @@ class Trip(models.Model):
 	endDate = models.DateField()
 	public = models.BooleanField(default=False)
 	destination = models.ForeignKey(Destination,on_delete=models.CASCADE)
-	rating = models.ForeignKey(Rating,on_delete=models.CASCADE)
+	rating = models.OneToOneField(Rating,on_delete=models.CASCADE)
 
 	def __str__(self): # For Python 2, use __unicode__ too
 		return self.owner.username + str(self.tripID)
