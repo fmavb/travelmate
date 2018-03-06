@@ -23,7 +23,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$',auth_views.logout,name='logout'),
-    url(r'^oauth/',include('social_django.urls',namespace='social'))
+    url(r'^oauth/',include('social_django.urls',namespace='social')),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
 ]
 LOGIN_URL='login'
 LOGOUT_URL='logout'

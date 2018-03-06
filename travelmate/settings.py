@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social_django',
     'app',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -79,6 +80,17 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
     )
+
+REGISTRATION_OPEN = True
+
+ACCOUNT_ACTIVATION_DAYS = 7
+
+REGISTRATION_AUTO_LOGIN = True
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGIN_URL = '/accounts/login/'
+
 SOCIAL_AUTH_FACEBOOK_KEY = '406765996415804'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'f865b8e0b042c8477a4d5b30e4e5c8b1'
 

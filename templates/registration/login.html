@@ -6,15 +6,23 @@
     <title>Login</title>
 </head>
 <body>
+    <div>
     <h1>Login</h1>
-    <form method="post">
+    <form method="post" action=".">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Login</button>
+        <input type="submit" value="Log In" />
+        <input type="hidden" name="next" value="{{ next }}" />
     </form>
-    <div>
         <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a> <br />
         <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>
+    </div>
+    <div>
+        <p>
+            Want to join Travelmate!
+            Follow this link...
+            <a href="{% url 'registration_register' %}">Register</a>
+        </p>
     </div>
 </body>
 </html>
