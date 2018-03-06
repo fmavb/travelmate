@@ -21,11 +21,17 @@ class UserProfile(models.Model):
 	def __str__(self):
 		return self.user.username
 		
+	def as_dict(self):
+		return {
+			"lat": self.homeCountry.latitude,
+			"lng": self.homeCountry.longitude,
+		}
+		
 class Rating(models.Model):
 	score = models.IntegerField()
 
 	def __str__(self):
-		return self.score
+		return str(self.score)
 
 class Trip(models.Model):
 	owner = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -37,7 +43,14 @@ class Trip(models.Model):
 	rating = models.ForeignKey(Rating,on_delete=models.CASCADE)
 
 	def __str__(self): # For Python 2, use __unicode__ too
-		return self.tripID
+		return self.owner.username + str(self.tripID)
+		
+		
+	def as_dict(self):
+		return {
+			"lat": self.destination.latitude,
+			"lng": self.destination.longitude,
+		}
 		
 class BlogPost(models.Model):
 	user = models.ForeignKey(User,on_delete=models.CASCADE)

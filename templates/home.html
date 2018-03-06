@@ -14,7 +14,11 @@
 </head>
 <body>
     <div>
-        <h1>Welcome to Travelmate!</h1>
+		{% if user.is_authenticated %}
+            <h1>Welcome to Travelmate, {{ user.username }}!</h1>
+        {% else %}
+            <h1>Welcome to Travelmate!</h1>
+        {% endif %}
     </div>
     <div>
         <a href="{% url 'login' %}">Login</a>
@@ -23,32 +27,31 @@
     <div id="map"></div>
     <script>
       function initMap() {
-        var c = {lat: 55.873543, lng: -4.289058};
-		var glaEdi = [{lat: 55.873543, lng: -4.289058},{lat: 55.9417628996, lng: -3.1856492574}]
-		var glaLnd = [{lat: 55.873543, lng: -4.289058},{lat: 51.507351, lng: -0.127758}]
-        var map = new google.maps.Map(document.getElementById('map'), {
+		var data = JSON.parse('{{ json_data | escapejs }}');
+		var startLat = parseFloat(data["start"]["lat"]);
+		var startLng = parseFloat(data["start"]["lng"]);
+		
+		var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 5,
-          center: c,
+          center: {lat: startLat,lng:startLng},
 		  mapTypeId: 'terrain'
         });
 		
-        var testLine = new google.maps.Polyline({
-          path: glaEdi,
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-        testLine.setMap(map);
-		
-		var testLine2 = new google.maps.Polyline({
-          path: glaLnd,
-          geodesic: true,
-          strokeColor: '#a55dad',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-        testLine2.setMap(map);
+		var trips = data["trips"];
+		for(i = 0; i < trips.length; i++){
+			var current = trips[i];
+			var endLat = parseFloat(current["lat"]);
+			var endLng = parseFloat(current["lng"]);
+			var route = [{lat:startLat,lng:startLng},{lat:endLat,lng:endLng}];
+			var line = new google.maps.Polyline({
+			  path: route,
+			  geodesic: true,
+			  strokeColor: '#a55dad',
+			  strokeOpacity: 1.0,
+			  strokeWeight: 2
+			});
+			line.setMap(map);
+		}
       }
     </script>
     <script async defer
