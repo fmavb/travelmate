@@ -8,11 +8,13 @@
 <body>
     <div>
     <h1>Login</h1>
-    <form method="post" action=".">
+    <form id="login_form" method="post" action="{% url 'login' %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Log In" />
-        <input type="hidden" name="next" value="{{ next }}" />
+        Username: <input type="text" name="username" value="" size="50" />
+        <br />
+        Password: <input type="password" name="password" value="" size="50" />
+        <br />
+        <input type="submit" value="submit" />
     </form>
         <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a> <br />
         <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>

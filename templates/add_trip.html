@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Trip</title>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $(".datepicker").datepicker();
+    });
+  </script>
+</head>
+</head>
+<body>
+    <div>
+		<h1>Add new Trip</h1>
+    </div>
+    <div>
+        <form id="TripForm" method="post" action="/app/add_trip/">
+            {% csrf_token %}
+            <p>Start of trip: {{ form.startDate }}</p>
+            <p>End of trip: {{ form.endDate }}</p>
+            <p>Public? {{ form.public }}</p>
+            <p>Destination: {{ form.destination }}</p>
+            <input type="submit" name="submit" value="Add Trip" />
+        </form>
+    </div>
+</body>
+</html>
