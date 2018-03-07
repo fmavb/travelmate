@@ -11,6 +11,9 @@ class Destination(models.Model):
 	def __str__(self): # For Python 2, use __unicode__ too
 		return self.name
 
+	def __unicode__(self):
+		return self.name
+
 class UserProfile(models.Model):
 	user = models.OneToOneField(User)
 	profileID = models.AutoField(primary_key=True)
@@ -20,6 +23,9 @@ class UserProfile(models.Model):
 	
 	def __str__(self):
 		return self.user.username
+
+	def __unicode__(self):
+		return self.user.username
 		
 	def as_dict(self):
 		return {
@@ -27,6 +33,9 @@ class UserProfile(models.Model):
 			"lng": self.homeCountry.longitude,
 		}
 
+
+	def __unicode__(self):
+		return str(self.score)
 
 class Trip(models.Model):
 	owner = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -37,6 +46,9 @@ class Trip(models.Model):
 	destination = models.ForeignKey(Destination,on_delete=models.CASCADE)
 
 	def __str__(self): # For Python 2, use __unicode__ too
+		return self.owner.username + str(self.tripID)
+
+	def __unicode__(self):
 		return self.owner.username + str(self.tripID)
 		
 		
@@ -64,6 +76,9 @@ class BlogPost(models.Model):
 
 	def __str__(self):
 		return self.content
+
+	def __unicode__(self):
+		return self.content
 		
 class Comment(models.Model):
 	commentID = models.AutoField(primary_key=True)
@@ -73,6 +88,9 @@ class Comment(models.Model):
 	user = models.ForeignKey(User,on_delete=models.CASCADE)
 
 	def __str__(self):
+		return self.content
+
+	def __unicode__(self):
 		return self.content
 		
 class PostImage(models.Model):
