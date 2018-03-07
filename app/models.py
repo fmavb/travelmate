@@ -50,6 +50,7 @@ class Trip(models.Model):
 		return {
 			"lat": self.destination.latitude,
 			"lng": self.destination.longitude,
+			"name": self.destination.name,
 		}
 		
 class BlogPost(models.Model):

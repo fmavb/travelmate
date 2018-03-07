@@ -25,7 +25,9 @@
     </div>
 	<h3>Google Map API Test</h3>
     <div id="map"></div>
+	
     <script>
+	var currentInfo=null;
       function initMap() {
 		var data = JSON.parse('{{ json_data | escapejs }}');
 		var startLat = parseFloat(data["start"]["lat"]);
@@ -48,14 +50,30 @@
 			  geodesic: true,
 			  strokeColor: '#a55dad',
 			  strokeOpacity: 1.0,
-			  strokeWeight: 2
+			  strokeWeight: 3
 			});
 			line.setMap(map);
+			bindEvent(line, current["name"], map);
 		}
       }
+	  
+	  function bindEvent(polyLine, name, map){
+		var infowindow = new google.maps.InfoWindow({
+			content: name
+		});
+		google.maps.event.addListener(polyLine, 'click', function(e) {
+			if (currentInfo) {
+				currentInfo.close();
+			}
+			currentInfo = infowindow;
+			infowindow.setPosition(e.latLng);
+			infowindow.open(map);
+		});
+	  }
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-R2PpdSaF_ER0VvYoxoCuiNVWDaZ60m4&callback=initMap">
     </script>
+	
 </body>
 </html>

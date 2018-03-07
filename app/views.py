@@ -26,7 +26,7 @@ from datetime import datetime
 def home(request):
 	if (request.user.is_superuser or request.user.is_anonymous):
 		start_dict = {"lat":51.509865,"lng":-0.118092}
-		trip_serial = [{"lat":51.509865,"lng":-0.118092}]
+		trip_serial = [{"lat":51.509865,"lng":-0.118092, "name":"None"}]
 	else:
 		userprofile = UserProfile.objects.get(user__exact=request.user)
 		start_dict = userprofile.as_dict()
