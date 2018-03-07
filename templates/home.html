@@ -21,7 +21,14 @@
         {% endif %}
     </div>
     <div>
-        <a href="{% url 'login' %}">Login</a>
+        {% if user.is_authenticated %}
+            <ul>
+                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <li><a href="{% url 'logout' %}?next=/">Logout</a></li>
+            </ul>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
     </div>
 	<h3>Google Map API Test</h3>
     <div id="map"></div>

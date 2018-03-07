@@ -17,14 +17,20 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from app import views as app_views
 from django.contrib.auth import views as auth_views
+from registration.backends.simple.views import RegistrationView
+
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self,user):
+        return '/settings/'
 
 urlpatterns = [
-    url(r'^$',app_views.home,name='home'),
+    url(r'^',include('app.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$',auth_views.logout,name='logout'),
     url(r'^oauth/',include('social_django.urls',namespace='social')),
     url(r'^accounts/', include('registration.backends.simple.urls')),
+    url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
 ]
 LOGIN_URL='login'
 LOGOUT_URL='logout'
