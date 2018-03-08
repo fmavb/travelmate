@@ -15,7 +15,7 @@ class Settings(forms.ModelForm):
 
 class TripForm(forms.ModelForm):
 	public = forms.BooleanField(required=False)
-	destination = forms.ModelChoiceField(queryset=Destination.objects.all())
+	destination = forms.ModelChoiceField(queryset=Destination.objects.all().order_by('name'))
 
 	class Meta:
 		model = Trip

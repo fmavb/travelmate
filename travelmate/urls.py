@@ -32,6 +32,6 @@ urlpatterns = [
     url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
     url(r'^app/', include('app.urls')),
 ]
-LOGIN_URL='login'
-LOGOUT_URL='logout'
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL='/login'
+LOGOUT_URL='/logout'
+LOGIN_REDIRECT_URL = '/home'
