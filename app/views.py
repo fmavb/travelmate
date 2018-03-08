@@ -60,7 +60,8 @@ def contact(request):
 def settings(request):
 	# Create an array of all our destinations,
 	# and then dump into json so we can pass it on to settings.html for autocomplete
-	dest = [destination.name for destination in Destination.objects.all()]
+	# Ordered by alphabetical order
+	dest = [destination.name for destination in Destination.objects.all().order_by('name')]
 	compile = {'names': dest}
 	data = json.dumps(compile)
 
@@ -156,7 +157,8 @@ def user_logout(request):
 def add_trip(request):
 	# Create an array of all our destinations,
 	# and then dump into json so we can pass it on to settings.html for autocomplete
-	dest = [destination.name for destination in Destination.objects.all()]
+	# Ordered by alphabetical order
+	dest = [destination.name for destination in Destination.objects.all().order_by('name')]
 	compile = {'names': dest}
 	data = json.dumps(compile)
 
