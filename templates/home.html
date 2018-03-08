@@ -51,6 +51,12 @@
 		
 		var trips = data["trips"];
 		for(i = 0; i < trips.length; i++){
+
+			// list of colors to make the line of trips on the map more colourful
+
+			var color_list = [ "#0000ff", "#a52a2a", "#00ffff", "#00008b", "#008b8b", "#a9a9a9", "#006400", "#bdb76b", "#8b008b", "#556b2f", "#ff8c00", "#9932cc", "#8b0000", "#e9967a", "#9400d3",
+			"#ff00ff", "#ffd700", "#008000", "#4b0082", "#f0e68c", "#add8e6", "#e0ffff", "#f0ffff",  "#90ee90", "#d3d3d3", "#ffb6c1", "#ffffe0", "#00ff00", "#ff00ff", "#800000", "#000080", "#808000", "#ffa500", "#000000", "#ffc0cb", "#800080","#800080","#ff0000", "#c0c0c0", "#ffffff", "#ffff00"]
+
 			var current = trips[i];
 			var endLat = parseFloat(current["lat"]);
 			var endLng = parseFloat(current["lng"]);
@@ -58,7 +64,7 @@
 			var line = new google.maps.Polyline({
 			  path: route,
 			  geodesic: true,
-			  strokeColor: '#a55dad',
+			  strokeColor: color_list[i%color_list.length],
 			  strokeOpacity: 1.0,
 			  strokeWeight: 3
 			});
