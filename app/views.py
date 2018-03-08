@@ -51,6 +51,9 @@ def about(request):
 
 @login_required
 def settings(request):
+	dest = [destination.name for destination in Destination.objects.all()]
+	compile = {'names': dest}
+	data = json.dumps(compile)
 	try:
 		profile = request.user.userprofile
 	except UserProfile.DoesNotExist:
@@ -60,6 +63,12 @@ def settings(request):
 		if form.is_valid():
 			profile = form.save(commit=False)
 			profile.user = request.user
+			try:
+				homeCountryText = form.cleaned_data['homeCountryText']
+				destinationObject = Destination.objects.get(name__exact=homeCountryText)
+				profile.homeCountry = destinationObject
+			except Destination.DoesNotExist:
+				render(request, 'add_trip.html', {'form': form, 'json_data': data})
 			profile.save()
 			form.save(commit=True)
 			return home(request)
@@ -68,7 +77,7 @@ def settings(request):
 	else:
 		form = Settings(instance=profile)
 
-	request = render(request,'settings.html',{'form':form})
+	request = render(request,'settings.html',{'form': form, 'json_data': data})
 	return request
 
 
@@ -131,17 +140,26 @@ def user_logout(request):
 
 @login_required
 def add_trip(request):
+	dest = [destination.name for destination in Destination.objects.all()]
+	compile = {'names': dest}
+	data = json.dumps(compile)
 	form = TripForm()
 	if request.method == 'POST':
 		form = TripForm(request.POST)
 		if form.is_valid():
 			trip = form.save(commit=False)
 			trip.owner = request.user
+			try:
+				destinationText = form.cleaned_data['destinationText']
+				destinationObject = Destination.objects.get(name__exact=destinationText)
+				trip.destination = destinationObject
+			except Destination.DoesNotExist:
+				render(request, 'add_trip.html', {'form': form, 'json_data': data})
 			trip.save()
 			return home(request)
 		else:
 			print(form.errors)
-	return render(request, 'add_trip.html', {'form': form})
+	return render(request, 'add_trip.html', {'form': form, 'json_data': data})
 
 @login_required
 def trips(request):

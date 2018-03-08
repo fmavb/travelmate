@@ -3,6 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Settings - Travelmate</title>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+      $( function() {
+          var data = JSON.parse('{{ json_data | escapejs }}');
+          var availableTags = data.names;
+        $( ".destination" ).autocomplete({
+            maxResults: 10,
+            source: function(request, response) {
+                var results = $.ui.autocomplete.filter(availableTags, request.term);
+                response(results.slice(0, this.options.maxResults));
+            }
+        });
+      });
+  </script>
 </head>
 <body>
     <h1>Settings</h1>
@@ -12,7 +31,7 @@
     <div>
         <form id="settings+form" method="post" action="/app/settings/">
             {% csrf_token %}
-            <p>Home country: {{ form.homeCountry }}</p>
+            <p>Home country: {{ form.homeCountryText }}</p>
             <p>Public Profile: {{ form.public}}</p>
             <p>Profile Picture: {{ form.profilePic}}</p>
             <input type="submit", name="submit" value="Apply"/>
