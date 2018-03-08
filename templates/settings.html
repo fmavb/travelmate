@@ -10,16 +10,11 @@
         <a href="{% url 'home' %}">Home</a>
     </div>
     <div>
-        <form id="settings+form" method="post" action="/settings/">
+        <form id="settings+form" method="post" action="/app/settings/">
             {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            {% for field in form.visible_fields %}
-                {{ fields.errors }}
-                {{ field.help_text }}
-                {{ field }}
-            {% endfor %}
+            <p>Home country: {{ form.homeCountry }}</p>
+            <p>Public Profile: {{ form.public}}</p>
+            <p>Profile Picture: {{ form.profilePic}}</p>
             <input type="submit", name="submit" value="Apply"/>
         </form>
     </div>

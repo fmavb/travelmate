@@ -5,13 +5,16 @@ from app.models import Trip, Destination, UserProfile
 
 class Settings(forms.ModelForm):
     homeCountry = forms.ModelChoiceField(queryset=Destination.objects.all().order_by('name'), required=True,
-                                         initial="United Kingdom")
+                                         initial=Destination.objects.get(name__exact="United Kingdom"))
+    public = forms.BooleanField(required=False)
+    profilePic = forms.ImageField(required=False)
+
     class Meta:
         model = UserProfile
-        fields = ('user','homeCountry','profilePic','public',)
+        fields = ('homeCountry','profilePic','public',)
 
 class TripForm(forms.ModelForm):
-	public = forms.BooleanField()
+	public = forms.BooleanField(required=False)
 	destination = forms.ModelChoiceField(queryset=Destination.objects.all())
 
 	class Meta:

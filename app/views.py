@@ -52,8 +52,11 @@ def settings(request):
 	if request.method == 'POST':
 		form = Settings(request.POST)
 		if form.is_valid():
+			profile = form.save(commit=False)
+			profile.user = request.user
+			profile.save()
 			form.save(commit=True)
-			return settings(request)
+			return home(request)
 		else:
 			print (form.errors)
 

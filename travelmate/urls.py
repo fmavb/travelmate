@@ -21,16 +21,16 @@ from registration.backends.simple.views import RegistrationView
 
 class MyRegistrationView(RegistrationView):
     def get_success_url(self,user):
-        return '/settings/'
+        return '/app/settings/'
 
 urlpatterns = [
+    url(r'^$', app_views.home, name='home'),
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$',auth_views.logout,name='logout'),
     url(r'^oauth/',include('social_django.urls',namespace='social')),
-    url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
-    url(r'^',include('app.urls')),
+    url(r'^app/', include('app.urls')),
 ]
 LOGIN_URL='login'
 LOGOUT_URL='logout'
