@@ -11,7 +11,9 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
+        //We have a function, which for all elements of class .datepicker, adds datepicker widget
     $( function() {
+        //Get little calandar image
         var calendar_src = '{% static "images/calendar.gif" %}';
         $( ".datepicker" ).datepicker({
           showOn: "button",
@@ -23,10 +25,13 @@
     </script>
     <script>
       $( function() {
+          //Parse the available places from JSON
           var data = JSON.parse('{{ json_data | escapejs }}');
           var availableTags = data.names;
         $( ".destination" ).autocomplete({
+            //MaxResults is the number of results displayed when autocompleting
             maxResults: 10,
+                //Source is the array of values we can suggest, inner function slices our parsed array
             source: function(request, response) {
                 var results = $.ui.autocomplete.filter(availableTags, request.term);
                 response(results.slice(0, this.options.maxResults));

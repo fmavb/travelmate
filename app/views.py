@@ -27,6 +27,10 @@ from datetime import datetime
 
 # Create your views here.
 def home(request):
+	# Check if User is Admin or Anonymous
+	# If yes, we use hardcoded values
+	# If a registered non-admin user, we fetch their trips
+	# Finally we dump whatever we have into JSON
 	if(request.user.is_superuser or request.user.is_anonymous):
 		start_dict = {"lat":51.509865,"lng":-0.118092}
 		trip_serial = [{"lat":51.509865,"lng":-0.118092, "name":"None"}]
@@ -51,18 +55,25 @@ def about(request):
 
 @login_required
 def settings(request):
+	# Create an array of all our destinations,
+	# and then dump into json so we can pass it on to settings.html for autocomplete
 	dest = [destination.name for destination in Destination.objects.all()]
 	compile = {'names': dest}
 	data = json.dumps(compile)
+
+	# Check if UserProfile already exists, if it does we just update it with relevant changes.
 	try:
 		profile = request.user.userprofile
 	except UserProfile.DoesNotExist:
 		profile = UserProfile(user=request.user)
 	if request.method == 'POST':
 		form = Settings(request.POST,instance=profile)
+		# Set up values from form
 		if form.is_valid():
 			profile = form.save(commit=False)
 			profile.user = request.user
+			# AutoComplete works with TextInput, therefore we try to match a valid text input to Destination entity
+			# If invalid destination is given, we return to form
 			try:
 				homeCountryText = form.cleaned_data['homeCountryText']
 				destinationObject = Destination.objects.get(name__exact=homeCountryText)
@@ -140,15 +151,20 @@ def user_logout(request):
 
 @login_required
 def add_trip(request):
+	# Create an array of all our destinations,
+	# and then dump into json so we can pass it on to settings.html for autocomplete
 	dest = [destination.name for destination in Destination.objects.all()]
 	compile = {'names': dest}
 	data = json.dumps(compile)
+
 	form = TripForm()
 	if request.method == 'POST':
 		form = TripForm(request.POST)
 		if form.is_valid():
 			trip = form.save(commit=False)
 			trip.owner = request.user
+			# AutoComplete works with TextInput, therefore we try to match a valid text input to Destination entity
+			# If invalid destination is given, we return to form
 			try:
 				destinationText = form.cleaned_data['destinationText']
 				destinationObject = Destination.objects.get(name__exact=destinationText)
