@@ -21,12 +21,13 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from app.forms import TripForm
 
 from datetime import datetime
 
 # Create your views here.
 def home(request):
-	if (request.user.is_superuser or request.user.is_anonymous):
+	if(request.user.is_superuser or request.user.is_anonymous):
 		start_dict = {"lat":51.509865,"lng":-0.118092}
 		trip_serial = [{"lat":51.509865,"lng":-0.118092, "name":"None"}]
 	else:
@@ -51,8 +52,11 @@ def settings(request):
 	if request.method == 'POST':
 		form = Settings(request.POST)
 		if form.is_valid():
+			profile = form.save(commit=False)
+			profile.user = request.user
+			profile.save()
 			form.save(commit=True)
-			return settings(request)
+			return home(request)
 		else:
 			print (form.errors)
 
@@ -103,7 +107,7 @@ def user_login(request):
 	else:
 		# No context variables to pass to the template system, hence the
 		# blank dictionary object...
-		return render(request, 'login.html', {})
+		return render(request, 'registration/login.html', {})
 
 
 
@@ -117,4 +121,17 @@ def user_logout(request):
 	# Take the user back to the homepage.
 	return HttpResponseRedirect(reverse('home'))
 
+@login_required
+def add_trip(request):
+	form = TripForm()
+	if request.method == 'POST':
+		form = TripForm(request.POST)
+		if form.is_valid():
+			trip = form.save(commit=False)
+			trip.owner = request.user
+			trip.save()
+			return home(request)
+		else:
+			print(form.errors)
+	return render(request, 'add_trip.html', {'form': form})
 

@@ -16,6 +16,7 @@
     <div>
 		{% if user.is_authenticated %}
             <h1>Welcome to Travelmate, {{ user.username }}!</h1>
+
         {% else %}
             <h1>Welcome to Travelmate!</h1>
         {% endif %}
@@ -23,7 +24,7 @@
     <div>
         {% if user.is_authenticated %}
             <ul>
-                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <li><a href="{% url 'add_trip' %}">Add a New Trip</a></li>
                 <li><a href="{% url 'logout' %}?next=/">Logout</a></li>
             </ul>
         {% else %}
@@ -59,8 +60,10 @@
 			  strokeOpacity: 1.0,
 			  strokeWeight: 3
 			});
-			line.setMap(map);
-			bindEvent(line, current["name"], map);
+			if(current.name != "None"){
+			    line.setMap(map);
+			    bindEvent(line, current["name"], map);
+            }
 		}
       }
 	  

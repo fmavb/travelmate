@@ -32,12 +32,7 @@ class UserProfile(models.Model):
 			"lat": self.homeCountry.latitude,
 			"lng": self.homeCountry.longitude,
 		}
-		
-class Rating(models.Model):
-	score = models.IntegerField()
 
-	def __str__(self):
-		return str(self.score)
 
 	def __unicode__(self):
 		return str(self.score)
@@ -49,7 +44,6 @@ class Trip(models.Model):
 	endDate = models.DateField()
 	public = models.BooleanField(default=False)
 	destination = models.ForeignKey(Destination,on_delete=models.CASCADE)
-	rating = models.OneToOneField(Rating,on_delete=models.CASCADE)
 
 	def __str__(self): # For Python 2, use __unicode__ too
 		return self.owner.username + str(self.tripID)
@@ -64,7 +58,15 @@ class Trip(models.Model):
 			"lng": self.destination.longitude,
 			"name": self.destination.name,
 		}
-		
+
+class Rating(models.Model):
+	score = models.IntegerField()
+	owner = models.ForeignKey(User, on_delete=models.CASCADE)
+	trip = models.ForeignKey(Trip, related_name='ratings')
+
+	def __str__(self):
+		return str(self.score)
+
 class BlogPost(models.Model):
 	user = models.ForeignKey(User,on_delete=models.CASCADE)
 	postID = models.AutoField(primary_key=True)
