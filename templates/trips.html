@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Trips - Travelmate</title>
+</head>
+<body>
+    <h1>My Trips</h1>
+    <div>
+        {% if trips %}
+        <ul>
+            {% for trip in trips %}
+               <li>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            You have not added any trips yet, what are you waiting for? <br />
+            <a href="{% url 'add_trip' %}">Add a New Trip</a>
+        {% endif %}
+    </div>
+    <div>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+        </ul>
+    </div>
+</body>
+</html>

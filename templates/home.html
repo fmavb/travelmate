@@ -24,6 +24,7 @@
     <div>
         {% if user.is_authenticated %}
             <ul>
+                <li><a href="{% url 'trips' %}">My Trips</a></li>
                 <li><a href="{% url 'add_trip' %}">Add a New Trip</a></li>
                 <li><a href="{% url 'settings' %}">Settings</a></li>
                 <li><a href="{% url 'logout' %}?next=/">Logout</a></li>

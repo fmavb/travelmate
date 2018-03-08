@@ -48,9 +48,12 @@ def about(request):
 
 @login_required
 def settings(request):
-	form = Settings()
+	try:
+		profile = request.user.userprofile
+	except UserProfile.DoesNotExist:
+		profile = UserProfile(user=request.user)
 	if request.method == 'POST':
-		form = Settings(request.POST)
+		form = Settings(request.POST,instance=profile)
 		if form.is_valid():
 			profile = form.save(commit=False)
 			profile.user = request.user
@@ -59,6 +62,8 @@ def settings(request):
 			return home(request)
 		else:
 			print (form.errors)
+	else:
+		form = Settings(instance=profile)
 
 	request = render(request,'settings.html',{'form':form})
 	return request
@@ -134,4 +139,10 @@ def add_trip(request):
 		else:
 			print(form.errors)
 	return render(request, 'add_trip.html', {'form': form})
+
+@login_required
+def trips(request):
+	trips = Trip.objects.filter(owner__exact=request.user).order_by('startDate')
+	context_dict = {'trips':trips}
+	return render(request,'trips.html',context_dict)
 
