@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from app.models import Trip
 from app.models import UserProfile
@@ -31,7 +31,10 @@ def home(request):
 		start_dict = {"lat":51.509865,"lng":-0.118092}
 		trip_serial = [{"lat":51.509865,"lng":-0.118092, "name":"None"}]
 	else:
-		userprofile = UserProfile.objects.get(user__exact=request.user)
+		try:
+			userprofile = UserProfile.objects.get(user__exact=request.user)
+		except UserProfile.DoesNotExist:
+			return HttpResponseRedirect("/app/settings/")
 		start_dict = userprofile.as_dict()
 		trip_list = Trip.objects.filter(owner__exact=request.user)
 		trip_serial = [ trip.as_dict() for trip in trip_list ]
