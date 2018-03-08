@@ -53,6 +53,9 @@ def home(request):
 def about(request):
 	return HttpResponse("Work in progress...")
 
+def contact(request):
+	return HttpResponse("Work in progress...")
+
 @login_required
 def settings(request):
 	# Create an array of all our destinations,
