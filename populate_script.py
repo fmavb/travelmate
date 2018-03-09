@@ -13,7 +13,7 @@ def populate():
         countries = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in countries:
             print(', '.join(row))
-            name = row[1].decode('latin-1').encode('utf8')
+            name = row[1]
             latitude = float(row[2])
             longitude = float(row[3])
             add_destination(name, latitude, longitude)
@@ -29,5 +29,5 @@ def add_destination(nam, lat, longi):
 
 # Start execution here!
 if __name__ == '__main__':
-    print("Starting Rango population script...")
+    print("Starting Travelmate population script...")
     populate()
