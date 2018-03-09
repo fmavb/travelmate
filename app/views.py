@@ -47,9 +47,26 @@ def home(request):
 
 
 def about(request):
-	return HttpResponse("Work in progress...")
+	request = render(request,'about.html',{})
+	return request
 
 def contact(request):
+	return HttpResponse("Work in progress...")
+
+def pop_trips(request):
+	return HttpResponse("Work in progress...")
+
+def recent_trips(request):
+	return HttpResponse("Work in progress...")
+
+def welltrav_travellers(request):
+	return HttpResponse("Work in progress...")
+
+def most_active_travellers(request):
+	return HttpResponse("Work in progress...")
+
+
+def passport(request):
 	return HttpResponse("Work in progress...")
 
 @login_required
@@ -151,4 +168,8 @@ def trips(request):
 	trips = Trip.objects.filter(owner__exact=request.user).order_by('startDate')
 	context_dict = {'trips':trips}
 	return render(request,'trips.html',context_dict)
+
+@login_required
+def view_profile(request):
+	return HttpResponse("Work in progress...")
 
