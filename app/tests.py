@@ -26,6 +26,8 @@ class TestTripsModel(TestCase):
         self.assertEqual((trip.startDate <= trip.endDate), True)
 
 
+
+
 class TestTripsView(TestCase):
 
     def setUp(self):
