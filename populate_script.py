@@ -9,11 +9,11 @@ import csv
 from app.models import Destination
 
 def populate():
-    with open('countries.csv', newline='') as csvfile:
+    with open('countries.csv') as csvfile:
         countries = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in countries:
             print(', '.join(row))
-            name = row[1]
+            name = row[1].decode('latin-1').encode('utf8')
             latitude = float(row[2])
             longitude = float(row[3])
             add_destination(name, latitude, longitude)

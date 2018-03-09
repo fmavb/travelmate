@@ -1,17 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load staticfiles %}
     <meta charset="UTF-8">
     <title>Add Trip</title>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-    $(document).ready(function() {
-        $(".datepicker").datepicker();
+        //We have a function, which for all elements of class .datepicker, adds datepicker widget
+    $( function() {
+        //Get little calandar image
+        var calendar_src = '{% static "images/calendar.gif" %}';
+        $( ".datepicker" ).datepicker({
+          showOn: "button",
+          buttonImage: calendar_src,
+          buttonImageOnly: true,
+          buttonText: "Select date"
+        });
     });
+    </script>
+    <script>
+      $( function() {
+          //Parse the available places from JSON
+          var data = JSON.parse('{{ json_data | escapejs }}');
+          var availableTags = data.names;
+        $( ".destination" ).autocomplete({
+            //MaxResults is the number of results displayed when autocompleting
+            maxResults: 10,
+                //Source is the array of values we can suggest, inner function slices our parsed array
+            source: function(request, response) {
+                var results = $.ui.autocomplete.filter(availableTags, request.term);
+                response(results.slice(0, this.options.maxResults));
+            }
+        });
+      });
   </script>
-</head>
 </head>
 <body>
     <div>
@@ -23,7 +50,7 @@
             <p>Start of trip: {{ form.startDate }}</p>
             <p>End of trip: {{ form.endDate }}</p>
             <p>Public? {{ form.public }}</p>
-            <p>Destination: {{ form.destination }}</p>
+            <p>Destination: {{ form.destinationText }} </p>
             <input type="submit" name="submit" value="Add Trip" />
         </form>
     </div>
