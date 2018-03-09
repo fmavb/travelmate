@@ -6,19 +6,24 @@
     <title>Add Trip</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
+    <!--read-only fields will have white backgrounds-->
+    <style>
+        input[readonly]
+        {
+            background-color: white !important;
+        }
+    </style>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        //$ sign is shortcut for jQuery, function that sets up start and end datepickers
+        //Parse the available places from JSON
+        var data = JSON.parse('{{ json_data | escapejs }}');
+        var availableTags = data.names;
+        //$ sign is shortcut for jQuery, and getElementById(), function that sets up start and end datepickers
         $( function() {
-            var calendar_src = '{% static "images/calendar.gif" %}';
             var dateFormat = "mm/dd/yy",
                 //Date Range start datepicker function, .on function sets minDate for all datepickers
                 start = $( ".start" ).datepicker({
-                    showOn: "button",
-                    buttonImage: calendar_src,
-                    buttonImageOnly: true,
-                    buttonText: "Select date",
                     defaultDate: "0",
                     changeMonth: true,
                     changeYear: true,
@@ -27,10 +32,6 @@
                 }),
                 //Date Range end datepicker function, .on function sets maxDate for all datepickers
                 end = $( ".end" ).datepicker({
-                    showOn: "button",
-                    buttonImage: calendar_src,
-                    buttonImageOnly: true,
-                    buttonText: "Select date",
                     defaultDate: "+1w",
                     changeMonth: true,
                     changeYear: true,
@@ -51,9 +52,6 @@
         });
 
       $( function() {
-          //Parse the available places from JSON
-          var data = JSON.parse('{{ json_data | escapejs }}');
-          var availableTags = data.names;
         $( ".destination" ).autocomplete({
             //MaxResults is the number of results displayed when autocompleting
             maxResults: 10,
@@ -64,34 +62,46 @@
             }
         });
       });
+
+      function validateForm() {
+        var x = document.forms["TripForm"]["destinationText"].value;
+        if (!availableTags.includes(x)) {
+            $( ".destination" ).addClass("is-invalid");
+            $( ".destination" ).val("");
+            $( "#formGroupDestinationLabel" ).addClass("text-danger");
+            $( ".invalid-feedback" ).removeClass("invisible");
+        return false;
+    }
+}
   </script>
 </head>
 <body>
-    <div>
-		<h1>Add new Trip</h1>
-    </div>
-    <div class=" jumbotron">
-        <form id="TripForm" method="post" action="/app/add_trip/">
+    <div class="card text-white bg-secondary">
+        <h1 class ="card-header">Add new Trip</h1>
+        <form class ="card-body" id="TripForm" method="post" action="/app/add_trip/" onsubmit="return validateForm()">
             {% csrf_token %}
-            <div class="form-group">
-                 <label for="formGroupStartDate">Start of Trip:</label>
-                 <p id="formGroupStartDate">{{ form.startDate }}</p>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    Start of Trip
+                    {{ form.startDate }}
+                </div>
+                <div class="form-group col-md-6">
+                    End of Trip
+                    {{ form.endDate }}
+                </div>
             </div>
             <div class="form-group">
-                 <label for="formGroupEndDate">End of Trip:</label>
-                 <p id="formGroupEndDate">{{ form.endDate }}</p>
+                <span class="pr-5" id="publicSelector">Public? {{ form.public }}</span>
+                <span class="hidden-xl-down alert alert-info"> Check this if you want unregistered users to see your trip!</span>
             </div>
-
-            <label class="custom-control custom-checkbox">
-                <span class="custom-control-indicator"></span>
-                <span class="custom-control-description">Public?</span>
-                {{ form.public }}
-            </label>
             <div class="form-group">
-                 <label for="formGroupDestination">Destination:</label>
-                 <p id="formGroupDestination">{{ form.destinationText }}</p>
+                 <label id="formGroupDestinationLabel">Destination</label>
+                 {{ form.destinationText }}
+                <div class="invalid-feedback invisible text-danger">
+                    Please enter a valid destination (select from Autocomplete)!
+                </div>
             </div>
-            <input type="submit" name="submit" value="Add Trip" />
+            <input class="btn btn-primary" type="submit" name="submit" value="Add Trip" />
         </form>
     </div>
 </body>

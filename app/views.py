@@ -187,14 +187,11 @@ def add_trip(request):
 		if form.is_valid():
 			trip = form.save(commit=False)
 			trip.owner = request.user
-			# AutoComplete works with TextInput, therefore we try to match a valid text input to Destination entity
-			# If invalid destination is given, we return to form
-			try:
-				destinationText = form.cleaned_data['destinationText']
-				destinationObject = Destination.objects.get(name__exact=destinationText)
-				trip.destination = destinationObject
-			except Destination.DoesNotExist:
-				render(request, 'add_trip.html', {'form': form, 'json_data': data})
+			# AutoComplete works with TextInput, therefore we match a valid text input to Destination entity
+			# Form Validation happens in JavaScript, only valid result accepted onSubmit
+			destinationText = form.cleaned_data['destinationText']
+			destinationObject = Destination.objects.get(name__exact=destinationText)
+			trip.destination = destinationObject
 			trip.save()
 			return home(request)
 		else:
