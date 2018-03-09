@@ -28,6 +28,9 @@ class UserProfile(models.Model):
 			"lng": self.homeCountry.longitude,
 		}
 
+	def get_home_name(self):
+		return self.homeCountry.name
+
 class Trip(models.Model):
 	owner = models.ForeignKey(User,on_delete=models.CASCADE)
 	tripID = models.AutoField(primary_key=True)
