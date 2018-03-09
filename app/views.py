@@ -95,16 +95,12 @@ def settings(request):
 		if form.is_valid():
 			profile = form.save(commit=False)
 			profile.user = request.user
-			# AutoComplete works with TextInput, therefore we try to match a valid text input to Destination entity
-			# If invalid destination is given, we return to form
-			try:
-				homeCountryText = form.cleaned_data['homeCountryText']
-				destinationObject = Destination.objects.get(name__exact=homeCountryText)
-				profile.homeCountry = destinationObject
-			except Destination.DoesNotExist:
-				render(request, 'add_trip.html', {'form': form, 'json_data': data})
+			# AutoComplete works with TextInput, therefore we match a valid text input to Destination entity
+			# Form Validation happens in JavaScript, only valid result accepted onSubmit
+			homeCountryText = form.cleaned_data['homeCountryText']
+			destinationObject = Destination.objects.get(name__exact=homeCountryText)
+			profile.homeCountry = destinationObject
 			profile.save()
-			form.save(commit=True)
 			return home(request)
 		else:
 			print (form.errors)

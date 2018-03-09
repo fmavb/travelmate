@@ -5,7 +5,7 @@ from app.models import Trip, Destination, UserProfile
 
 class Settings(forms.ModelForm):
     # CharField, since AutoComplete works with text
-    homeCountryText = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'destination form-control', 'placeholder': 'Type Country/State'}))
+    homeCountryText = forms.CharField(required=True, widget=forms.TextInput(attrs={'id':'country', 'class':'destination form-control', 'placeholder': 'Type Country/State'}))
     public = forms.BooleanField(required=False)
     profilePic = forms.ImageField(required=False)
 
@@ -16,7 +16,7 @@ class Settings(forms.ModelForm):
 class TripForm(forms.ModelForm):
 	public = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class':''}))
 	# CharField, since AutoComplete works with text
-	destinationText = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'destination form-control', 'placeholder': 'Type Country/State'}))
+	destinationText = forms.CharField(required=True, widget=forms.TextInput(attrs={'id':'country', 'class':'destination form-control', 'placeholder': 'Type Country/State'}))
 
 	class Meta:
 		model = Trip

@@ -3,25 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Settings - Travelmate</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script>
-            //We have a function, which for all elements of class .destination, adds autocomplete func
+    <script>
+        //Parse the available places from JSON
+        var data = JSON.parse('{{ json_data | escapejs }}');
+        var availableTags = data.names;
+        //We have a function, which for all elements of class .destination, adds autocomplete func
         $( function() {
-            //Parse the available places from JSON
-          var data = JSON.parse('{{ json_data | escapejs }}');
-          var availableTags = data.names;
             $( ".destination" ).autocomplete({
-                //MaxResults is the number of results displayed when autocompleting
-            maxResults: 10,
+            //MaxResults is the number of results displayed when autocompleting
+                maxResults: 10,
                 //Source is the array of values we can suggest, inner function slices our parsed array
-            source: function(request, response) {
-                var results = $.ui.autocomplete.filter(availableTags, request.term);
-                response(results.slice(0, this.options.maxResults));
-            }
+                source: function(request, response) {
+                    var results = $.ui.autocomplete.filter(availableTags, request.term);
+                    response(results.slice(0, this.options.maxResults));
+                }
+            });
         });
-      });
+
+        function validateForm() {
+            var nameValue = document.getElementById("country").value;
+            if (!availableTags.includes(nameValue)) {
+                $( ".destination" ).addClass("is-invalid");
+                $( ".destination" ).val("");
+                $( "#formGroupDestinationLabel" ).addClass("text-danger");
+                $( ".invalid-feedback" ).removeClass("invisible");
+                return false;
+            }
+        }
   </script>
 </head>
 <body>
@@ -30,12 +42,19 @@
         <a href="{% url 'home' %}">Home</a>
     </div>
     <div>
-        <form id="settings+form" method="post" action="/app/settings/">
+        <form id="SettingsForm" method="post" action="/app/settings/" onsubmit="return validateForm();">
             {% csrf_token %}
-            <p>Home country: {{ form.homeCountryText }}</p>
+            <div class="form-group">
+                 <label id="formGroupDestinationLabel">Home Country</label>
+                 {{ form.homeCountryText }}
+                <div class="invalid-feedback invisible text-danger">
+                    Please enter a valid country (select from Autocomplete)!
+                </div>
+            </div>
+
             <p>Public Profile: {{ form.public}}</p>
             <p>Profile Picture: {{ form.profilePic}}</p>
-            <input type="submit", name="submit" value="Apply"/>
+            <input class="btn btn-primary" type="submit", name="submit" value="Apply"/>
         </form>
     </div>
 </body>
