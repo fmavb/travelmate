@@ -61,7 +61,9 @@ def pop_trips(request):
 	return HttpResponse("Work in progress...")
 
 def recent_trips(request):
-	return HttpResponse("Work in progress...")
+	trips = Trip.objects.order_by('startDate')
+	context_dict = {'trips':trips}
+	return render(request,'recent_trips.html',context_dict)
 
 def welltrav_travellers(request):
 	return HttpResponse("Work in progress...")

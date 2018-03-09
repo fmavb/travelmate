@@ -27,7 +27,8 @@ class UserProfile(models.Model):
 			"lat": self.homeCountry.latitude,
 			"lng": self.homeCountry.longitude,
 		}
-
+	def get_homeCountry(self):
+		return homeCountry
 
 class Trip(models.Model):
 	owner = models.ForeignKey(User,on_delete=models.CASCADE)

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Most Recent Trips - Travelmate</title>
+</head>
+<body>
+    <h1>Most Recent Trips</h1>
+    <div>
+        {% if trips %}
+        <ul>
+            {% for trip in trips %}
+               <li>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}, {{trip.owner}}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            There are no public trips yet! This is your chance to add the very first one! <br />
+        {% endif %}
+        <a href="{% url 'add_trip' %}">Add a New Trip</a>
+    </div>
+    <div>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+        </ul>
+    </div>
+
+
+
+</body>
+</html>
