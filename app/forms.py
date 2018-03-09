@@ -14,14 +14,14 @@ class Settings(forms.ModelForm):
         fields = ('profilePic','public',)
 
 class TripForm(forms.ModelForm):
-	public = forms.BooleanField(required=False)
+	public = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class':'checkbox'}))
 	# CharField, since AutoComplete works with text
 	destinationText = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'destination', 'placeholder': 'Type Country/State'}))
 
 	class Meta:
 		model = Trip
 		# DateInput widgets
-		widgets = {'startDate': DateInput(attrs={'class': 'datepicker'}),
-		           'endDate': DateInput(attrs={'class': 'datepicker'}),
+		widgets = {'startDate': DateInput(attrs={'class': 'start'}),
+		           'endDate': DateInput(attrs={'class': 'end'}),
 		           }
 		fields = ('startDate', 'endDate', 'public')
