@@ -3,3 +3,5 @@
 /.vs
 *.sqlite3
 /venv
+/*/migrations/
+/*/flags/

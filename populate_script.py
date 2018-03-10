@@ -1,4 +1,4 @@
-import os
+import os, shutil
 
 from django.core.files.images import ImageFile
 
@@ -10,6 +10,16 @@ django.setup()
 import random
 import csv
 from app.models import Destination
+
+def clear_media():
+	folder = 'media\\flags'
+	for file in os.listdir(folder):
+		file_path = os.path.join(folder, file)
+		try:
+			if os.path.isfile(file_path):
+				os.unlink(file_path)
+		except Exception as e:
+			print(e)
 
 def populate():
 	with open('countries.csv') as csvfile:
@@ -38,5 +48,7 @@ def add_destination(cc, nam, lat, longi, path):
 
 # Start execution here!
 if __name__ == '__main__':
-    print("Starting Country population script...")
-    populate()
+	print("Clearing media/flags")
+	clear_media()
+	print("Starting Country population script...")
+	populate()
