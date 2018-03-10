@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Passport - Travelmate</title>
+</head>
+<body>
+    <h1>My Passport</h1>
+    {% if destinations %}
+    <ul>
+            {% for destination in destinations %}
+            <li>{{ destination.destination }}</li>
+            {% endfor %}
+    </ul>
+    {% else %}
+    <p>
+        You haven't added any trips yet. What are you waiting for? <a href="{% url 'add_trip' %}">Add a new trip</a>
+    </p>
+    {% endif %}
+</body>
+</html>

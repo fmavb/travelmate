@@ -71,9 +71,12 @@ def welltrav_travellers(request):
 def most_active_travellers(request):
 	return HttpResponse("Work in progress...")
 
-
+@login_required
 def passport(request):
-	return HttpResponse("Work in progress...")
+
+	destinations = Trip.objects.filter(owner=request.user).order_by('destination')
+	context_dict = {'destinations':destinations}
+	return render(request,'passport.html',context_dict)
 
 @login_required
 def settings(request):
