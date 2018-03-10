@@ -13,8 +13,6 @@ urlpatterns = [
     
     url(r'^passport/$', views.passport, name='passport'),
     url(r'^view_profile/$', views.view_profile, name='view_profile'),
-    url(r'^login/$', views.user_login, name='login'),
-    url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^add_trip/$', views.add_trip, name='add_trip'),
 
     #url(r'^trip(?P<trip_name_slug>[\w\-]+)/$', views.show_trip, name='show_trip'),
