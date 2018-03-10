@@ -10,7 +10,7 @@ from app.models import UserProfile
 from app.forms import *
 from django.contrib.auth.models import User
 import json
-
+from operator import itemgetter  
 
 
 # user auth
@@ -61,14 +61,28 @@ def pop_trips(request):
 	return HttpResponse("Work in progress...")
 
 def recent_trips(request):
-	trips = Trip.objects.order_by('startDate')
+	trips = Trip.objects.order_by('endDate')
 	context_dict = {'trips':trips}
 	return render(request,'recent_trips.html',context_dict)
 
-def welltrav_travellers(request):
-	return HttpResponse("Work in progress...")
+def best_travelled(request):
+	trips = Trip.objects.all()
+
+	user_trips={}
+	for trip in trips:
+		user_trips[trip.owner] = user_trips.get(trip.owner,0)+1
+
+	user_list = []
+	for key, value in sorted(user_trips.items(), key = itemgetter(1), reverse = True):
+		user_list.append([key, value])
+
+	
+	context_dict = {'user_list':user_list}
+	return render(request,'best_travelled.html',context_dict)
 
 def most_active_travellers(request):
+	
+
 	return HttpResponse("Work in progress...")
 
 @login_required
@@ -207,4 +221,3 @@ def my_trips(request):
 @login_required
 def view_profile(request):
 	return HttpResponse("Work in progress...")
-

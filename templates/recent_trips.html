@@ -11,6 +11,7 @@
         {% if trips %}
         <ul>
             {% for trip in trips %}
+                
                <li>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}, {{trip.owner}}</li>
             {% endfor %}
         </ul>

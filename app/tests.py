@@ -43,4 +43,3 @@ class TestTripsView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "You have not added any trips yet, what are you waiting for?")
         self.assertQuerysetEqual(response.context['trips'], [])
-
