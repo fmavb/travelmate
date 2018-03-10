@@ -11,7 +11,7 @@ class Destination(models.Model):
 	countryCode = models.CharField(max_length=5)
 	flag = models.ImageField(blank=True)
 	
-	def __str__(self): # For Python 2, use __unicode__ too
+	def __str__(self):
 		return self.name
 
 
