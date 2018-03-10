@@ -73,7 +73,6 @@ def most_active_travellers(request):
 
 @login_required
 def passport(request):
-
 	destinations = Trip.objects.filter(owner=request.user).order_by('destination')
 	context_dict = {'destinations':destinations}
 	return render(request,'passport.html',context_dict)
