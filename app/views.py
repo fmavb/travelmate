@@ -200,7 +200,7 @@ def add_trip(request):
 	return render(request, 'add_trip.html', {'form': form, 'json_data': data})
 
 @login_required
-def trips(request):
+def my_trips(request):
 	trips = Trip.objects.filter(owner__exact=request.user).order_by('startDate')
 	context_dict = {'trips':trips}
 	return render(request,'trips.html',context_dict)
