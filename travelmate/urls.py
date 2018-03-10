@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^logout/$',auth_views.logout,name='logout'),
     url(r'^oauth/',include('social_django.urls',namespace='social')),
     url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
+    url(r'^accounts/',include('registration.backends.simple.urls')),
     url(r'^app/', include('app.urls')),
 ]
 LOGIN_URL='/login'

@@ -39,7 +39,10 @@
 <body>
     <h1>Settings</h1>
     <div>
-        <a href="{% url 'home' %}">Home</a>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'auth_password_change' %}">Change Password</a> </li>
+        </ul>
     </div>
     <div>
         <form id="SettingsForm" method="post" action="/app/settings/" onsubmit="return validateForm();">

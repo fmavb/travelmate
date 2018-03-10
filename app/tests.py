@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.test import TestCase
-from populate_app import *
+from populate_script import *
 from django.core.urlresolvers import reverse
 from app.models import *
 from django.contrib.auth.models import User
@@ -25,7 +25,7 @@ class TestTripsModel(TestCase):
         trip.save()
         self.assertEqual((trip.startDate <= trip.endDate), True)
 
-
+    
 
 
 class TestTripsView(TestCase):
