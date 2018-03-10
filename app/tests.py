@@ -23,8 +23,8 @@ class TestTripsModel(TestCase):
                     destination=Destination.objects.get(name__exact="United Kingdom"),
                     owner=User.objects.get(username='testuser'))
         trip.save()
-        self.assertEqual((trip.startDate <= trip.endDate), True)
-
+        self.assertRaises(ValidationError)
+        #self.assertEqual((trip.startDate <= trip.endDate), True)
     
 
 

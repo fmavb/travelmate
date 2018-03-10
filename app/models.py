@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
@@ -49,6 +50,11 @@ class Trip(models.Model):
 			"lng": self.destination.longitude,
 			"name": self.destination.name,
 		}
+
+	# Check if startDate is before or equal to endData
+	def clean(self):
+		if self.startDate > self.endDate:
+			raise ValidationError('Start date is after end date')
 
 class Rating(models.Model):
 	score = models.IntegerField()
