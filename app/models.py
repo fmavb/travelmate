@@ -8,6 +8,8 @@ class Destination(models.Model):
 	name = models.CharField(max_length=85)
 	longitude = models.FloatField()
 	latitude = models.FloatField()
+	countryCode = models.CharField(max_length=5)
+	flag = models.ImageField(blank=True)
 	
 	def __str__(self): # For Python 2, use __unicode__ too
 		return self.name
@@ -16,7 +18,7 @@ class Destination(models.Model):
 class UserProfile(models.Model):
 	user = models.OneToOneField(User)
 	profileID = models.AutoField(primary_key=True)
-	profilePic = models.ImageField(upload_to='profile_images', blank=True)
+	profilePic = models.ImageField(upload_to='media\\profile_images', blank=True)
 	homeCountry = models.ForeignKey(Destination,on_delete=models.CASCADE)
 	public = models.BooleanField(default=False)
 	
@@ -39,6 +41,12 @@ class Trip(models.Model):
 	endDate = models.DateField()
 	public = models.BooleanField(default=False)
 	destination = models.ForeignKey(Destination,on_delete=models.CASCADE)
+	title = models.CharField(max_length=85)
+	slug = models.SlugField(unique=True)
+
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.title)
+		super(Trip, self).save(*args, **kwargs)
 
 	def __str__(self): # For Python 2, use __unicode__ too
 		return self.owner.username + str(self.tripID)

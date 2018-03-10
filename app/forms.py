@@ -17,6 +17,8 @@ class TripForm(forms.ModelForm):
 	public = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class':''}))
 	# CharField, since AutoComplete works with text
 	destinationText = forms.CharField(required=True, widget=forms.TextInput(attrs={'id':'country', 'class':'destination form-control', 'placeholder': 'Type Country/State'}))
+	title = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Give your trip a title!'}))
+	slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
 	class Meta:
 		model = Trip
@@ -24,4 +26,4 @@ class TripForm(forms.ModelForm):
 		widgets = {'startDate': DateInput(attrs={'class': 'start form-control', 'placeholder': 'Please select start of Trip', 'readonly':'readonly'}),
 		           'endDate': DateInput(attrs={'class': 'end form-control', 'placeholder': 'Please select end of Trip', 'readonly':'readonly'}),
 		           }
-		fields = ('startDate', 'endDate', 'public')
+		fields = ('title', 'startDate', 'endDate', 'public')
