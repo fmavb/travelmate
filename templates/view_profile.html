@@ -24,11 +24,28 @@
 
         {% if trips %}
         <ul>
-            <h3>Recent trips</h3>
-            {% for trip in trips %}
-                
-               <li>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}</li>
-            {% endfor %}
+                <div class="container">
+                   <h5>Recent trips</h5>
+                     <table class="table">
+                        <thead>
+                          <tr>
+                             <th>Start Date</th>
+                             <th>End Date</th>
+                             <th>Destination</th>
+                          </tr>
+                         </thead>
+                    <tbody>
+                    {% for trip in trips %}
+                       <tr>
+                           <td>{{ trip.startDate}}</td>
+                           <td>{{trip.endDate}}</td>
+                           <td>{{trip.destination }}</td>
+                            <td>{{trip.title }}</td>
+                    {% endfor %}
+                    </tr>
+                    </tbody>
+                     </table>
+                </div>
         </ul>
         {% else %}
             The user has no trips yet! <br />
