@@ -19,7 +19,6 @@
 
         {% if trips %}
         <ul>
-            
                 <div class="container">
                    <h5>Recent trips</h5>
                      <table class="table">
@@ -35,17 +34,22 @@
                        <tr>
                            <td>{{ trip.startDate}}</td>
                            <td>{{trip.endDate}}</td>
-                           <td>{{trip.destination }}<td>
+                           <td>{{trip.destination }}</td>
                     {% endfor %}
+                    </tr>
+                    </tbody>
+                     </table>
+                </div>
         </ul>
         {% else %}
             The user has no trips yet! <br />
         
 
         {% endif %}
-        
     </div>
 
-
+<style>
+.container {height: 100%;position: center; overflow: auto}
+</style>
 
 {% endblock %}
