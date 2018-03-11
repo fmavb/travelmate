@@ -4,10 +4,7 @@
 {{user.username}}
 {% endblock %}
 {% block body_block %}
-
-
-
-    <h1>{{ user.username }} </h1>
+    <h1 style="color:Black; font-size:20px; text-align:center;">{{ user.username }} </h1>
     {{ user.profilePic }}
     <div>
 
@@ -22,11 +19,24 @@
 
         {% if trips %}
         <ul>
-            <h3>Recent trips</h3>
-            {% for trip in trips %}
-                
-               <li>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}</li>
-            {% endfor %}
+            
+                <div class="container">
+                   <h5>Recent trips</h5>
+                     <table class="table">
+                        <thead>
+                          <tr>
+                             <th>Start Date</th>
+                             <th>End Date</th>
+                             <th>Destination</th>
+                          </tr>
+                         </thead>
+                    <tbody>
+                    {% for trip in trips %}
+                       <tr>
+                           <td>{{ trip.startDate}}</td>
+                           <td>{{trip.endDate}}</td>
+                           <td>{{trip.destination }}<td>
+                    {% endfor %}
         </ul>
         {% else %}
             The user has no trips yet! <br />
