@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+{{user.username}}
+{% endblock %}
+{% block body_block %}
+
+
+
+    <h1>{{ user.username }} </h1>
+    {{ user.profilePic }}
+    <div>
+
+		{% if user.is_authenticated %}
+			{{ user.homeCountry }} 
+
+        {% else %}
+            <h1>Log in to see this user profile</h1>
+            <p><a href="{% url 'login' %}">Login</a></p>
+            
+        
+
+        {% if trips %}
+        <ul>
+            {% for trip in trips %}
+                
+               <li>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}, {{trip.owner}}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            The user has no trips yet! <br />
+        {% endif %}
+
+        {% endif %}
+        
+    </div>
+    <div>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+        </ul>
+    </div>
+
+
+{% endblock %}

@@ -33,7 +33,9 @@ urlpatterns = [
     url(r'^oauth/',include('social_django.urls',namespace='social')),
     url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
     url(r'^accounts/',include('registration.backends.simple.urls')),
+    
     url(r'^app/', include('app.urls')),
+    url(r'^(?P<username>[\w\-]+)/$', app_views.view_profile, name='view_profile'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 LOGIN_URL='/login'

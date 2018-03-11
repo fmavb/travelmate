@@ -9,14 +9,11 @@ urlpatterns = [
     url(r'^recent_trips/$', views.recent_trips, name='recent_trips'),
     url(r'^best_travelled/$', views.best_travelled, name='best_travelled'),
     url(r'^most_active_travellers/$', views.contact, name='most_active_travellers'),
-
     
     url(r'^passport/$', views.passport, name='passport'),
-    url(r'^view_profile/$', views.view_profile, name='view_profile'),
     url(r'^add_trip/$', views.add_trip, name='add_trip'),
 
-    #url(r'^trip(?P<trip_name_slug>[\w\-]+)/$', views.show_trip, name='show_trip'),
-
     url(r'^settings/$', views.settings, name='settings'),
-    url(r'^my_trips/$', views.my_trips, name='my_trips')
+    url(r'^my_trips/$', views.my_trips, name='my_trips'),
+    url(r'^(?P<username>[\w\-]+)/$', views.view_profile, name='view_profile')
 ]

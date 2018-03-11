@@ -11,6 +11,7 @@ from app.forms import *
 from django.contrib.auth.models import User
 import json
 from operator import itemgetter  
+from django.shortcuts import get_object_or_404
 
 
 # user auth
@@ -162,5 +163,10 @@ def my_trips(request):
 	return render(request,'trips.html',context_dict)
 
 @login_required
-def view_profile(request):
-	return HttpResponse("Work in progress...")
+def view_profile(request,username):
+
+	user = get_object_or_404(User, username=username)
+	trips = Trip.objects.filter(owner=request.user)
+	context_dict = {'user':user, 'trips':trips }
+
+	return render(request,'view_profile.html',context_dict)
