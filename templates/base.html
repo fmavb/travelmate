@@ -3,9 +3,6 @@
 <html lang="en">
 
   <head>
-    <!-- Add your head scripts using the head_block placeholder -->
-    {% block head_block %}
-    {% endblock %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no,">
     <meta name="description" content="">
@@ -27,7 +24,8 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'css/landing-page.min.css' %}" rel="stylesheet">
-
+      {% block head_block %}
+      {% endblock %}
   </head>
 
 
@@ -78,10 +76,10 @@
       </div>
     </nav>
 {% block body_block %}
-<!-- Add your body using body_block -->
+
 {% endblock %}
     <!-- Footer -->
-    <footer class="footer bg-light">
+    <footer class="footer bg-light" id="footer">
       <div class="container">
         <div class="row">
           <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
@@ -102,7 +100,7 @@
                 <a href="#">Privacy Policy</a>
               </li>
             </ul>
-            <p class="text-muted small mb-4 mb-lg-0">&copy; Travelmate. All Rights Reserved.</p>
+            <p class="text-muted small mb-4 mb-lg-0">&copy; Travelmate 2018. All Rights Reserved.</p>
           </div>
           <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
             <ul class="list-inline mb-0">
@@ -130,6 +128,9 @@
      <!-- Bootstrap core JavaScript -->
     <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <style>
+        #footer {bottom: 0;width: 100%;position: absolute}
+    </style>
 
   </body>
 
