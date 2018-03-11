@@ -17,7 +17,8 @@ def clear_media():
 		file_path = os.path.join(folder, file)
 		try:
 			if os.path.isfile(file_path):
-				os.unlink(file_path)
+				if(".gitkeep" not in file_path):
+					os.unlink(file_path)
 		except Exception as e:
 			print(e)
 
