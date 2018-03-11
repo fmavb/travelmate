@@ -1,44 +1,10 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
-<html>
-<head>
-    <title>Settings</title>
 
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
-    <script>
-        //We have a function, which for all elements of class .destination, adds autocomplete func
-        //Parse the available places from JSON
-        var data = JSON.parse('{{ json_data | escapejs }}');
-        var availableTags = data.names;
-
-        $(document).ready( function() {
-            $( ".destination" ).autocomplete({
-            //MaxResults is the number of results displayed when autocompleting
-                maxResults: 10,
-                //Source is the array of values we can suggest, inner function slices our parsed array
-                source: function(request, response) {
-                    var results = $.ui.autocomplete.filter(availableTags, request.term);
-                    response(results.slice(0, this.options.maxResults));
-                }
-            });
-        });
-
-        function validateForm() {
-          var nameValue = document.getElementById("country").value;
-          if (!availableTags.includes(nameValue)) {
-              $( ".destination" ).addClass("is-invalid");
-              $( ".destination" ).val("");
-              $( "#formGroupDestinationLabel" ).addClass("text-danger");
-              $( ".invalid-feedback" ).removeClass("invisible");
-              return false;
-          }
-        }
-</script>
-</head>
-<body>
+{% block title_block %}
+My Settings
+{% endblock %}
+{% block body_block %}
 <div class="card text-white bg-secondary">
         <h1 class ="card-header">Settings</h1>
         <form class="card-body" enctype="multipart/form-data" id="SettingsForm" method="post" action="/app/settings/" onsubmit="return validateForm();">
@@ -70,5 +36,39 @@
             <li><a href="{% url 'auth_password_change' %}">Change your Password</a> </li>
         </ul>
     </div>
-</body>
-</html>
+{% endblock %}
+{% block footer_block %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
+<script>
+    //We have a function, which for all elements of class .destination, adds autocomplete func
+    //Parse the available places from JSON
+    var data = JSON.parse('{{ json_data | escapejs }}');
+    var availableTags = data.names;
+
+    $(document).ready( function() {
+        $( ".destination" ).autocomplete({
+            //MaxResults is the number of results displayed when autocompleting
+            maxResults: 10,
+            //Source is the array of values we can suggest, inner function slices our parsed array
+            source: function(request, response) {
+                var results = $.ui.autocomplete.filter(availableTags, request.term);
+                response(results.slice(0, this.options.maxResults));
+            }
+        });
+    });
+
+    function validateForm() {
+        var nameValue = document.getElementById("country").value;
+        if (!availableTags.includes(nameValue)) {
+            $( ".destination" ).addClass("is-invalid");
+            $( ".destination" ).val("");
+            $( "#formGroupDestinationLabel" ).addClass("text-danger");
+            $( ".invalid-feedback" ).removeClass("invisible");
+            return false;
+        }
+    }
+</script>
+{% endblock %}
