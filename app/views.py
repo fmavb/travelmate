@@ -173,7 +173,7 @@ def my_trips(request):
 def view_profile(request,username):
 
 	user = get_object_or_404(User, username=username)
-	trips = Trip.objects.filter(owner=request.user)
+	trips = Trip.objects.filter(owner=user).order_by('startDate').reverse()
 	context_dict = {'user':user, 'trips':trips }
 
 	return render(request,'view_profile.html',context_dict)
