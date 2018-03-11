@@ -12,17 +12,13 @@ Most Recent Trips
         <ul>
             {% for trip in trips %}
                 
-               <li>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}, {{trip.owner}}</li>
+               <li>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}, <a href="{% url 'view_profile' trip.owner %}">{{trip.owner}}</a></li>
             {% endfor %}
         </ul>
         {% else %}
             There are no public trips yet! This is your chance to add the very first one! <br />
+            <a href="{% url 'add_trip' %}">Add a New Trip</a>
         {% endif %}
-        <a href="{% url 'add_trip' %}">Add a New Trip</a>
-    </div>
-    <div>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-        </ul>
-    </div>
+        
+
 {% endblock %}

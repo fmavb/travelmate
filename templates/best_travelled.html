@@ -11,21 +11,21 @@ The Best Travelled
         {% if user_list %}
             <ol>
                 {% for user in user_list %}
-                    
-                    <li>{{user.0}}, Number of trips: {{user.1}}</li>
+
+                    <li><a href="{% url 'view_profile' user.0 %}">{{user.0}}</a>, Number of trips: {{user.1}}</li>
 
                 {% endfor %}
             </ol>
         {% else %}
             There are no travellers yet! This is your chance to become the very first one! <br />
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'add_trip' %}">Add a New Trip</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+            {% endif %}
         {% endif %}
 
 
-        <a href="{% url 'add_trip' %}">Add a New Trip</a>
-    </div>
-    <div>
-        <ul>
-            <li><a href="{% url 'login' %}">Login</a></li>
-        </ul>
-    </div>
+
 {% endblock %}

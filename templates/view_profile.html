@@ -18,27 +18,24 @@
             <h1>Log in to see this user profile</h1>
             <p><a href="{% url 'login' %}">Login</a></p>
             
-        
+        {% endif %}
 
         {% if trips %}
         <ul>
+            <h3>Recent trips</h3>
             {% for trip in trips %}
                 
-               <li>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}, {{trip.owner}}</li>
+               <li>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}</li>
             {% endfor %}
         </ul>
         {% else %}
             The user has no trips yet! <br />
-        {% endif %}
+        
 
         {% endif %}
         
     </div>
-    <div>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-        </ul>
-    </div>
+
 
 
 {% endblock %}
