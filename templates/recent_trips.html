@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Most Recent Trips - Travelmate</title>
-</head>
-<body>
-    <h1>Most Recent Trips</h1>
+{% block title_block %}
+Most Recent Trips
+{% endblock %}
+
+{% block body_block %}
+<h1>Most Recent Trips</h1>
     <div>
         {% if trips %}
         <ul>
@@ -25,8 +25,4 @@
             <li><a href="{% url 'home' %}">Home</a></li>
         </ul>
     </div>
-
-
-
-</body>
-</html>
+{% endblock %}

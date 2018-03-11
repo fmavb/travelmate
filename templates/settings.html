@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Settings - Travelmate</title>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block head_block %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -35,13 +33,16 @@
             }
         }
   </script>
-</head>
-<body>
+{% endblock %}
+{% block title_block %}
+    Settings
+{% endblock %}
+
+{% block body_block %}
     <h1>Settings</h1>
     <div>
         <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'auth_password_change' %}">Change Password</a> </li>
+            <li><a href="{% url 'auth_password_change' %}">Change your Password</a> </li>
         </ul>
     </div>
     <div>
@@ -60,5 +61,4 @@
             <input class="btn btn-primary" type="submit", name="submit" value="Apply"/>
         </form>
     </div>
-</body>
-</html>
+{% endblock %}

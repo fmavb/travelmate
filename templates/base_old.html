@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+
+
+	<style>
+
+		.jumbotron{
+	    background-color:#2E2D88;
+	    color:white;
+		}
+		/* Adds borders for tabs */
+		.tab-content {
+		    border-left: 1px solid #ddd;
+		    border-right: 1px solid #ddd;
+		    border-bottom: 1px solid #ddd;
+		    padding: 10px;
+		}
+		.nav-tabs {
+		    margin-bottom: 0;
+		}
+}
+
+
+	</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <title>Home - Travelmate
+
+{% block title_block %}
+You know you want to!
+{% endblock %}
+</title>
+</head>
+
+<body>
+<div>
+{% block body_block %}
+{% endblock %}
+</div>
+<hr />
+
+<div class="dropdown-btns"> 
+               <p><a href="{% url 'home' %}">Home</a></p>
+
+            	<div class="dropdown">
+			  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    Trips
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
+			    <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
+			  </ul>
+			  </div>
+
+
+			</div>
+
+		<div class="dropdown">
+			  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    Travellers
+			  </button>
+
+
+			    <ul class="dropdown-menu">
+			    	<li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a></li>
+			    	<li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
+			    </ul>
+			  </div>
+		</div>
+    </div>
+
+    <div>
+        {% if user.is_authenticated %}
+            <ul>
+
+                <li><a href="{% url 'my_trips' %}">My Trips</a></li>
+                <li><a href="{% url 'add_trip' %}">Add a New Trip</a></li>
+                <li><a href="{% url 'settings' %}">Settings</a></li>  
+
+                <li><a href="{% url 'passport' %}">Passport</a></li>
+                <li><a href="{% url 'logout' %}?next=/">Logout</a></li>
+
+            </ul>
+        {% else %}
+        	<a href="{% url 'login' %}">Login</a>
+            	
+
+        {% endif %}
+    </div>
+
+	<footer>
+		<div>
+                <p><a href="{% url 'about' %}?next=/">About</a></p>
+                <p><a href="{% url 'contact' %}">Contact</a></p>
+    	</div>
+	</footer>
+
+</body>
+</html>
+
+
+
+
+

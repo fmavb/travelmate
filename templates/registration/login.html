@@ -1,11 +1,9 @@
-﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>Login</title>
-</head>
-<body>
+﻿{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+    Log in
+{% endblock %}
+{% block body_block %}
     <div>
     <h1>Login</h1>
     <form id="login_form" method="post" action="{% url 'login' %}">
@@ -27,5 +25,4 @@
             <a href="{% url 'registration_register' %}">Register</a>
         </p>
     </div>
-</body>
-</html>
+{% endblock %}

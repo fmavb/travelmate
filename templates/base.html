@@ -1,52 +1,52 @@
 <!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
+  <head>
+    <!-- Add your head scripts using the head_block placeholder -->
+    {% block head_block %}
+    {% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no,">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>
+    <!-- Add a title using the title_block -->
+    {% block title_block %}
+    {% endblock %}
+    - Travelmate
+  </title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="{% static 'css/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/vendor/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/landing-page.min.css' %}" rel="stylesheet">
+
+  </head>
 
 
-	<style>
 
-		.jumbotron{
-	    background-color:#2E2D88;
-	    color:white;
-		}
-		/* Adds borders for tabs */
-		.tab-content {
-		    border-left: 1px solid #ddd;
-		    border-right: 1px solid #ddd;
-		    border-bottom: 1px solid #ddd;
-		    padding: 10px;
-		}
-		.nav-tabs {
-		    margin-bottom: 0;
-		}
-}
+  <body>
 
+    <!-- Navigation -->
+    <nav class="navbar navbar-light bg-light static-top">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">Travelmate</a>
+          {% if user.is_authenticated %}
+          <a class="btn btn-primary" href="{% url 'my_trips' %}">My Trips</a>
+          <a class="btn btn-primary" href="{% url 'add_trip' %}">Add a New Trip</a>
+          <a class="btn btn-primary" href="{% url 'settings' %}">Settings</a>
+          <a class="btn btn-primary" href="{% url 'view_profile' %}">View Profile</a>
+          <a class="btn btn-primary" href="{% url 'passport' %}">Passport</a>
+          <div class="dropdown-btns">
 
-	</style>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <title>Home - Travelmate
-
-{% block title_block %}
-You know you want to!
-{% endblock %}
-</title>
-</head>
-
-<body>
-<div>
-{% block body_block %}
-{% endblock %}
-</div>
-<hr />
-
-<div class="dropdown-btns"> 
-               <p><a href="{% url 'home' %}">Home</a></p>
 
             	<div class="dropdown">
 			  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -65,46 +65,73 @@ You know you want to!
 			  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			    Travellers
 			  </button>
-
-
 			    <ul class="dropdown-menu">
-			    	<li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a></li>
+			    	<li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Well-Travelled</a></li>
 			    	<li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
 			    </ul>
 			  </div>
 		</div>
     </div>
-
-    <div>
-        {% if user.is_authenticated %}
-            <ul>
-
-                <li><a href="{% url 'my_trips' %}">My Trips</a></li>
-                <li><a href="{% url 'add_trip' %}">Add a New Trip</a></li>
-                <li><a href="{% url 'settings' %}">Settings</a></li>  
-
-                <li><a href="{% url 'passport' %}">Passport</a></li>
-                <li><a href="{% url 'logout' %}?next=/">Logout</a></li>
-
-            </ul>
+          <a class="btn btn-primary" href="{% url 'logout' %}?next=/">Logout</a>
         {% else %}
-        	<a href="{% url 'login' %}">Login</a>
-            	
-
+		  <a class="btn btn-primary" href="{% url 'login' %}">Sign In</a>
         {% endif %}
-    </div>
+      </div>
+    </nav>
+{% block body_block %}
+<!-- Add your body using body_block -->
+{% endblock %}
+    <!-- Footer -->
+    <footer class="footer bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+            <ul class="list-inline mb-2">
+              <li class="list-inline-item">
+                <a href="{% url 'about' %}">About</a>
+              </li>
+              <li class="list-inline-item">&sdot;</li>
+              <li class="list-inline-item">
+                <a href="{% url 'contact' %}">Contact</a>
+              </li>
+              <li class="list-inline-item">&sdot;</li>
+              <li class="list-inline-item">
+                <a href="#">Terms of Use</a>
+              </li>
+              <li class="list-inline-item">&sdot;</li>
+              <li class="list-inline-item">
+                <a href="#">Privacy Policy</a>
+              </li>
+            </ul>
+            <p class="text-muted small mb-4 mb-lg-0">&copy; Travelmate. All Rights Reserved.</p>
+          </div>
+          <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+            <ul class="list-inline mb-0">
+              <li class="list-inline-item mr-3">
+                <a href="#">
+                  <i class="fa fa-facebook fa-2x fa-fw"></i>
+                </a>
+              </li>
+              <li class="list-inline-item mr-3">
+                <a href="#">
+                  <i class="fa fa-twitter fa-2x fa-fw"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fa fa-instagram fa-2x fa-fw"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
 
-	<footer>
-		<div>
-                <p><a href="{% url 'about' %}?next=/">About</a></p>
-                <p><a href="{% url 'contact' %}">Contact</a></p>
-    	</div>
-	</footer>
+     <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-</body>
+  </body>
+
 </html>
-
-
-
-
-

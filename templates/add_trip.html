@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {% load staticfiles %}
-    <meta charset="UTF-8">
-    <title>Add Trip</title>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+Add your trip
+{% endblock %}
+{% block head_block %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
     <!--read-only fields will have white backgrounds-->
@@ -74,10 +74,10 @@
           }
       }
   </script>
-</head>
-<body>
+{% endblock %}
+{% block body_block %}
     <div class="card text-white bg-secondary">
-        <h1 class ="card-header">Add new Trip</h1>
+        <h1 class ="card-header">Add a new Trip</h1>
         <form class ="card-body" id="TripForm" method="post" action="/app/add_trip/" onsubmit="return validateForm()">
             {% csrf_token %}
             <div class="form-row">
@@ -107,5 +107,4 @@
             <input class="btn btn-primary" type="submit" name="submit" value="Add Trip" />
         </form>
     </div>
-</body>
-</html>
+{% endblock %}

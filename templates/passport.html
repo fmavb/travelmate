@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My Passport - Travelmate</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+My Passport
+{% endblock %}
+
+{% block body_block %}
     <h1>My Passport</h1>
     {% if destinations %}
     <ul>
@@ -17,5 +18,4 @@
         You haven't added any trips yet. What are you waiting for? <a href="{% url 'add_trip' %}">Add a new trip</a>
     </p>
     {% endif %}
-</body>
-</html>
+{% endblock %}

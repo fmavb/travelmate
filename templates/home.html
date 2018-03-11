@@ -1,4 +1,4 @@
-﻿{% extends 'index.html' %}
+﻿{% extends 'base.html' %}
 {% load staticfiles %}
 {% block title_block %}
 Home
@@ -7,7 +7,7 @@ Home
 
     <header class="masthead text-dark text-center">
       <div class="overlay" id="map"></div>
-      <div class="container">
+      <div class="container" id="box">
         <div class="row">
           <div class="col-xl-9 mx-auto">
               {% if user.is_authenticated %}
@@ -87,5 +87,7 @@ Home
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-R2PpdSaF_ER0VvYoxoCuiNVWDaZ60m4&callback=initMap">
     </script>
-
+    <style>
+        #box {min-height: 18vh}
+    </style>
 {% endblock %}

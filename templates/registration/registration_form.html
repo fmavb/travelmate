@@ -1,11 +1,9 @@
-﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>Register to Travelmate</title>
-</head>
-<body>
+﻿{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+Register
+{% endblock %}
+{% block body_block %}
     <h1>Register Here</h1>
     <form method="post" action=".">
         {% csrf_token %}
@@ -14,5 +12,4 @@
     </form>
     <a href="{% url 'social:begin' 'facebook' %}">Register with Facebook</a> <br />
     <a href="{% url 'social:begin' 'twitter' %}">Register with Twitter</a>
-</body>
-</html>
+{% endblock %}
