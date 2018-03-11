@@ -13,8 +13,8 @@
     {% endif %}
     <div>
 
-		{% if user.is_authenticated %}
-			{{ user.homeCountry }} 
+        {% if user.is_authenticated %}
+            {{ user.homeCountry }} 
 
         {% else %}
             <h1>Log in to see this user profile</h1>
@@ -41,7 +41,7 @@
                            <td>{{ trip.startDate}}</td>
                            <td>{{trip.endDate}}</td>
                            <td>{{trip.destination }}</td>
-                            <td>{{trip.title }}</td>
+                            <td><a href="{% url 'view_trip' profile.user trip.slug %}">{{trip.title}}</a></td>
                     {% endfor %}
                     </tr>
                     </tbody>

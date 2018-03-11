@@ -11,8 +11,8 @@ Most Recent Trips
         {% if trips %}
         <ul>
             {% for trip in trips %}
-                
-               <li>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}, <a href="{% url 'view_profile' trip.owner %}">{{trip.owner}}</a></li>
+               <li><a href="{% url 'view_trip' trip.owner trip.slug %}">{{trip.title}}</a></li>
+               <p>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}, <a href="{% url 'view_profile' trip.owner %}">{{trip.owner}}</a></p>
             {% endfor %}
         </ul>
         {% else %}

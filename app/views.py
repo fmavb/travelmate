@@ -63,7 +63,9 @@ def pop_trips(request):
 
 def recent_trips(request):
 	trips = Trip.objects.order_by('endDate')
+
 	context_dict = {'trips':trips}
+
 	return render(request,'recent_trips.html',context_dict)
 
 def best_travelled(request):
@@ -170,6 +172,14 @@ def my_trips(request):
 	context_dict = {'trips':trips}
 	return render(request,'trips.html',context_dict)
 
+def base(request):
+	context_dict = {}
+	user = get_object_or_404(User, username=request.user)
+	context_dict['user'] = user
+
+	return render(request,'base.html',context_dict)
+
+
 @login_required
 def view_profile(request,username):
 
@@ -180,9 +190,14 @@ def view_profile(request,username):
 
 	return render(request,'view_profile.html',context_dict)
 
-def base(request):
-	context_dict = {}
-	user = get_object_or_404(User, username=request.user)
-	context_dict['user'] = user
 
-	return render(request,'base.html',context_dict)
+
+def view_trip(request, username, trip_name_slug):
+	context_dict = {}
+
+	try:
+		trip = Trip.objects.get(slug=trip_name_slug)
+		context_dict['trip'] = trip
+	except Trip.DoesNotExist:
+		context_dict['trip'] = None
+	return render(request, 'trip.html', context_dict)
