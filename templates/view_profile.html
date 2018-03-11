@@ -8,7 +8,9 @@
 
 
     <h1>{{ user.username }} </h1>
-    {{ user.profilePic }}
+    {% if profile.profilePic.url != None %}
+        <img src="{{ profile.profilePic.url }}">
+    {% endif %}
     <div>
 
 		{% if user.is_authenticated %}

@@ -5,4 +5,6 @@
 /venv
 /*/migrations/
 /*/flags/*
-!/*/flags/.gitkeep 
+!/*/flags/.gitkeep
+/*/profile_images/*
+!/*/profile_images/default.jpg

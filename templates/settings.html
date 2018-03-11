@@ -46,7 +46,7 @@
         </ul>
     </div>
     <div>
-        <form id="SettingsForm" method="post" action="/app/settings/" onsubmit="return validateForm();">
+        <form enctype="multipart/form-data" id="SettingsForm" method="post" action="/app/settings/" onsubmit="return validateForm();">
             {% csrf_token %}
             <div class="form-group">
                  <label id="formGroupDestinationLabel">Home Country</label>

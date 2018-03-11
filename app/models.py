@@ -18,7 +18,7 @@ class Destination(models.Model):
 class UserProfile(models.Model):
 	user = models.OneToOneField(User)
 	profileID = models.AutoField(primary_key=True)
-	profilePic = models.ImageField(upload_to='media\\profile_images', blank=True)
+	profilePic = models.ImageField(upload_to='profile_images', blank=True, default = 'profile_images/default.jpg')
 	homeCountry = models.ForeignKey(Destination,on_delete=models.CASCADE)
 	public = models.BooleanField(default=False)
 	

@@ -114,7 +114,7 @@ def settings(request):
 	data = json.dumps(compile)
 
 	if request.method == 'POST':
-		form = Settings(request.POST,instance=profile)
+		form = Settings(request.POST, request.FILES,instance=profile)
 		# Set up values from form
 		if form.is_valid():
 			profile = form.save(commit=False)
@@ -125,6 +125,7 @@ def settings(request):
 			destinationObject = Destination.objects.get(name__exact=homeCountryText)
 			profile.homeCountry = destinationObject
 			profile.public = form.cleaned_data['public']
+			print(form.cleaned_data['profilePic'])
 			profile.save()
 			return home(request)
 		else:
@@ -172,9 +173,10 @@ def my_trips(request):
 @login_required
 def view_profile(request,username):
 
-	user = get_object_or_404(User, username=username)
+	user = get_object_or_404(User, username__exact=username)
+	profile = get_object_or_404(UserProfile, user__exact=user)
 	trips = Trip.objects.filter(owner=user).order_by('startDate').reverse()
-	context_dict = {'user':user, 'trips':trips }
+	context_dict = {'user':user, 'trips':trips, 'profile':profile }
 
 	return render(request,'view_profile.html',context_dict)
 
