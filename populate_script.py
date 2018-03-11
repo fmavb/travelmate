@@ -1,6 +1,6 @@
 import os, shutil
-
 from django.core.files.images import ImageFile
+from django.core.management import execute_from_command_line
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                         'travelmate.settings')
@@ -10,6 +10,27 @@ django.setup()
 import random
 import csv
 from app.models import Destination
+
+def auto_migrations():
+	os.environ.setdefault("DJANGO_SETTINGS_MODULE", "travelmate.settings")
+	try:
+		from django.core.management import execute_from_command_line
+	except ImportError:
+		# The above import may fail for some other reason. Ensure that the
+		# issue is really that Django is missing to avoid masking other
+		# exceptions on Python 2.
+		try:
+			import django
+		except ImportError:
+			raise ImportError(
+				"Couldn't import Django. Are you sure it's installed and "
+				"available on your PYTHONPATH environment variable? Did you "
+				"forget to activate a virtual environment?"
+			)
+		raise
+	execute_from_command_line(['manage.py', 'makemigrations', 'app'])
+	execute_from_command_line(['manage.py', 'migrate'])
+
 
 def clear_media():
 	folder = 'media\\flags'
@@ -49,6 +70,8 @@ def add_destination(cc, nam, lat, longi, path):
 
 # Start execution here!
 if __name__ == '__main__':
+	print("Auto-migrations")
+	auto_migrations()
 	print("Clearing media/flags")
 	clear_media()
 	print("Starting Country population script...")
