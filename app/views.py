@@ -94,20 +94,25 @@ def passport(request):
 
 @login_required
 def settings(request):
+	# Check if UserProfile already exists, if it does we just update it with relevant changes.
+	hc = ""
+	pub = False
+	try:
+		profile = request.user.userprofile
+		hc = profile.homeCountry.name
+		pub = profile.public
+	except UserProfile.DoesNotExist:
+		profile = UserProfile(user=request.user)
+
 	# Create an array of all our destinations,
 	# and then dump into json so we can pass it on to settings.html for autocomplete
 	# Ordered by alphabetical order
-	
+
 	# Ordered by alphabetical order
 	dest = [destination.name for destination in Destination.objects.all().order_by('name')]
-	compile = {'names': dest}
+	compile = {'names': dest, 'hc':hc,'public':pub}
 	data = json.dumps(compile)
 
-	# Check if UserProfile already exists, if it does we just update it with relevant changes.
-	try:
-		profile = request.user.userprofile
-	except UserProfile.DoesNotExist:
-		profile = UserProfile(user=request.user)
 	if request.method == 'POST':
 		form = Settings(request.POST,instance=profile)
 		# Set up values from form
@@ -119,6 +124,7 @@ def settings(request):
 			homeCountryText = form.cleaned_data['homeCountryText']
 			destinationObject = Destination.objects.get(name__exact=homeCountryText)
 			profile.homeCountry = destinationObject
+			profile.public = form.cleaned_data['public']
 			profile.save()
 			return home(request)
 		else:
@@ -150,6 +156,7 @@ def add_trip(request):
 			destinationText = form.cleaned_data['destinationText']
 			destinationObject = Destination.objects.get(name__exact=destinationText)
 			trip.destination = destinationObject
+			trip.public = form.cleaned_data['public']
 			trip.save()
 			return home(request)
 		else:
