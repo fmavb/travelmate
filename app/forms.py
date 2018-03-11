@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import DateInput
 
-from app.models import Trip, Destination, UserProfile
+from app.models import Trip, Destination, UserProfile, BlogPost
 
 class Settings(forms.ModelForm):
     # CharField, since AutoComplete works with text
@@ -27,3 +27,16 @@ class TripForm(forms.ModelForm):
 		           'endDate': DateInput(attrs={'class': 'end form-control', 'placeholder': 'Please select end of Trip', 'readonly':'readonly'}),
 		           }
 		fields = ('title', 'startDate', 'endDate', 'public')
+
+class BlogForm(forms.ModelForm):
+	public = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class':'public'}))
+	# CharField, since AutoComplete works with text
+	title = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Give your blogpost a title!'}))
+	content = forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Give your blogpost some content!'}))
+	slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+
+	class Meta:
+		model = BlogPost
+		# DateInput widgets
+
+		fields = ('title', 'content')

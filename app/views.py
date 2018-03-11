@@ -23,7 +23,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from app.forms import TripForm
-
+from app.forms import BlogForm
 from datetime import datetime
 
 # Create your views here.
@@ -165,6 +165,28 @@ def add_trip(request):
 		else:
 			print(form.errors)
 	return render(request, 'add_trip.html', {'form': form, 'json_data': data})
+
+@login_required
+def add_blog_post(request):
+	# Create an array of all our destinations,
+	# and then dump into json so we can pass it on to settings.html for autocomplete
+	# Ordered by alphabetical order
+
+	form = BlogForm()
+	if request.method == 'POST':
+		form = BlogForm(request.POST)
+		if form.is_valid():
+			blog = form.save(commit=False)
+			blog.owner = request.user
+			# AutoComplete works with TextInput, therefore we match a valid text input to Destination entity
+			# Form Validation happens in JavaScript, only valid result accepted onSubmit
+
+			
+			blog.save()
+			return home(request)
+		else:
+			print(form.errors)
+	return render(request, 'add_blog_post.html', {'form': form})
 
 @login_required
 def my_trips(request):
