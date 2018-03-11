@@ -170,3 +170,10 @@ def view_profile(request,username):
 	context_dict = {'user':user, 'trips':trips }
 
 	return render(request,'view_profile.html',context_dict)
+
+def base(request):
+	context_dict = {}
+	user = get_object_or_404(User, username=request.user)
+	context_dict['user'] = user
+
+	return render(request,'base.html',context_dict)

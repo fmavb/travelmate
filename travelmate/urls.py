@@ -35,7 +35,7 @@ urlpatterns = [
     url(r'^accounts/',include('registration.backends.simple.urls')),
     
     url(r'^app/', include('app.urls')),
-    url(r'^(?P<username>[\w\-]+)/$', app_views.view_profile, name='view_profile'),
+    #url(r'^(?P<username>[\w\-]+)/$', app_views.view_profile, name='view_profile'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 LOGIN_URL='/login'

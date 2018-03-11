@@ -35,13 +35,13 @@
     <!-- Navigation -->
     <nav class="navbar navbar-light bg-light static-top">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}"><<img src="{% static "images/logo.jpg" %}"
-                alt="logo" /> ></a>
+        <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static "images/logo.jpg" %}"
+                alt="logo" /></a>
           {% if user.is_authenticated %}
           <a class="btn btn-primary" href="{% url 'my_trips' %}">My Trips</a>
           <a class="btn btn-primary" href="{% url 'add_trip' %}">Add a New Trip</a>
           <a class="btn btn-primary" href="{% url 'settings' %}">Settings</a>
-          
+          <a class="btn btn-primary" href="{% url 'view_profile' user.username %}">My Profile</a>
           <a class="btn btn-primary" href="{% url 'passport' %}">Passport</a>
           <div class="dropdown-btns">
 
