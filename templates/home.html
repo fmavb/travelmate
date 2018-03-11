@@ -14,6 +14,7 @@ Home
             <h1 class="mb-lg-5" id="welcome">Welcome to Travelmate, {{ user.username }}!</h1>
               {% else %}
               <h1 class="mb-lg-5">Welcome to Travelmate!</h1>
+                  <a class="btn btn-lg btn-primary" href="{% url 'registration_register' %}">Sign up!</a>
               {% endif %}
           </div>
         </div>

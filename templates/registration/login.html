@@ -4,7 +4,7 @@
     Log in
 {% endblock %}
 {% block body_block %}
-    <div>
+    <div class="form">
     <h1>Login</h1>
     <form id="login_form" method="post" action="{% url 'login' %}">
         {% csrf_token %}
@@ -18,11 +18,14 @@
         <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a> <br />
         <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>
     </div>
-    <div>
+    <div class="form">
         <p>
             Want to join Travelmate! <br />
             Follow this link... <br />
             <a href="{% url 'registration_register' %}">Register</a>
         </p>
     </div>
+    <style>
+    .form {text-align: center}
+    </style>
 {% endblock %}
