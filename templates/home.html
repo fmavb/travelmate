@@ -61,16 +61,17 @@ Home
 			});
 			if(current.name != "None"){
 			    line.setMap(map);
-			    bindEvent(line, current["name"], map);
+			    bindEvent(line, current, map);
             }
 		}
       }
 
       //Binds eventlistener to individual polyline
-	  function bindEvent(polyLine, name, map){
+	  function bindEvent(polyLine, trips, map){
           //Create new InfoWindow
 		var infowindow = new google.maps.InfoWindow({
-			content: name
+			content: "To: " + trips["name"] +
+            "<br /> Title: " +trips["title"]
 		});
 		google.maps.event.addListener(polyLine, 'click', function(e) {
 		    //If there is a open window, close it

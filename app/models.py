@@ -57,6 +57,7 @@ class Trip(models.Model):
 			"lat": self.destination.latitude,
 			"lng": self.destination.longitude,
 			"name": self.destination.name,
+			'title': self.title,
 		}
 
 	# Check if startDate is before or equal to endData
@@ -78,9 +79,15 @@ class BlogPost(models.Model):
 	Date = models.DateField()
 	content = models.TextField()
 	trip = models.ForeignKey(Trip, related_name='posts')
+	title = models.CharField(max_length=85)
+	slug = models.SlugField(unique=True)
+
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.title)
+		super(BlogPost, self).save(*args, **kwargs)
 
 	def __str__(self):
-		return self.content
+		return self.title
 		
 class Comment(models.Model):
 	commentID = models.AutoField(primary_key=True)

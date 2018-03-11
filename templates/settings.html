@@ -39,14 +39,9 @@
 </script>
 </head>
 <body>
-    <h1>Settings</h1>
-    <div>
-        <ul>
-            <li><a href="{% url 'auth_password_change' %}">Change your Password</a> </li>
-        </ul>
-    </div>
-    <div>
-        <form enctype="multipart/form-data" id="SettingsForm" method="post" action="/app/settings/" onsubmit="return validateForm();">
+<div class="card text-white bg-secondary">
+        <h1 class ="card-header">Settings</h1>
+        <form class="card-body" enctype="multipart/form-data" id="SettingsForm" method="post" action="/app/settings/" onsubmit="return validateForm();">
             {% csrf_token %}
             <div class="form-group">
                  <label id="formGroupDestinationLabel">Home Country</label>
@@ -61,10 +56,19 @@
                 }
             </script>
 
-            <p>Public Profile: {{ form.public}}</p>
-            <p>Profile Picture: {{ form.profilePic}}</p>
-            <input class="btn btn-primary" type="submit", name="submit" value="Apply"/>
+            <div class="form-group">
+                <span class="pr-5" id="publicSelector">Public? {{ form.public }}</span>
+                <span class="alert alert-info"> Check this if you want unregistered users to see your trip!</span>
+            </div>
+            <label>Profile Picture:</label>
+            {{ form.profilePic}}
+            <input class="btn btn-primary float-right" type="submit" name="submit" value="Apply" />
         </form>
+    </div>
+    <div>
+        <ul>
+            <li><a href="{% url 'auth_password_change' %}">Change your Password</a> </li>
+        </ul>
     </div>
 </body>
 </html>

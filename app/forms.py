@@ -7,7 +7,7 @@ class Settings(forms.ModelForm):
     # CharField, since AutoComplete works with text
     homeCountryText = forms.CharField(required=True, widget=forms.TextInput(attrs={'id':'country', 'class':'destination form-control', 'placeholder': 'Type Country/State'}))
     public = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'public'}))
-    profilePic = forms.ImageField(required=False, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput)
+    profilePic = forms.ImageField(required=False, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput(attrs={'class':'upload'}))
 
     class Meta:
         model = UserProfile

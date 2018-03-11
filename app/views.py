@@ -34,7 +34,7 @@ def home(request):
 	# Finally we dump whatever we have into JSON
 	if(request.user.is_superuser or request.user.is_anonymous):
 		start_dict = {"lat":51.509865,"lng":-0.118092}
-		trip_serial = [{"lat":51.509865,"lng":-0.118092, "name":"None"}]
+		trip_serial = [{"lat":51.509865,"lng":-0.118092, "name":"None", "Title":"no"}]
 	else:
 		try:
 			userprofile = UserProfile.objects.get(user__exact=request.user)
