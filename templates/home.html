@@ -74,9 +74,14 @@ Home
           if(!window.location.pathname.includes("app")){
               urlString = "app/" + urlString;
           }
+          if(trips.sDate == trips.eDate){
+              var dateString = trips.sDate.replace(/-/g,".");
+          }else{
+              var dateString = trips.sDate.replace(/-/g,".") + " - " + trips.eDate.replace(/-/g,".");
+          }
           //Create new InfoWindow, with trip details, and link
 		var infowindow = new google.maps.InfoWindow({
-			content: trips.sDate.replace(/-/g,".") + " - " + trips.eDate.replace(/-/g,".") +
+			content: dateString +
             "<br />To: " + trips.name +
             "<br />Title: <a href=" + urlString + ">" + trips.title
 		});
