@@ -28,6 +28,7 @@ Home
       function initMap() {
           //Parse all trips, and homecountry data for current user from JSON
 		var data = JSON.parse('{{ json_data | escapejs }}');
+		var username = '{{ user.username }}';
 		var startLat = parseFloat(data["start"]["lat"]);
 		var startLng = parseFloat(data["start"]["lng"]);
 
@@ -60,17 +61,19 @@ Home
 			});
 			if(current.name != "None"){
 			    line.setMap(map);
-			    bindEvent(line, current, map);
+			    bindEvent(line, current, map, username);
             }
 		}
       }
 
       //Binds eventlistener to individual polyline
-	  function bindEvent(polyLine, trips, map){
+	  function bindEvent(polyLine, trips, map, username){
           //Create new InfoWindow
+          var urlString = username + "/" + trips.slug + "/";
 		var infowindow = new google.maps.InfoWindow({
-			content: "To: " + trips["name"] +
-            "<br /> Title: " +trips["title"]
+			content: trips.sDate.replace(/-/g,".") + " - " + trips.eDate.replace(/-/g,".") +
+            "<br />To: " + trips.name +
+            "<br />Title: <a href=" + urlString + ">" + trips.title
 		});
 		google.maps.event.addListener(polyLine, 'click', function(e) {
 		    //If there is a open window, close it

@@ -51,13 +51,16 @@ class Trip(models.Model):
 	def __str__(self): # For Python 2, use __unicode__ too
 		return self.slug
 		
-		
+	# Returns the attributes of an object as a dictionary
 	def as_dict(self):
 		return {
 			"lat": self.destination.latitude,
 			"lng": self.destination.longitude,
+			"sDate": str(self.startDate),
+			"eDate": str(self.endDate),
 			"name": self.destination.name,
 			'title': self.title,
+			'slug': self.slug,
 		}
 
 	# Check if startDate is before or equal to endData
