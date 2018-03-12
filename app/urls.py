@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^pop_trips/$', views.pop_trips, name='pop_trips'),
     url(r'^recent_trips/$', views.recent_trips, name='recent_trips'),
     url(r'^best_travelled/$', views.best_travelled, name='best_travelled'),
-    url(r'^most_active_travellers/$', views.contact, name='most_active_travellers'),
+    url(r'^most_active_travellers/$', views.most_active_travellers, name='most_active_travellers'),
     
     url(r'^passport/$', views.passport, name='passport'),
     url(r'^add_trip/$', views.add_trip, name='add_trip'),

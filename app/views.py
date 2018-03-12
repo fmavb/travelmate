@@ -85,9 +85,19 @@ def best_travelled(request):
 	return render(request,'best_travelled.html',context_dict)
 
 def most_active_travellers(request):
-	
 
-	return HttpResponse("Work in progress...")
+	user_posts={}
+	posts = BlogPost.objects.all()
+
+	for post in posts:
+		user_posts[post.user] = user_posts.get(post.user,0)+1
+
+	user_list = []
+	for key, value in sorted(user_posts.items(), key = itemgetter(1), reverse = True):
+		user_list.append([key, value])
+
+	context_dict = {'user_list':user_list}
+	return render(request,'most_active_travellers.html',context_dict)
 
 @login_required
 def passport(request):
