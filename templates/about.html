@@ -6,6 +6,7 @@ About us
 {% endblock %}
 
 {% block body_block %}
+ 
  <div class="jumbotron" style="background-image:url('{%static "images/about.jpg"%}');background-repeat:repeat-x; background-position:center top;">
    <h1 style=color:white;text-align:center;">About TravelMate</h1> 
    <p></p> 
@@ -23,9 +24,14 @@ About us
    <p>Be the top traveller means that you are really a real professional traveller with the most trips, you would be able to see the <a href="{% url 'best_travelled' %}">top ranking travel members list</a> through our website, as well as <a href="{% url 'most_active_travellers' %}">the most active travellers.</a></p>
    <p></p>
    <h6>Your Personal Profile</h6>
-   <p>You could also see your own recent trips in <a href="{% url 'view_profile' user.username %}">your own profile</a> where you could also add your trip blog and pictres. </p>
+   {%if user.is_anonymous%}
+     <p>You could also see your own recent trips in your own profile where you could also add your trip blog and pictres. </p>
+   {%else%}
+     <p>You could also see your own recent trips in <a href="{% url 'view_profile' user.username %}">your own profile</a> where you could also add your trip blog and pictres. </p>
+   {%endif%}
    <p></p>
    <p></p>
    <h6>For any other questions, you could always contact us, we would be very happy to help you.</h6>
  </div>
+
 {% endblock %}
