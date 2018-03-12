@@ -60,7 +60,12 @@ def contact(request):
 	return HttpResponse("Work in progress...")
 
 def pop_trips(request):
-	return HttpResponse("Work in progress...")
+	
+	trips = Trip.objects.order_by('score').reverse()
+
+	context_dict = {'trips':trips}
+
+	return render(request,'pop_trips.html',context_dict)
 
 def recent_trips(request):
 	trips = Trip.objects.order_by('endDate')

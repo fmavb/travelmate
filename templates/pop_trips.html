@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+Most Recent Trips
+{% endblock %}
+
+{% block body_block %}
+<h1>Most Popular Trips</h1>
+    <div>
+        {% if trips %}
+        <ul>
+            {% for trip in trips %}
+               <li><a href="{% url 'view_trip' trip.owner trip.slug %}">{{trip.title}}</a></li>
+               <p>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}, <a href="{% url 'view_profile' trip.owner %}">{{trip.owner}}</a> Score: {{trip.score}}</p>
+            {% endfor %}
+        </ul>
+        {% else %}
+            There are no public trips yet! This is your chance to add the very first one! <br />
+            <a href="{% url 'add_trip' %}">Add a New Trip</a>
+        {% endif %}
+        
+
+{% endblock %}
