@@ -7,10 +7,33 @@
 
 {% block body_block %}
 <h1>{{trip.title}}</h1>
-    <div>
-        You just landed on the page {{trip.title}} to {{trip.destination}}
-        Started on {{trip.startDate}} ended on {{trip.endDate}}
-        <a href="{% url 'add_blog_post' %}">Add a New Blog Post</a>
+    <br>
+        You just landed on the page {{trip.title}} to {{trip.destination}} <br>
+        Trip from {{trip.startDate}} to {{trip.endDate}} <br>
+    </div>
+    <div class="container">
+                   <h5>Recent Posts</h5>
+                     <table class="table">
+                        <thead>
+                          <tr>
+                             <th>Title</th>
+                             <th>Publish Date</th>
+                              <th>Number of Comments</th>
+                          </tr>
+                         </thead>
+                    <tbody>
+                    {% for post in posts %}
+                       <tr>
+                           <td>{{ post.title }}</td>
+                           <td>{{post.Date}}</td>
+                            <td>Not implemented</td>
+
+                    {% endfor %}
+                    </tr>
+                    </tbody>
+                     </table>
+                </div>
+    <a href="{% url 'add_blog_post' trip.owner trip.slug%}">Add a New Blog Post</a>
         
 
 {% endblock %}

@@ -49,7 +49,7 @@ class Trip(models.Model):
 		super(Trip, self).save(*args, **kwargs)
 
 	def __str__(self): # For Python 2, use __unicode__ too
-		return self.owner.username + str(self.tripID)
+		return self.slug
 		
 		
 	def as_dict(self):

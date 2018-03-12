@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from app.models import Trip
 from app.models import UserProfile
+from app.models import Destination
 from app.forms import *
 from django.contrib.auth.models import User
 import json
@@ -127,7 +128,6 @@ def settings(request):
 			destinationObject = Destination.objects.get(name__exact=homeCountryText)
 			profile.homeCountry = destinationObject
 			profile.public = form.cleaned_data['public']
-			print(form.cleaned_data['profilePic'])
 			profile.save()
 			return home(request)
 		else:
@@ -167,26 +167,21 @@ def add_trip(request):
 	return render(request, 'add_trip.html', {'form': form, 'json_data': data})
 
 @login_required
-def add_blog_post(request):
-	# Create an array of all our destinations,
-	# and then dump into json so we can pass it on to settings.html for autocomplete
-	# Ordered by alphabetical order
-
+def add_blog_post(request, username,trip_name_slug):
 	form = BlogForm()
 	if request.method == 'POST':
 		form = BlogForm(request.POST)
 		if form.is_valid():
 			blog = form.save(commit=False)
-			blog.owner = request.user
-			# AutoComplete works with TextInput, therefore we match a valid text input to Destination entity
-			# Form Validation happens in JavaScript, only valid result accepted onSubmit
-
-			
+			blog.user = request.user
+			blog.Date = datetime.today()
+			trip = get_object_or_404(Trip, slug__exact=trip_name_slug)
+			blog.trip = trip
 			blog.save()
-			return home(request)
+			return view_trip(request,request.user.username,trip_name_slug)
 		else:
 			print(form.errors)
-	return render(request, 'add_blog_post.html', {'form': form})
+	return render(request, 'add_blog_post.html', {'form': form, 'slug':trip_name_slug})
 
 @login_required
 def my_trips(request):
@@ -220,6 +215,9 @@ def view_trip(request, username, trip_name_slug):
 	try:
 		trip = Trip.objects.get(slug=trip_name_slug)
 		context_dict['trip'] = trip
+		posts = BlogPost.objects.filter(trip__exact=trip).order_by('Date')
+		context_dict['posts'] = posts
 	except Trip.DoesNotExist:
 		context_dict['trip'] = None
+		context_dict['posts'] = None
 	return render(request, 'trip.html', context_dict)
