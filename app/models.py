@@ -24,7 +24,8 @@ class UserProfile(models.Model):
 	
 	def __str__(self):
 		return self.user.username
-		
+
+	# Returns homeCountry location attributes of a UserProfile object as a dictionary
 	def as_dict(self):
 		return {
 			"lat": self.homeCountry.latitude,
@@ -51,7 +52,7 @@ class Trip(models.Model):
 	def __str__(self): # For Python 2, use __unicode__ too
 		return self.slug
 		
-	# Returns the attributes of an object as a dictionary
+	# Returns the attributes of a Trip object as a dictionary
 	def as_dict(self):
 		return {
 			"lat": self.destination.latitude,

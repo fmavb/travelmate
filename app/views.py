@@ -30,7 +30,7 @@ from datetime import datetime
 # Create your views here.
 def home(request):
 	# Check if User is Admin or Anonymous
-	# If yes, we use hardcoded values
+	# If yes, we use hardcoded values (LatLng of UK)
 	# If a registered non-admin user, we fetch their trips
 	# Finally we dump whatever we have into JSON
 	if(request.user.is_superuser or request.user.is_anonymous):
@@ -162,6 +162,7 @@ def add_trip(request):
 			trip.destination = destinationObject
 			trip.public = form.cleaned_data['public']
 			trip.save()
+			# Use Redirect so that URL in browser also changes
 			return HttpResponseRedirect(reverse('home'))
 		else:
 			print(form.errors)
@@ -179,6 +180,7 @@ def add_blog_post(request, username,trip_name_slug):
 			trip = get_object_or_404(Trip, slug__exact=trip_name_slug)
 			blog.trip = trip
 			blog.save()
+			# Use Redirect so that URL in browser also changes
 			return HttpResponseRedirect(reverse('view_trip', request.user.username,trip_name_slug))
 		else:
 			print(form.errors)

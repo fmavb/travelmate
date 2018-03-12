@@ -68,19 +68,24 @@ Home
 
       //Binds eventlistener to individual polyline
 	  function bindEvent(polyLine, trips, map, username){
-          //Create new InfoWindow
+          //Creating href string from username, and trip slug
           var urlString = username + "/" + trips.slug + "/";
+          //If we are on index page, and not on app home, add app/ to the url
+          if(!window.location.pathname.includes("app")){
+              urlString = "app/" + urlString;
+          }
+          //Create new InfoWindow, with trip details, and link
 		var infowindow = new google.maps.InfoWindow({
 			content: trips.sDate.replace(/-/g,".") + " - " + trips.eDate.replace(/-/g,".") +
             "<br />To: " + trips.name +
             "<br />Title: <a href=" + urlString + ">" + trips.title
 		});
 		google.maps.event.addListener(polyLine, 'click', function(e) {
-		    //If there is a open window, close it
+		    //If there is a open infowindow on the map, close it
 			if (currentInfo) {
 				currentInfo.close();
 			}
-			//Open new InfoWindow
+			//Open new InfoWindow at event position, and set it to the current
 			currentInfo = infowindow;
 			infowindow.setPosition(e.latLng);
 			infowindow.open(map);
