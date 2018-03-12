@@ -209,11 +209,6 @@ def add_blog_post(request, username,trip_name_slug):
 			print(form.errors)
 	return render(request, 'add_blog_post.html', {'form': form, 'slug':trip_name_slug})
 
-@login_required
-def my_trips(request):
-	trips = Trip.objects.filter(owner__exact=request.user).order_by('startDate')
-	context_dict = {'trips':trips}
-	return render(request,'trips.html',context_dict)
 
 def base(request):
 	context_dict = {}

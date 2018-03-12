@@ -4,7 +4,7 @@
 Add a Trip
 {% endblock %}
 {% block body_block %}
-
+    <div id="wrapper">
     <div class="card text-white bg-secondary">
         <h1 class ="card-header">Add a new Trip</h1>
         <form class ="card-body" id="TripForm" method="post" action="/app/add_trip/" onsubmit="return validateForm()">
@@ -36,14 +36,18 @@ Add a Trip
             <input class="btn btn-primary float-right" type="submit" name="submit" value="Add Trip" />
         </form>
     </div>
+    </div>
 {% endblock %}
 {% block footer_block %}
+    <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
     <!--read-only fields will have white backgrounds-->
     <style>
         html {position: relative;
             min-height: 100%;}
+        #wrapper{height: 100%}
         footer{position: absolute;
             left: 0;
             bottom: 0;
