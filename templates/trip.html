@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+{{trip.title}}
+{% endblock %}
+
+{% block body_block %}
+<h1>{{trip.title}}</h1>
+    <div>
+        You just landed on the page {{trip.title}} to {{trip.destination}}
+        Started on {{trip.startDate}} ended on {{trip.endDate}}
+        <a href="{% url 'add_blog_post' %}">Add a New Blog Post</a>
+        
+
+{% endblock %}
