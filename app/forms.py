@@ -23,8 +23,8 @@ class TripForm(forms.ModelForm):
 	class Meta:
 		model = Trip
 		# DateInput widgets
-		widgets = {'startDate': DateInput(attrs={'class': 'start form-control', 'placeholder': 'Please select start of Trip', 'readonly':'readonly'}),
-		           'endDate': DateInput(attrs={'class': 'end form-control', 'placeholder': 'Please select end of Trip', 'readonly':'readonly'}),
+		widgets = {'startDate': DateInput(attrs={'class': 'start form-control', 'placeholder': 'Please select start of Trip (mm/dd/yyyy)', 'required':'required'}),
+		           'endDate': DateInput(attrs={'class': 'end form-control', 'placeholder': 'Please select end of Trip (mm/dd/yyyy)', 'required':'required'}),
 		           }
 		fields = ('title', 'startDate', 'endDate', 'public')
 
