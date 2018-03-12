@@ -44,6 +44,7 @@ class Trip(models.Model):
 	destination = models.ForeignKey(Destination,on_delete=models.CASCADE)
 	title = models.CharField(max_length=85)
 	slug = models.SlugField(unique=True)
+	score = models.IntegerField(default=0)
 
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.title)
@@ -70,7 +71,6 @@ class Trip(models.Model):
 			raise ValidationError('Start date is after end date')
 
 class Rating(models.Model):
-	score = models.IntegerField()
 	owner = models.ForeignKey(User, on_delete=models.CASCADE)
 	trip = models.ForeignKey(Trip, related_name='ratings')
 
