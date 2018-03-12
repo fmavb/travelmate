@@ -7,31 +7,46 @@ About us
 
 {% block body_block %}
  
- <div class="jumbotron" style="background-image:url('{%static "images/about.jpg"%}');background-repeat:repeat-x; background-position:center top;">
+ <div class="jumbotron" style="background-image:url('{% static "images/about.jpg" %}');background-repeat:repeat-x;
+         background-position:center top;">
    <h1 style=color:white;text-align:center;">About TravelMate</h1> 
    <p></p> 
  </div>
  <div class="container">
-   <h5>Travelmate is an online group which you could share you own travel experience, make your travel passport, as well as see beautiful views and experiences from other members around the world.</h5> 
+   <h5>Travelmate is an online group which enables you to share your own travel experience, make your travel passport,
+       as well as see beautiful views and experiences of other members around the world.</h5>
    <p></p>
    <h6>Online Passport</h6>
-   <p>As our special Travelmate members, you are able to customise your <a href="{% url 'passport' %}">own special travel passport</a> online by <a href="{% url 'add_trip' %}">adding as many trips as you want</a>, your passport would be sorted by country and we would finally give you the proportion of the world that you travelled!</p>
-   <p>You could also <a href="{% url 'my_trips' %}">see your trips on a map</a>, by lines that shows your destinations around the world. </p>
+   <p>As our special Travelmate member, you are able to customise your
+       <a href="{% url 'passport' %}">own special travel passport</a> online by
+       <a href="{% url 'add_trip' %}">adding as many trips as you want</a>,
+       your passport would be sorted by country
+       and we would finally give you the proportion of the world that you travelled!</p>
+   <p>You can also <a href="{% url 'my_trips' %}">see your trips on a map</a>,
+       by lines that shows your destinations around the world. </p>
    <p></p>
    <h6>See Other member's trips</h6>
-   <p>You are able to load the <a href="{% url 'pop_trips'%}">most popular trips</a> and <a href="{% url 'recent_trips'%}">most recent trips</a> thtough our website members which as we believe would give you some suggestions for your next travel experience. </p> 
+   <p>You are able to load the <a href="{% url 'pop_trips'%}">most popular trips</a> and
+       <a href="{% url 'recent_trips'%}">most recent trips</a> through our website members which as we believe would
+       give you some suggestions for your next travel experience. </p>
    <h6>Be the top traveller</h6>
-   <p>Be the top traveller means that you are really a real professional traveller with the most trips, you would be able to see the <a href="{% url 'best_travelled' %}">top ranking travel members list</a> through our website, as well as <a href="{% url 'most_active_travellers' %}">the most active travellers.</a></p>
+   <p>Be the top traveller means that you are a real professional traveller with the most trips,
+       you will be able to see the <a href="{% url 'best_travelled' %}">top ranking travel members list</a>
+       through our website, as well as <a href="{% url 'most_active_travellers' %}">the most active travellers.</a></p>
    <p></p>
    <h6>Your Personal Profile</h6>
-   {%if user.is_anonymous%}
-     <p>You could also see your own recent trips in your own profile where you could also add your trip blog and pictres. </p>
-   {%else%}
-     <p>You could also see your own recent trips in <a href="{% url 'view_profile' user.username %}">your own profile</a> where you could also add your trip blog and pictres. </p>
-   {%endif%}
+   {% if user.is_anonymous %}
+     <p>You could also see your own recent trips in your own profile where you could also
+         add your trip blog and pictures.</p>
+   {% else %}
+     <p>You could also see your own recent trips in <a href="{% url 'view_profile' user.username %}">your own profile</a>
+         where you could also add your trip blog and pictures. </p>
+   {% endif %}
    <p></p>
    <p></p>
-   <h6>For any other questions, you could always contact us, we would be very happy to help you.</h6>
+   <h6>For any other questions, you can always contact us, we would be very happy to help you.</h6>
  </div>
-
+    <style>
+    .footer{position: unset}
+    </style>
 {% endblock %}
