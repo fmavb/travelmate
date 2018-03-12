@@ -71,6 +71,7 @@ class Trip(models.Model):
 			raise ValidationError('Start date is after end date')
 
 class Rating(models.Model):
+	score = models.IntegerField(default=0)
 	owner = models.ForeignKey(User, on_delete=models.CASCADE)
 	trip = models.ForeignKey(Trip, related_name='ratings')
 
