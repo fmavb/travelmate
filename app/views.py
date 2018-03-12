@@ -35,7 +35,7 @@ def home(request):
 	# Finally we dump whatever we have into JSON
 	if(request.user.is_superuser or request.user.is_anonymous):
 		start_dict = {"lat":51.509865,"lng":-0.118092}
-		trip_serial = [{"lat":51.509865,"lng":-0.118092, "name":"None", "Title":"no"}]
+		trip_serial = [{"lat":51.509865,"lng":-0.118092, "name":"None"}]
 	else:
 		try:
 			userprofile = UserProfile.objects.get(user__exact=request.user)
@@ -129,7 +129,8 @@ def settings(request):
 			profile.homeCountry = destinationObject
 			profile.public = form.cleaned_data['public']
 			profile.save()
-			return home(request)
+			# Use Redirect so that URL in browser also changes
+			return HttpResponseRedirect(reverse('home'))
 		else:
 			print (form.errors)
 	else:
@@ -161,7 +162,7 @@ def add_trip(request):
 			trip.destination = destinationObject
 			trip.public = form.cleaned_data['public']
 			trip.save()
-			return home(request)
+			return HttpResponseRedirect(reverse('home'))
 		else:
 			print(form.errors)
 	return render(request, 'add_trip.html', {'form': form, 'json_data': data})
@@ -178,7 +179,7 @@ def add_blog_post(request, username,trip_name_slug):
 			trip = get_object_or_404(Trip, slug__exact=trip_name_slug)
 			blog.trip = trip
 			blog.save()
-			return view_trip(request,request.user.username,trip_name_slug)
+			return HttpResponseRedirect(reverse('view_trip', request.user.username,trip_name_slug))
 		else:
 			print(form.errors)
 	return render(request, 'add_blog_post.html', {'form': form, 'slug':trip_name_slug})
