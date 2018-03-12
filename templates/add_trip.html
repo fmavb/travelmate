@@ -4,6 +4,7 @@
 Add a Trip
 {% endblock %}
 {% block body_block %}
+
     <div class="card text-white bg-secondary">
         <h1 class ="card-header">Add a new Trip</h1>
         <form class ="card-body" id="TripForm" method="post" action="/app/add_trip/" onsubmit="return validateForm()">
@@ -41,6 +42,13 @@ Add a Trip
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
     <!--read-only fields will have white backgrounds-->
     <style>
+        html {position: relative;
+            min-height: 100%;}
+        footer{position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            overflow:hidden;}
         input[readonly]
         {
             background-color: white !important;

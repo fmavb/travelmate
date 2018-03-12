@@ -177,7 +177,13 @@
     <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     {% endblock %}
     <style>
-        #footer {width: 100%;float: bottom}
+        html {position: relative;
+            min-height: 100%;}
+        footer{position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            overflow:hidden;}
     </style>
 
   </body>

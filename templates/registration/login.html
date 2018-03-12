@@ -4,7 +4,7 @@
     Log in
 {% endblock %}
 {% block body_block %}
-    <div class="form">
+    <div class="form container">
     <h1>Login</h1>
     <form id="login_form" method="post" action="{% url 'login' %}">
         {% csrf_token %}
@@ -13,16 +13,16 @@
         <p>{{ form.username.errors }}</p>
         <p>Password: <input type="password" name="password" value="" size="50" /></p>
         <p>{{ form.password.errors }}</p>
-        <input type="submit" value="Log In" />
+        <input class="btn btn-primary" type="submit" value="Log In" />
     </form>
-        <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a> <br />
-        <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>
+        <a href="{% url 'social:begin' 'facebook' %}">Sign in with Facebook</a> <br />
+        <a href="{% url 'social:begin' 'twitter' %}">Sign in with Twitter</a>
     </div>
     <div class="form">
         <p>
             Want to join Travelmate! <br />
             Follow this link... <br />
-            <a href="{% url 'registration_register' %}">Register</a>
+            <a class="btn btn-secondary" href="{% url 'registration_register' %}">Register</a>
         </p>
     </div>
     <style>
