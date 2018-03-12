@@ -88,10 +88,16 @@ class TestSettingsView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'United Kingdom')
 
+    def test_if_redirected_if_user_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('passport'))
+        self.assertRedirects(response, '/accounts/login/?next=/app/settings/')
+
     def breakDown(self):
         self.client.logout()
 
 class TestAboutView(TestCase):
+
     def setUp(self):
         populate()
         new_user(self)
@@ -104,3 +110,22 @@ class TestAboutView(TestCase):
         self.client.logout()
         response = self.client.get(reverse('about'))
         self.assertEqual(response.status_code, 200)
+
+    def breakDown(self):
+        self.client.logout()
+
+class TestPassportView(TestCase):
+
+    def setUp(self):
+        populate()
+        new_user(self)
+
+    def test_if_country_is_shown(self):
+        response = self.client.get(reverse('passport'))
+        self.assertEqual(response.status_code,200)
+        self.assertContains(response, 'United Kingdom')
+
+    def test_if_redirected_if_user_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get(reverse('passport'))
+        self.assertRedirects(response, '/accounts/login/?next=/app/passport/')
