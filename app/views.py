@@ -181,7 +181,7 @@ def add_blog_post(request, username,trip_name_slug):
 			blog.trip = trip
 			blog.save()
 			# Use Redirect so that URL in browser also changes
-			return HttpResponseRedirect(reverse('view_trip', request.user.username,trip_name_slug))
+			return HttpResponseRedirect(reverse('view_trip', kwargs={'username': username, 'trip_name_slug': trip_name_slug}))
 		else:
 			print(form.errors)
 	return render(request, 'add_blog_post.html', {'form': form, 'slug':trip_name_slug})
