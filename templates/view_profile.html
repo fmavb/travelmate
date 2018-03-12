@@ -1,24 +1,25 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title_block %}
-{{ user.username }}
+{{user.username}}
 {% endblock %}
 {% block body_block %}
 
 
-    <div class="container">
-    <h1 class="head">{{ user.username }}</h1>
+
+    <h1>{{ user.username }} </h1>
     {% if profile.profilePic.url != None %}
-        <img class="head" alt="Profile Picture" src="{{ profile.profilePic.url }}">
+        <img src="{{ profile.profilePic.url }}">
     {% endif %}
-    </div>
     <div>
 
         {% if user.is_authenticated %}
-            {{ user.homeCountry }}
+            {{ user.homeCountry }} 
+
         {% else %}
             <h1>Log in to see this user profile</h1>
             <p><a href="{% url 'login' %}">Login</a></p>
+            
         {% endif %}
 
         {% if trips %}
@@ -40,7 +41,7 @@
                            <td>{{ trip.startDate}}</td>
                            <td>{{trip.endDate}}</td>
                            <td>{{trip.destination }}</td>
-                            <td><a href="{% url 'view_trip' profile.user trip.slug %}">{{trip.title}}</a></td>
+                            <td><a href="{% url 'view_trip' user.username trip.slug %}">{{trip.title}}</a></td>
                     {% endfor %}
                     </tr>
                     </tbody>
@@ -56,7 +57,5 @@
     </div>
 
 
-<style>
-.head {text-align: center}
-</style>
+
 {% endblock %}

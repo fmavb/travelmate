@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+{{trip.title}}
+{% endblock %}
+
+{% block body_block %}
+
+<h1>{{post.title}}</h1>
+
+    <div>
+
+    	{{post.content}}
+
+    </div>
+        
+
+{% endblock %}

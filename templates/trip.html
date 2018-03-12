@@ -24,7 +24,7 @@
                     <tbody>
                     {% for post in posts %}
                        <tr>
-                           <td>{{ post.title }}</td>
+                           <td><a href="{% url 'blog_post' trip.owner trip.slug post.slug %}">{{ post.title }}</a></td>
                            <td>{{post.Date}}</td>
                             <td>Not implemented</td>
 
@@ -35,5 +35,6 @@
                 </div>
     <a href="{% url 'add_blog_post' trip.owner trip.slug%}">Add a New Blog Post</a>
         
+
 
 {% endblock %}

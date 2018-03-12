@@ -181,7 +181,7 @@ def add_blog_post(request, username,trip_name_slug):
 			blog.trip = trip
 			blog.save()
 			# Use Redirect so that URL in browser also changes
-			return HttpResponseRedirect(reverse('view_trip', kwargs={'username': username, 'trip_name_slug': trip_name_slug}))
+			return HttpResponseRedirect(reverse('view_trip', request.user.username,trip_name_slug))
 		else:
 			print(form.errors)
 	return render(request, 'add_blog_post.html', {'form': form, 'slug':trip_name_slug})
@@ -224,3 +224,16 @@ def view_trip(request, username, trip_name_slug):
 		context_dict['trip'] = None
 		context_dict['posts'] = None
 	return render(request, 'trip.html', context_dict)
+
+
+def blog_post(request, username, trip_name_slug, post_name_slug):
+	context_dict = {}
+
+	try:
+		post = BlogPost.objects.get(slug=post_name_slug)
+		context_dict['post']=post
+
+	except BlogPost.DoesNotExist:
+		context_dict['post'] = None
+
+	return render(request, 'blog_post.html', context_dict)
