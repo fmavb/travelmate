@@ -59,6 +59,14 @@ def about(request):
 def contact(request):
 	return HttpResponse("Work in progress...")
 
+def terms_of_use(request):
+	request = render(request,'terms_of_use.html',{})
+	return request
+
+def privacy_policy(request):
+	request = render(request,'privacy_policy.html',{})
+	return request
+
 def pop_trips(request):
 	
 	trips = Trip.objects.order_by('score').reverse()
