@@ -19,6 +19,7 @@
                              <th>Title</th>
                              <th>Publish Date</th>
                               <th>Number of Comments</th>
+                              <th>Delete</th>
                           </tr>
                          </thead>
                     <tbody>
@@ -27,7 +28,7 @@
                            <td><a href="{% url 'blog_post' trip.owner trip.slug post.slug %}">{{ post.title }}</a></td>
                            <td>{{post.Date}}</td>
                             <td>Not implemented</td>
-
+                            <td><a class="fa fa-times-circle" href="{% url 'delete_post' user.username trip.slug post.slug %}"></a></td>
                     {% endfor %}
                     </tr>
                     </tbody>

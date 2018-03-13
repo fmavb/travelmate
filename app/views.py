@@ -255,3 +255,15 @@ def blog_post(request, username, trip_name_slug, post_name_slug):
 		context_dict['post'] = None
 
 	return render(request, 'blog_post.html', context_dict)
+
+# View that deletes a specific trip
+def delete_trip(request,username, trip_name_slug):
+	object = Trip.objects.get(slug__exact=trip_name_slug)
+	object.delete()
+	return HttpResponseRedirect(reverse('view_profile', kwargs={'username': username}))
+
+# View that deletes a specific blog post
+def delete_post(request, username, trip_name_slug, post_name_slug):
+	object = BlogPost.objects.get(slug__exact=post_name_slug)
+	object.delete()
+	return HttpResponseRedirect(reverse('view_trip', kwargs={'username': username, 'trip_name_slug': trip_name_slug}))

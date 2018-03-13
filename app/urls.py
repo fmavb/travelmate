@@ -17,10 +17,12 @@ urlpatterns = [
 
     url(r'^settings/$', views.settings, name='settings'),
     url(r'^(?P<username>[\w\-]+)/$', views.view_profile, name='view_profile'),
-    url(r'^(?P<username>[\w\-]+)/(?P<trip_name_slug>[\w\-]+)/$', views.view_trip, name='view_trip'),
-    url(r'^(?P<username>[\w\-]+)/(?P<trip_name_slug>[\w\-]+)/add_blog_post/$', views.add_blog_post, name='add_blog_post'),
-    
-   
 
+	url(r'^(?P<username>[\w\-]+)/(?P<trip_name_slug>[\w\-]+)/$', views.view_trip, name='view_trip'),
+    url(r'^(?P<username>[\w\-]+)/delete_trip/(?P<trip_name_slug>[\w\-]+)/$', views.delete_trip, name='delete_trip'),
+    url(r'^(?P<username>[\w\-]+)/(?P<trip_name_slug>[\w\-]+)/add_blog_post/$', views.add_blog_post, name='add_blog_post'),
+
+
+	url(r'^(?P<username>[\w\-]+)/(?P<trip_name_slug>[\w\-]+)/(?P<post_name_slug>[\w\-]+)/$', views.delete_post,name='delete_post'),
     url(r'^(?P<username>[\w\-]+)/(?P<trip_name_slug>[\w\-]+)/(?P<post_name_slug>[\w\-]+)/$', views.blog_post, name='blog_post'),
 ]

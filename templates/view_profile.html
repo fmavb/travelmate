@@ -33,6 +33,7 @@
                              <th>End Date</th>
                              <th>Destination</th>
                               <th>Title</th>
+                              <th>Delete</th>
                           </tr>
                          </thead>
                     <tbody>
@@ -42,6 +43,7 @@
                            <td>{{trip.endDate}}</td>
                            <td>{{trip.destination }}</td>
                             <td><a href="{% url 'view_trip' user.username trip.slug %}">{{trip.title}}</a></td>
+                            <td><a class="fa fa-times-circle" href="{% url 'delete_trip' user.username trip.slug %}"></a></td>
                     {% endfor %}
                     </tr>
                     </tbody>
