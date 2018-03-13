@@ -272,15 +272,21 @@ def search(request):
 	context_dict = {}
 	query = request.GET.get('search-bar','')
 	if query != '':
-		users = User.objects.filter(username__icontains=query)
-		public = []
-		for user in users:
-			userProfile = UserProfile.objects.get(user__exact=user)
-			if userProfile.public:
-				public.add(user)
-		context_dict['public'] = public
-		context_dict['login_required'] = users
-		return render(request, 'search_users.html', context_dict)
+		try:
+			users = User.objects.filter(username__icontains=query)
+			public = []
+			if len(users) != 0:
+				for user in users:
+					userProfile = UserProfile.objects.get(user__exact=user)
+				if userProfile.public:
+					public.append(user)
+				context_dict['public'] = public
+				context_dict['login_required'] = users
+				return render(request, 'search_users.html',context_dict)
+		except User.DoesNotExist:
+			return render(request, 'search_users.html')
+		except UserProfile.DoesNotExist:
+			return render(request, 'search_users.html')
 
 	return render(request, 'search_users.html', context_dict)
 
