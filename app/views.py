@@ -271,7 +271,7 @@ def delete_post(request, username, trip_name_slug, post_name_slug):
 def search(request):
 	context_dict = {}
 	query = request.GET.get('search-bar','')
-	if query is not None:
+	if query != '':
 		users = User.objects.filter(username__icontains=query)
 		public = []
 		for user in users:
