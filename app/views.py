@@ -115,7 +115,7 @@ def most_active_travellers(request):
 @login_required
 def passport(request):
 	destinations = Trip.objects.filter(owner=request.user).order_by('destination')
-	context_dict = {'destinations':destinations}
+	context_dict = {'destinations': destinations}
 	return render(request,'passport.html',context_dict)
 
 @login_required
@@ -267,3 +267,20 @@ def delete_post(request, username, trip_name_slug, post_name_slug):
 	object = BlogPost.objects.get(slug__exact=post_name_slug)
 	object.delete()
 	return HttpResponseRedirect(reverse('view_trip', kwargs={'username': username, 'trip_name_slug': trip_name_slug}))
+
+def search(request):
+	context_dict = {}
+	query = request.GET.get('search-bar','')
+	if query is not None:
+		users = User.objects.filter(username__icontains=query)
+		public = []
+		for user in users:
+			userProfile = UserProfile.objects.get(user__exact=user)
+			if userProfile.public:
+				public.add(user)
+		context_dict['public'] = public
+		context_dict['login_required'] = users
+		return render(request, 'search_users.html', context_dict)
+
+	return render(request, 'search_users.html', context_dict)
+

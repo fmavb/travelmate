@@ -7,6 +7,8 @@ urlpatterns = [
     url(r'^contact/$', views.contact, name='contact'),
     url(r'^terms-of-use/$', views.terms_of_use, name='terms_of_use'),
     url(r'^privacy-policy/$', views.privacy_policy, name='privacy_policy'),
+    url(r'^results/$',views.search, name='search'),
+
     url(r'^pop_trips/$', views.pop_trips, name='pop_trips'),
     url(r'^recent_trips/$', views.recent_trips, name='recent_trips'),
     url(r'^best_travelled/$', views.best_travelled, name='best_travelled'),
