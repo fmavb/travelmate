@@ -2,12 +2,12 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from app.models import Trip
 from app.models import UserProfile
-from app.models import Destination
+from app.models import Destination, PostImage
 from app.forms import *
 from django.contrib.auth.models import User
 import json
@@ -24,7 +24,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from app.forms import TripForm
-from app.forms import BlogForm
+from app.forms import BlogForm, PhotoForm
 from datetime import datetime
 
 # Create your views here.
@@ -246,13 +246,17 @@ def view_trip(request, username, trip_name_slug):
 
 def blog_post(request, username, trip_name_slug, post_name_slug):
 	context_dict = {}
-
 	try:
 		post = BlogPost.objects.get(slug=post_name_slug)
 		context_dict['post']=post
-
+		trip = Trip.objects.get(slug=trip_name_slug)
+		context_dict['trip'] = trip
 	except BlogPost.DoesNotExist:
 		context_dict['post'] = None
+	except Trip.DoesNotExist:
+		context_dict['trip'] = None
+	photos_list = PostImage.objects.filter(post=post)
+	context_dict["photos"] = photos_list
 
 	return render(request, 'blog_post.html', context_dict)
 
@@ -267,6 +271,37 @@ def delete_post(request, username, trip_name_slug, post_name_slug):
 	object = BlogPost.objects.get(slug__exact=post_name_slug)
 	object.delete()
 	return HttpResponseRedirect(reverse('view_trip', kwargs={'username': username, 'trip_name_slug': trip_name_slug}))
+
+def upload_images(request, username, trip_name_slug, post_name_slug):
+	# Construct the context Dictionary
+	context_dict = {}
+	try:
+		inpost = BlogPost.objects.get(slug=post_name_slug)
+		context_dict['post'] = inpost
+		trip = Trip.objects.get(slug=trip_name_slug)
+		context_dict['trip'] = trip
+	except BlogPost.DoesNotExist:
+		context_dict['post'] = None
+	except Trip.DoesNotExist:
+		context_dict['trip'] = None
+
+	if request.method == 'POST':
+		# If POST use form to create PostImage object
+		form = PhotoForm(request.POST, request.FILES)
+		if form.is_valid():
+			photo = form.save(commit=False)
+			photo.post = inpost
+			photo.save()
+			# Create a JSON from the new PostImage object, and pass that in as our response, since the JS uses JSON
+			data = {'is_valid': True, 'name': photo.image.name, 'url': photo.image.url}
+		else:
+			data = {'is_valid': False}
+		return JsonResponse(data)
+	else:
+		# If GET add current post photos to the context dict
+		photos_list = PostImage.objects.filter(post=inpost)
+		context_dict["photos"] = photos_list
+		return render(request, 'upload_images.html', context_dict)
 
 def search(request):
 	context_dict = {}

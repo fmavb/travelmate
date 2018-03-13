@@ -29,6 +29,7 @@ def auto_migrations():
 			)
 		raise
 	execute_from_command_line(['manage.py', 'makemigrations', 'app'])
+	execute_from_command_line(['manage.py', 'migrate', 'app'])
 	execute_from_command_line(['manage.py', 'migrate'])
 
 

@@ -14,6 +14,13 @@
     	{{post.content}}
 
     </div>
-        
+    <div>
+        <a class="btn btn-primary" href="{% url 'upload_images' user.username trip.slug post.slug %}">Upload Images</a>
+    </div>
+    <span>
+    {% for photo in photos %}
+        <img src="{{ photo.image.url }}">
+    {% endfor %}
+    </span>
 
 {% endblock %}

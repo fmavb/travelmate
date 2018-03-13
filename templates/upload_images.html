@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+Upload Images
+{% endblock %}
+
+{% block head_js %}
+    <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
+    <script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
+    <script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
+
+      <script>
+      //Attach jquery file upload to corerct button
+        $(function () {
+          $(".js-upload-photos").click(function () {
+            $("#fileupload").click();
+          });
+
+          //After upload is finished use the new JSON from views to refresh the table, and show newly added image
+          $("#fileupload").fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+              if (data.result.is_valid) {
+                $("#gallery tbody").prepend(
+                  "<tr><td><a href='" + data.result.url + "'>" + data.result.name + "</a></td></tr>"
+                )
+              }
+            }
+          });
+        });
+      </script>
+{% endblock %}
+
+{% block body_block %}
+    <button type="button" class="btn btn-primary js-upload-photos">Upload photos</button>
+
+    <input id="fileupload" type="file" name="image" multiple
+           style="display: none;"
+           data-url="{% url 'upload_images' user.username trip.slug post.slug%}"
+           data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+
+    <table id="gallery" class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Photo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for photo in photos %}
+          <tr>
+            <td><a href="{{ photo.image.url }}">{{ photo.image.name }}</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+   <a class="btn btn-primary" href="{% url 'blog_post' trip.owner trip.slug post.slug %}">Back to Post</a>
+{% endblock %}
+
+{% block footer_block %}
+{% endblock %}

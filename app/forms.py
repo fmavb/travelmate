@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import DateInput, Textarea
 
-from app.models import Trip, UserProfile, BlogPost
+from app.models import Trip, UserProfile, BlogPost, PostImage
 
 class Settings(forms.ModelForm):
     # CharField, since AutoComplete works with text
@@ -36,3 +36,8 @@ class BlogForm(forms.ModelForm):
 	class Meta:
 		model = BlogPost
 		fields = ('title', 'content')
+
+class PhotoForm(forms.ModelForm):
+    class Meta:
+        model = PostImage
+        fields = ('image', )
