@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+import os
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseRedirect
@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 import json
 from operator import itemgetter  
 from django.shortcuts import get_object_or_404
+from django.conf import settings as psettings
 
 
 # user auth
@@ -302,7 +303,7 @@ def upload_images(request, username, trip_name_slug, post_name_slug):
 			photo.post = inpost
 			photo.save()
 			# Create a JSON from the new PostImage object, and pass that in as our response, since the JS uses JSON
-			data = {'is_valid': True, 'name': photo.image.name, 'url': photo.image.url}
+			data = {'is_valid': True, 'name': photo.name, 'url': photo.image.url}
 		else:
 			data = {'is_valid': False}
 		return JsonResponse(data)
@@ -311,6 +312,13 @@ def upload_images(request, username, trip_name_slug, post_name_slug):
 		photos_list = PostImage.objects.filter(post=inpost)
 		context_dict["photos"] = photos_list
 		return render(request, 'upload_images.html', context_dict)
+
+def delete_image(request, username, trip_name_slug, post_name_slug, image_name):
+	object = PostImage.objects.get(name__exact=image_name)
+	# Remove image from media folder
+	os.remove(os.path.join(psettings.MEDIA_ROOT, object.image.name))
+	object.delete()
+	return HttpResponseRedirect(reverse('upload_images', kwargs={'username': username, 'trip_name_slug': trip_name_slug, 'post_name_slug':post_name_slug}))
 
 def search(request):
 	context_dict = {}

@@ -15,7 +15,9 @@
 
     </div>
     <div>
+    {% if request.user == trip.owner %}
         <a class="btn btn-primary" href="{% url 'upload_images' user.username trip.slug post.slug %}">Upload Images</a>
+    {% endif %}
     </div>
     <span>
     {% for photo in photos %}

@@ -107,9 +107,14 @@ class Comment(models.Model):
 		
 class PostImage(models.Model):
 	post = models.ForeignKey(BlogPost, related_name='images')
-	title = models.CharField(max_length=255, blank=True)
+	caption = models.CharField(max_length=255, blank=True)
 	image = models.ImageField (upload_to='photos/')
+	name = models.CharField(max_length=255)
 	uploaded_at = models.DateTimeField(auto_now_add=True)
 
+	def save(self, *args, **kwargs):
+		self.name = self.image.name
+		super(PostImage, self).save(*args, **kwargs)
+
 	def __str__(self):
-		return self.image.url
+		return self.name

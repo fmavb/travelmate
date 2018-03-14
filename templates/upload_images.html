@@ -13,51 +13,100 @@ Upload Images
     <script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
 
       <script>
-      //Attach jquery file upload to corerct button
+      // Attach jQuery file uploader to certain class
         $(function () {
           $(".js-upload-photos").click(function () {
             $("#fileupload").click();
           });
 
-          //After upload is finished use the new JSON from views to refresh the table, and show newly added image
           $("#fileupload").fileupload({
+              // Save uploaded file data in json
             dataType: 'json',
+              //True since we want each image to upload one after the other
+            sequentialUploads: true,
+              //When we start upload, set the progress window to visible
+            start: function (e) {
+              $("#modal-progress").modal("show");
+            },
+              //When we end upload, hide progress window
+            stop: function (e) {
+              $("#modal-progress").modal("hide");
+            },
+              //Function below updates the progressbar after each upload
+            progressall: function (e, data) {
+              var progress = parseInt(data.loaded / data.total * 100, 10);
+              var strProgress = progress + "%";
+              $(".progress-bar").css({"width": strProgress});
+              $(".progress-bar").text(strProgress);
+            },
+              //When we are done, and have successfully uploaded our images, add the image data to our JSON
             done: function (e, data) {
               if (data.result.is_valid) {
+                  var deletestring = '<td><a class="fa fa-times-circle" href="' + "{% url 'blog_post' user.username trip.slug post.slug %}" +'delete_image/'+ data.result.name +'/"></a></td>';
                 $("#gallery tbody").prepend(
-                  "<tr><td><a href='" + data.result.url + "'>" + data.result.name + "</a></td></tr>"
+                    "<tr>" +
+                    "<td><a href='" + data.result.url + "'>" + data.result.name + "</a></td>" +
+                        deletestring +
+                    "</tr>"
                 )
               }
             }
           });
+
+          // Emergency button to quit the upload pop up, since if uploading small files, upload finishes before pop up is displayed
+          $(".emergency").click(function () {
+              $("#modal-progress").modal("hide");
+          })
         });
       </script>
 {% endblock %}
 
 {% block body_block %}
-    <button type="button" class="btn btn-primary js-upload-photos">Upload photos</button>
-
+    <button type="button" class="fa fa-arrow-circle-up btn btn-primary js-upload-photos"> Upload photos</button>
+    <span>
     <input id="fileupload" type="file" name="image" multiple
            style="display: none;"
            data-url="{% url 'upload_images' user.username trip.slug post.slug%}"
            data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
-
+    </span>
     <table id="gallery" class="table table-bordered">
       <thead>
         <tr>
-          <th>Photo</th>
+            <th style="width: 50%;">Photo</th>
+            <th>Manage</th>
         </tr>
       </thead>
       <tbody>
         {% for photo in photos %}
           <tr>
-            <td><a href="{{ photo.image.url }}">{{ photo.image.name }}</a></td>
+              <td><a href="{{ photo.image.url }}">{{ photo.name }}</a></td>
+              <td><a class="fa fa-times-circle" href="{% url 'delete_image' user.username trip.slug post.slug  photo.name %}"></a></td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
 
    <a class="btn btn-primary" href="{% url 'blog_post' trip.owner trip.slug post.slug %}">Back to Post</a>
+
+    {#  The HTML, CSS for our upload progress bar that pops up  #}
+    <div class="modal fade" id="modal-progress" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Uploading...</h4>
+          </div>
+          <div class="modal-body">
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 0%;">0%</div>
+            </div>
+              <div class="text-center pt-2">
+                  <div class="emergency btn btn-primary">Done!</div>
+              </div>
+          </div>
+        </div>
+     </div>
+    </div>
+
 {% endblock %}
 
 {% block footer_block %}

@@ -8,4 +8,8 @@ https://simpleisbetterthancomplex.com/tutorial/2016/10/24/how-to-add-social-logi
 Main Bootstrap:
 https://startbootstrap.com/template-overviews/landing-page/
 
-I am editing this to test, please dont break the repo :(
+jQuery File Upload:
+https://github.com/blueimp/jQuery-File-Upload/releases/tag/v9.14.1
+
+jQuery UI widgets:
+https://jqueryui.com/
