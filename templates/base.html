@@ -36,10 +36,10 @@
  
        
     <!-- Navigation -->
-
+ 
  {% if user.is_authenticated %}  
    
-         <form  class="navbar-form navbar-right" action="{% url 'search' %}" method="get">
+          <form  class="navbar-form navbar-right" action="{% url 'search' %}" method="get">
         <div class="input-group">
             <input name="search-bar" type="text" class="form-control" placeholder="Search for other users">
             <div class="input-group-btn">
@@ -52,22 +52,22 @@
   
    <div style="text-align:center;background-color:#E0FFFF;margin-top:0px;margin-bottom:0;padding-top:20px;padding-bottom:20px;">
 
-           <a class="active"><a href="#"><img src="{% static "images/back.jpg" %}"
+           <a href="{% url 'home'%}"><img src="{% static "images/back.jpg" %}"
                 alt="back" /></a>
 
         </div>
- <ul class="nav nav-pills nav-justified" style="background-color:black;font-size:20px;color:white;">
+
+    <nav class="navbar navbar-light bg-light static top" >
+           <a class="btn btn-light" href="{% url 'home' %}" >Home</a>
+           <a class="btn btn-light" href="{% url 'add_trip' %}" style="">Add a New Trip</a>
+          <a class="btn btn-light" href="{% url 'settings' %}">Settings</a>
+          <a class="btn btn-light" href="{% url 'view_profile' request.user.username %}">My Profile</a>
+          <a class="btn btn-light" href="{% url 'passport' %}">Passport</a>
         
 
-          <a class="nav-item" href="{% url 'add_trip' %}" style="">Add a New Trip</a>
-          <a class="nav-item" href="{% url 'settings' %}">Settings</a>
-          <a class="nav-item" href="{% url 'view_profile' request.user.username %}">My Profile</a>
-          <a class="nav-item" href="{% url 'passport' %}">Passport</a>
-    </ul>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark" >
-        
-         <div class="dropdown">
-			  <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+			<div class="dropdown">
+			  <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			    Trips
 			  </button>
 			  <ul class="dropdown-menu">
@@ -76,11 +76,8 @@
 			  </ul>
 			  </div>
 
-
-			
-
 		<div class="dropdown">
-			  <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			  <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			    Travellers
 			  </button>
 			    <ul class="dropdown-menu">
@@ -88,6 +85,8 @@
 			    	<li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
 			    </ul>
 			  </div>
+         
+          
            <div style="text-align:right;">
            
             <a class="btn btn-primary" href="{% url 'logout' %}?next=/">Logout</a>
@@ -97,20 +96,19 @@
     </nav>
 
  {%else%}
-  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      <h6 style="color:white;margin-top:5px; word-spacing:3px;padding-right:10px;">Still not a member Yet? Sign Up With Your Email Adress: </h6>
-       <form class="form-inline" action="/action_page.php">
-         <input class="form-control mr-sm-2" type="text" placeholder="Your Email Adress">
-       <button class="btn btn-danger" href="{% url 'login' %}">Sign Up</a>
-      </form> </nav>
+  
+       
  <div style="text-align:center;background-color:#E0FFFF;margin-top:0px;margin-bottom:0;padding-top:20px;padding-bottom:20px;">
 
-           <a class="active"><a href="#"><img src="{% static "images/back.jpg" %}"
+           <a href="{% url 'home'%}"><img src="{% static "images/back.jpg" %}"
                 alt="back" /></a> </div>
-     <nav class="navbar navbar-expand-sm bg-dark navbar-dark" >
-        
+     
+         <nav class="navbar navbar-light bg-light static top" >
+         <a class="btn btn-light" href="{% url 'home' %}" >Home</a>
+          <a class="btn btn-light" href="{% url 'about' %}">Who are we</a>
+			  
          <div class="dropdown">
-			  <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			  <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			    Trips
 			  </button>
 			  <ul class="dropdown-menu">
@@ -123,7 +121,7 @@
 			
 
 		<div class="dropdown">
-			  <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			  <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			    Travellers
 			  </button>
 			    <ul class="dropdown-menu">
@@ -132,7 +130,7 @@
 			    </ul>
 			  </div>
            <div style="text-align:right;">
-               <a class="btn btn-primary" href="{% url 'login' %}">Sign In</a>
+              <a class="btn btn-primary" href="{% url 'login' %}?next=/">Log In</a>
     </div>
     </nav>
 
