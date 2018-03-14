@@ -43,7 +43,7 @@
 
           <a class="btn btn-primary" href="{% url 'add_trip' %}">Add a New Trip</a>
           <a class="btn btn-primary" href="{% url 'settings' %}">Settings</a>
-          <a class="btn btn-primary" href="{% url 'view_profile' user.username %}">My Profile</a>
+          <a class="btn btn-primary" href="{% url 'view_profile' request.user.username %}">My Profile</a>
           <a class="btn btn-primary" href="{% url 'passport' %}">Passport</a>
           <div class="dropdown-btns">
 
