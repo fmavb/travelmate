@@ -39,16 +39,7 @@
  
  {% if user.is_authenticated %}  
    
-          <form  class="navbar-form navbar-right" action="{% url 'search' %}" method="get">
-        <div class="input-group">
-            <input name="search-bar" type="text" class="form-control" placeholder="Search for other users">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit">
-                    <i class="fa fa-search"></i>Search
-                </button>
-            </div>
-        </div>
-    </form>
+         
   
    <div style="text-align:center;background-color:#E0FFFF;margin-top:0px;margin-bottom:0;padding-top:5px;padding-bottom:5px;">
 
@@ -86,10 +77,21 @@
 			    </ul>
 			  </div>
          
-          
+           
+               <form  class="nform-inline" action="{% url 'search' %}" method="get">
+        <div class="input-group">
+            <input name="search-bar" type="text" class="form-control" placeholder="Search for other users">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+
            <div style="text-align:right;">
            
-            <a class="btn btn-primary" href="{% url 'logout' %}?next=/">Logout</a>
+            <a class="btn btn-primary" href="{% url 'logout' %}?next=/">Log out</a>
             
           
            </div>
@@ -98,7 +100,7 @@
  {%else%}
   
        
- <div style="text-align:center;background-color:#E0FFFF;margin-top:0px;margin-bottom:0;padding-top:20px;padding-bottom:20px;">
+ <div style="text-align:center;background-color:#E0FFFF;margin-top:0px;margin-bottom:0;padding-top:5px;padding-bottom:5px;">
 
            <a href="{% url 'home'%}"><img src="{% static "images/back.jpg" %}"
                 alt="back" /></a> </div>
