@@ -51,13 +51,14 @@ def home(request):
 	return response
 
 
-
+#views for static pages /about, /contact, /terms_of_use, and privacy_policy
 def about(request):
 	request = render(request,'about.html',{})
 	return request
 
 def contact(request):
-	return HttpResponse("Work in progress...")
+	request = render(request,'contact.html',{})
+	return request
 
 def terms_of_use(request):
 	request = render(request,'terms_of_use.html',{})
@@ -75,16 +76,17 @@ def pop_trips(request):
 
 	return render(request,'pop_trips.html',context_dict)
 
+# order trips by their start date, in from newest to oldest and return in it in the contect dictionary
 def recent_trips(request):
-	trips = Trip.objects.order_by('endDate')
-
+	trips = Trip.objects.order_by('startDate').reverse()
 	context_dict = {'trips':trips}
-
 	return render(request,'recent_trips.html',context_dict)
 
+# returns a list of list of users and their corresponding number of trips-pairs, in a descending order (based on the number of trips)
+# and puts it into the context dictionary
 def best_travelled(request):
-	trips = Trip.objects.all()
 
+	trips = Trip.objects.all()
 	user_trips={}
 	for trip in trips:
 		user_trips[trip.owner] = user_trips.get(trip.owner,0)+1
@@ -93,10 +95,11 @@ def best_travelled(request):
 	for key, value in sorted(user_trips.items(), key = itemgetter(1), reverse = True):
 		user_list.append([key, value])
 
-	
 	context_dict = {'user_list':user_list}
 	return render(request,'best_travelled.html',context_dict)
 
+# returns a list of list of users and their corresponding number of blogpost-pairs, in a descending order
+# and puts it into the context dictionary
 def most_active_travellers(request):
 
 	user_posts={}
@@ -112,6 +115,7 @@ def most_active_travellers(request):
 	context_dict = {'user_list':user_list}
 	return render(request,'most_active_travellers.html',context_dict)
 
+# view for the passport page, context dictionary contains the destinations
 @login_required
 def passport(request):
 	destinations = Trip.objects.filter(owner=request.user).order_by('destination')
@@ -209,7 +213,7 @@ def add_blog_post(request, username,trip_name_slug):
 			print(form.errors)
 	return render(request, 'add_blog_post.html', {'form': form, 'slug':trip_name_slug})
 
-
+# view for base.html, passes the user object into the context dictionary
 def base(request):
 	context_dict = {}
 	user = get_object_or_404(User, username=request.user)
@@ -217,7 +221,7 @@ def base(request):
 
 	return render(request,'base.html',context_dict)
 
-
+# view for the user profile, context dictionary contains the user, userprofile and the user's trips in reverse chronological order
 @login_required
 def view_profile(request,username):
 
@@ -229,21 +233,23 @@ def view_profile(request,username):
 	return render(request,'view_profile.html',context_dict)
 
 
-
+# view for a given trip. context dictionary gets the trip object (identified by slugified title)
+# and the trip's blogposts ordered by in reverse chronological order
 def view_trip(request, username, trip_name_slug):
 	context_dict = {}
 
 	try:
 		trip = Trip.objects.get(slug=trip_name_slug)
 		context_dict['trip'] = trip
-		posts = BlogPost.objects.filter(trip__exact=trip).order_by('Date')
+		posts = BlogPost.objects.filter(trip__exact=trip).order_by('Date').reverse()
 		context_dict['posts'] = posts
 	except Trip.DoesNotExist:
 		context_dict['trip'] = None
 		context_dict['posts'] = None
 	return render(request, 'trip.html', context_dict)
 
-
+# context dictionary gets the post and trip identified by their slugified titles
+# and the photos of the given post
 def blog_post(request, username, trip_name_slug, post_name_slug):
 	context_dict = {}
 	try:
