@@ -226,7 +226,10 @@ def base(request):
 def view_profile(request,username):
 
 	user = get_object_or_404(User, username__exact=username)
-	profile = get_object_or_404(UserProfile, user__exact=user)
+	try:
+		profile = UserProfile.objects.get(user__exact=user)
+	except UserProfile.DoesNotExist:
+		return HttpResponseRedirect("/app/settings/")
 	trips = Trip.objects.filter(owner=user).order_by('startDate').reverse()
 	context_dict = {'user':user, 'trips':trips, 'profile':profile }
 
