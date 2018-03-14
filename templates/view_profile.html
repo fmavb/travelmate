@@ -33,7 +33,7 @@
                              <th>End Date</th>
                              <th>Destination</th>
                               <th>Title</th>
-                              <th>Delete</th>
+                              <th></th>
                           </tr>
                          </thead>
                     <tbody>
@@ -43,7 +43,11 @@
                            <td>{{trip.endDate}}</td>
                            <td>{{trip.destination }}</td>
                             <td><a href="{% url 'view_trip' user.username trip.slug %}">{{trip.title}}</a></td>
-                            <td><a class="fa fa-times-circle" href="{% url 'delete_trip' user.username trip.slug %}"></a></td>
+                            <td>
+                            {% if request.user == trip.owner %}
+                                <a class="fa fa-times-circle" href="{% url 'delete_trip' user.username trip.slug %}"></a>
+                            {% endif %}
+                            </td>
                     {% endfor %}
                     </tr>
                     </tbody>
