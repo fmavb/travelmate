@@ -11,6 +11,10 @@ Upload Images
     <script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
     <script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
     <script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
+    <script src="{% static 'js/jquery-file-upload/canvas-to-blob.min.js' %}"></script>
+    <script src="{% static 'js/jquery-file-upload/load-image.all.min.js' %}"></script>
+    <script src="{% static 'js/jquery-file-upload/jquery.fileupload-process.js' %}"></script>
+    <script src="{% static 'js/jquery-file-upload/jquery.fileupload-image.js' %}"></script>
 
       <script>
       // Attach jQuery file uploader to certain class
@@ -24,6 +28,11 @@ Upload Images
             dataType: 'json',
               //True since we want each image to upload one after the other
             sequentialUploads: true,
+              //Image resizing, self-explanatory attributes
+              disableImageResize: false,
+              imageMaxWidth: 500,
+              imageMaxHeight: 500,
+              imageCrop: true,
               //When we start upload, set the progress window to visible
             start: function (e) {
               $("#modal-progress").modal("show");
