@@ -25,6 +25,7 @@
     <!-- Custom styles for this template -->
     <link href="{% static 'css/landing-page.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/css_tweaks.css' %}" type="text/css">
   {% block head_js %}
   {% endblock %}
   </head>
@@ -41,7 +42,7 @@
    
          
   
-   <div style="text-align:center;background-color:#E0FFFF;margin-top:0px;margin-bottom:0;padding-top:5px;padding-bottom:5px;">
+   <div id="logo">
 
            <a href="{% url 'home'%}"><img src="{% static "images/back.jpg" %}"
                 alt="back" /></a>
@@ -100,7 +101,7 @@
  {%else%}
   
        
- <div style="text-align:center;background-color:#E0FFFF;margin-top:0px;margin-bottom:0;padding-top:5px;padding-bottom:5px;">
+ <div id="menubar">
 
            <a href="{% url 'home'%}"><img src="{% static "images/back.jpg" %}"
                 alt="back" /></a> </div>
@@ -131,7 +132,19 @@
 			    	<li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
 			    </ul>
 			  </div>
-           <div style="text-align:right;">
+
+             <form  class="nform-inline" action="{% url 'search' %}" method="get">
+                 <div class="input-group">
+                     <input name="search-bar" type="text" class="form-control" placeholder="Search for other users">
+                     <div class="input-group-btn">
+                         <button class="btn btn-default" type="submit">
+                             <i class="fa fa-search"></i>
+                         </button>
+                     </div>
+                 </div>
+             </form>
+
+           <div id="login">
               <a class="btn btn-primary" href="{% url 'login' %}?next=/">Log In</a>
     </div>
     </nav>
@@ -150,13 +163,6 @@
     <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     {% endblock %}
-    <style>
-    footer {
-        position:relative;
-        bottom:0;
-        width:100%;
-    }
-    </style>
 
   </body>
   <footer class="footer bg-light" id="footer">
