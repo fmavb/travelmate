@@ -32,86 +32,14 @@
 
 
   <body>
-
+      
+ 
+       
     <!-- Navigation -->
-    <nav class="navbar navbar-light bg-light static-top">
-      <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static "images/logo.jpg" %}"
-                alt="logo" /></a>
 
-          {% if user.is_authenticated %}
-
-          <a class="btn btn-primary" href="{% url 'add_trip' %}">Add a New Trip</a>
-          <a class="btn btn-primary" href="{% url 'settings' %}">Settings</a>
-          <a class="btn btn-primary" href="{% url 'view_profile' request.user.username %}">My Profile</a>
-          <a class="btn btn-primary" href="{% url 'passport' %}">Passport</a>
-          <div class="dropdown-btns">
-
-
-            	<div class="dropdown">
-			  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    Trips
-			  </button>
-			  <ul class="dropdown-menu">
-			    <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
-			    <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
-			  </ul>
-			  </div>
-
-
-			</div>
-
-		<div class="dropdown">
-			  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    Travellers
-			  </button>
-			    <ul class="dropdown-menu">
-			    	<li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a></li>
-			    	<li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
-			    </ul>
-			  </div>
-		</div>
-    </div>
-          
-          <a class="btn btn-primary" href="{% url 'logout' %}?next=/">Logout</a>
-        {% else %}
-        
-          <div class="dropdown-btns">
-
-
-            	<div class="dropdown">
-			  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    Trips
-			  </button>
-			  <ul class="dropdown-menu">
-			    <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
-			    <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
-			  </ul>
-			  </div>
-
-
-			</div>
-
-		<div class="dropdown">
-			  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    Travellers
-			  </button>
-			    <ul class="dropdown-menu">
-			    	<li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a></li>
-			    	<li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
-			    </ul>
-			  </div>
-		</div>
-              <a class="btn btn-primary" href="{% url 'login' %}">Sign In</a>
-          {% endif %}
-
-    </div>
-
-
-      </div>
-    </nav>
-    <div id="header">
-    <form  class="navbar-form navbar-right" action="{% url 'search' %}" method="get">
+ {% if user.is_authenticated %}  
+   
+         <form  class="navbar-form navbar-right" action="{% url 'search' %}" method="get">
         <div class="input-group">
             <input name="search-bar" type="text" class="form-control" placeholder="Search for other users">
             <div class="input-group-btn">
@@ -121,7 +49,94 @@
             </div>
         </div>
     </form>
+  
+   <div style="text-align:center;background-color:#E0FFFF;margin-top:0px;margin-bottom:0;padding-top:20px;padding-bottom:20px;">
+
+           <a class="active"><a href="#"><img src="{% static "images/back.jpg" %}"
+                alt="back" /></a>
+
+        </div>
+ <ul class="nav nav-pills nav-justified" style="background-color:black;font-size:20px;color:white;">
+        
+
+          <a class="nav-item" href="{% url 'add_trip' %}" style="">Add a New Trip</a>
+          <a class="nav-item" href="{% url 'settings' %}">Settings</a>
+          <a class="nav-item" href="{% url 'view_profile' request.user.username %}">My Profile</a>
+          <a class="nav-item" href="{% url 'passport' %}">Passport</a>
+    </ul>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark" >
+        
+         <div class="dropdown">
+			  <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    Trips
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
+			    <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
+			  </ul>
+			  </div>
+
+
+			
+
+		<div class="dropdown">
+			  <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    Travellers
+			  </button>
+			    <ul class="dropdown-menu">
+			    	<li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a></li>
+			    	<li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
+			    </ul>
+			  </div>
+           <div style="text-align:right;">
+           
+            <a class="btn btn-primary" href="{% url 'logout' %}?next=/">Logout</a>
+            
+          
+           </div>
+    </nav>
+
+ {%else%}
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <h6 style="color:white;margin-top:5px; word-spacing:3px;padding-right:10px;">Still not a member Yet? Sign Up With Your Email Adress: </h6>
+       <form class="form-inline" action="/action_page.php">
+         <input class="form-control mr-sm-2" type="text" placeholder="Your Email Adress">
+       <button class="btn btn-danger" href="{% url 'login' %}">Sign Up</a>
+      </form> </nav>
+ <div style="text-align:center;background-color:#E0FFFF;margin-top:0px;margin-bottom:0;padding-top:20px;padding-bottom:20px;">
+
+           <a class="active"><a href="#"><img src="{% static "images/back.jpg" %}"
+                alt="back" /></a> </div>
+     <nav class="navbar navbar-expand-sm bg-dark navbar-dark" >
+        
+         <div class="dropdown">
+			  <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    Trips
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
+			    <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
+			  </ul>
+			  </div>
+
+
+			
+
+		<div class="dropdown">
+			  <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    Travellers
+			  </button>
+			    <ul class="dropdown-menu">
+			    	<li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a></li>
+			    	<li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
+			    </ul>
+			  </div>
+           <div style="text-align:right;">
+               <a class="btn btn-primary" href="{% url 'login' %}">Sign In</a>
     </div>
+    </nav>
+
+ {%endif%}
 <div id="body">
 {% block body_block %}
 
