@@ -4,63 +4,64 @@
 {{user.username}}
 {% endblock %}
 {% block body_block %}
+    <section class="showcase">
+        <div class="container-fluid p-0">
+            <div class="row no-gutters">
+
+                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image:
+                url('{{ profile.profilePic.url }}');"></div>
+                <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+                    <h2>{{ user.username }}</h2>
+                    <p class="lead mb-0">
+                        {% if user.is_authenticated %}
+                            {{ user.homeCountry }}
+
+                        {% else %}
+                            <h1>Log in to see this user profile</h1>
+                            <p><a href="{% url 'login' %}">Login</a></p>
+
+                        {% endif %}
+
+                    {% if trips %}
+                        <ul>
+                            <div class="container">
+                                <h5>Recent trips</h5>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Destination</th>
+                                        <th>Title</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for trip in trips %}
+                                        <tr>
+                                        <td>{{ trip.startDate}}</td>
+                                        <td>{{trip.endDate}}</td>
+                                        <td>{{trip.destination }}</td>
+                                        <td><a href="{% url 'view_trip' user.username trip.slug %}">{{trip.title}}</a></td>
+                                        <td>
+                                            {% if request.user == trip.owner %}
+                                                <a class="fa fa-times-circle" href="{% url 'delete_trip' user.username trip.slug %}"></a>
+                                            {% endif %}
+                                        </td>
+                                    {% endfor %}
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ul>
+                    {% else %}
+                        The user has no trips yet! <br />
 
 
-
-    <h1>{{ user.username }} </h1>
-    {% if profile.profilePic.url != None %}
-        <img src="{{ profile.profilePic.url }}">
-    {% endif %}
-    <div>
-
-        {% if user.is_authenticated %}
-            {{ user.homeCountry }} 
-
-        {% else %}
-            <h1>Log in to see this user profile</h1>
-            <p><a href="{% url 'login' %}">Login</a></p>
-            
-        {% endif %}
-
-        {% if trips %}
-        <ul>
-                <div class="container">
-                   <h5>Recent trips</h5>
-                     <table class="table">
-                        <thead>
-                          <tr>
-                             <th>Start Date</th>
-                             <th>End Date</th>
-                             <th>Destination</th>
-                              <th>Title</th>
-                              <th></th>
-                          </tr>
-                         </thead>
-                    <tbody>
-                    {% for trip in trips %}
-                       <tr>
-                           <td>{{ trip.startDate}}</td>
-                           <td>{{trip.endDate}}</td>
-                           <td>{{trip.destination }}</td>
-                            <td><a href="{% url 'view_trip' user.username trip.slug %}">{{trip.title}}</a></td>
-                            <td>
-                            {% if request.user == trip.owner %}
-                                <a class="fa fa-times-circle" href="{% url 'delete_trip' user.username trip.slug %}"></a>
-                            {% endif %}
-                            </td>
-                    {% endfor %}
-                    </tr>
-                    </tbody>
-                     </table>
+                    {% endif %}
+                    </p>
                 </div>
-        </ul>
-        {% else %}
-            The user has no trips yet! <br />
-        
-
-        {% endif %}
-        
-    </div>
-
-
+            </div>
+        </div>
+    </section>
 {% endblock %}

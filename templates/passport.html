@@ -6,16 +6,18 @@ My Passport
 {% endblock %}
 
 {% block body_block %}
+    <div class="container">
     <h1>My Passport</h1>
     {% if destinations %}
-    <ul>
+
             {% for destination in destinations %}
-            <li>{{ destination.destination }}</li>
+                <li><img src="{{ destination.flag.url }}" alt="{{ destination.destination }}"></li>
             {% endfor %}
-    </ul>
+
     {% else %}
     <p>
         You haven't added any trips yet. What are you waiting for? <a href="{% url 'add_trip' %}">Add a new trip</a>
     </p>
     {% endif %}
+    </div>
 {% endblock %}

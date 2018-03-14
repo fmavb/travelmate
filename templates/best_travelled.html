@@ -6,6 +6,7 @@ The Best Travelled
 {% endblock %}
 
 {% block body_block %}
+    <div class="container">
     <h1>The Best-Travelled</h1>
     <div>
         {% if user_list %}
@@ -25,7 +26,8 @@ The Best Travelled
                     <a href="{% url 'login' %}">Login</a>
             {% endif %}
         {% endif %}
-
+    </div>
+    </div>
 
 
 {% endblock %}

@@ -38,7 +38,7 @@
 {% endblock %}
 
 {% block body_block %}
-
+<div class="container">
 <h1>{{post.title}}</h1>
 
     <div>
@@ -81,5 +81,5 @@
                 <a class="btn btn-primary" href="{% url 'upload_images' user.username trip.slug post.slug %}">Upload Images</a>
             {% endif %}
     {% endif %}
-
+</div>
 {% endblock %}
