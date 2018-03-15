@@ -10,6 +10,24 @@
     <br>
         You just landed on the page {{trip.title}} to {{trip.destination}} <br>
         Trip from {{trip.startDate}} to {{trip.endDate}} <br>
+        Overall rating:  {{trip.score}}   <br>
+
+    {% if request.user != trip.owner %}
+        {% if not rating %}
+        <form id="RatingForm" method="post" action="/app/{{ user.username }}/{{ trip.slug }}/">
+            {% csrf_token %}
+            <div class="form-group">
+                {% for choice in form.score %}
+                <span>{{ choice.tag }}</span>
+                {% endfor %}
+            </div>
+            <input class="btn btn-primary" type="submit" name="submit" value="Rate" />
+        </form>
+        {% else %}
+            <p>You rated: {{ rating.0.score }}</p>
+        {% endif %}
+    {% endif %}
+
     </div>
     <div class="container">
                    <h5>Recent Posts</h5>

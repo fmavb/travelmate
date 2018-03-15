@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import DateInput, Textarea
 
-from app.models import Trip, UserProfile, BlogPost, PostImage, Comment
+from app.models import Trip, UserProfile, BlogPost, PostImage, Comment, Rating
 
 class Settings(forms.ModelForm):
     # CharField, since AutoComplete works with text
@@ -48,3 +48,18 @@ class CommentForm(forms.ModelForm):
 	class Meta:
 		model = Comment
 		fields = ('content', )
+
+SCORES= [
+    ('1', '1'),
+    ('2', '2'),
+    ('3', '3'),
+    ('4', '4'),
+	('5', '5'),
+    ]
+
+class RatingForm(forms.ModelForm):
+	score = forms.CharField(required=False, widget=forms.RadioSelect(choices=SCORES))
+
+	class Meta:
+		model = Rating
+		fields = ('score', )

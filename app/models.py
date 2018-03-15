@@ -76,7 +76,7 @@ class Rating(models.Model):
 	trip = models.ForeignKey(Trip, related_name='ratings')
 
 	def __str__(self):
-		return str(self.score)
+		return self.owner.username + " - " + self.trip.title + " - " + str(self.score)
 
 class BlogPost(models.Model):
 	user = models.ForeignKey(User,on_delete=models.CASCADE)

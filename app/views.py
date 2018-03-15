@@ -241,7 +241,6 @@ def view_profile(request,username):
 # and the trip's blogposts ordered by in reverse chronological order
 def view_trip(request, username, trip_name_slug):
 	context_dict = {}
-
 	try:
 		trip = Trip.objects.get(slug=trip_name_slug)
 		context_dict['trip'] = trip
@@ -249,7 +248,33 @@ def view_trip(request, username, trip_name_slug):
 		context_dict['posts'] = posts
 	except Trip.DoesNotExist:
 		context_dict['trip'] = None
+	except BlogPost.DoesNotExist:
 		context_dict['posts'] = None
+	ratingIN = Rating.objects.filter(trip__exact=trip, owner=request.user)
+	context_dict['rating'] = ratingIN
+
+	form = RatingForm()
+	if request.method == 'POST':
+		form = RatingForm(request.POST)
+		if form.is_valid():
+			rating = form.save(commit=False)
+			rating.owner = request.user
+			rating.trip = trip
+			rating.score = int(form.cleaned_data['score'])
+			rating.save()
+
+			if(trip.score == 0):
+				trip.score = int(form.cleaned_data['score'])
+				trip.save()
+			else:
+				trip.score = (trip.score + int(form.cleaned_data['score']))/2
+				trip.save()
+			return HttpResponseRedirect(
+				reverse('view_trip', kwargs={'username': trip.owner, 'trip_name_slug': trip_name_slug}))
+		else:
+			print(form.errors)
+
+	context_dict['form']=form
 	return render(request, 'trip.html', context_dict)
 
 # context dictionary gets the post and trip identified by their slugified titles
@@ -276,7 +301,7 @@ def blog_post(request, username, trip_name_slug, post_name_slug):
 			comment.post = post
 			comment.save()
 			return HttpResponseRedirect(
-				reverse('blog_post', kwargs={'username': username, 'trip_name_slug': trip_name_slug, 'post_name_slug':post_name_slug}))
+				reverse('blog_post', kwargs={'username': trip.owner, 'trip_name_slug': trip_name_slug, 'post_name_slug':post_name_slug}))
 		else:
 			print(form.errors)
 	return render(request, 'blog_post.html', {'form': form, 'post':post, 'trip':trip , 'photos':photos_list, 'comments':comments})
