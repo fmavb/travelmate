@@ -13,3 +13,6 @@ https://github.com/blueimp/jQuery-File-Upload/releases/tag/v9.14.1
 
 jQuery UI widgets:
 https://jqueryui.com/
+
+Hover effect on the Passport view:
+https://mdbootstrap.com/css/hover-effects/

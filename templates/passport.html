@@ -13,7 +13,13 @@ My Passport
             {% for trip in trips %}
                 <div class="col-md-4">
                     <div class="thumbnail">
+                        <div class="view overlay">
                         <img class="img-thumbnail" src="{{ trip.destination.flag.url }}" alt="{{ trip.destination.name }}">
+                            <div class="mask flex-center rgba-black-light">
+                                <p class="white-text">{{ trip.destination.name }}</p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             {% endfor %}
@@ -24,4 +30,6 @@ My Passport
     </p>
     {% endif %}
     </div>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/mdb.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}">
 {% endblock %}
