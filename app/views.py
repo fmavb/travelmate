@@ -255,23 +255,18 @@ def view_trip(request, username, trip_name_slug):
 # context dictionary gets the post and trip identified by their slugified titles
 # and the photos of the given post
 def blog_post(request, username, trip_name_slug, post_name_slug):
-	context_dict = {}
+	# Had to remove the context_dict, it was interfering with the form
 	try:
 		post = BlogPost.objects.get(slug=post_name_slug)
-		context_dict['post']=post
 		trip = Trip.objects.get(slug=trip_name_slug)
-		context_dict['trip'] = trip
 	except BlogPost.DoesNotExist:
-		context_dict['post'] = None
+		post = None
 	except Trip.DoesNotExist:
-		context_dict['trip'] = None
+		trip = None
 	photos_list = PostImage.objects.filter(post=post)
-	context_dict["photos"] = photos_list
 	comments = Comment.objects.filter(post=post)
-	context_dict["comments"] = comments
 
 	form = CommentForm()
-	context_dict["form"]: form
 	if request.method == 'POST':
 		form = CommentForm(request.POST)
 		if form.is_valid():
@@ -284,8 +279,7 @@ def blog_post(request, username, trip_name_slug, post_name_slug):
 				reverse('blog_post', kwargs={'username': username, 'trip_name_slug': trip_name_slug, 'post_name_slug':post_name_slug}))
 		else:
 			print(form.errors)
-
-	return render(request, 'blog_post.html', context_dict)
+	return render(request, 'blog_post.html', {'form': form, 'post':post, 'trip':trip , 'photos':photos_list, 'comments':comments})
 
 # View that deletes a specific trip
 def delete_trip(request,username, trip_name_slug):

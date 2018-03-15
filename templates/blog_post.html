@@ -82,19 +82,22 @@
             {% endif %}
     {% endif %}
     </div>
-    <div>
-        <form id="CommentForm" method="post" action="/app/{{ user.username }}/{{ trip.slug }}/{{ post.slug }}/">
-            {% csrf_token %}
-            <div class="form-group">
-                 <label id="formGroupDestinationLabel">Comment</label>
-                {{ form.content }}
-            </div>
-            <input class="btn btn-primary float-right" type="submit" name="submit" value="Publish" />
-        </form>
-    </div>
+    {% if request.user != trip.owner %}
+        <div>
+            <form id="CommentForm" method="post" action="/app/{{ user.username }}/{{ trip.slug }}/{{ post.slug }}/">
+                {% csrf_token %}
+                <div class="form-group">
+                    <span>{{ form.content }}</span>
+                </div>
+                <input class="btn btn-primary float-right" type="submit" name="submit" value="Publish" />
+            </form>
+        </div>
+    {% endif %}
 
+    <h6>Comments:</h6>
     {% if comments %}
         {% for comment in comments%}
+            <p>{{ comment.user }} on {{ comment.Date }}said: </p>
             <p>{{ comment.content }}</p>
         {% endfor %}
     {% endif %}

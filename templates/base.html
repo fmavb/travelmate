@@ -27,19 +27,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/css_tweaks.css' %}" type="text/css">
   <style>
-      html, body {
+        html, body {
           height: 100%;
-          margin: 0;
         }
-    .wrapper {
-      min-height: 100%;
-      margin-bottom: -50px;
-    }
-
-    .footer,
-    .push {
-      height: 50px;
-    }
+        body {
+          display: flex;
+          flex-direction: column;
+        }
+        .content {
+          flex: 1 0 auto;
+        }
+        .footer {
+          flex-shrink: 0;
+        }
   </style>
   {% block head_js %}
   {% endblock %}
@@ -48,9 +48,9 @@
 
 
   <body>
-      <div class="wrapper">
- 
-       
+      <div class="content">
+
+
     <!-- Navigation -->
  
  {% if user.is_authenticated %}  
@@ -177,7 +177,6 @@
     <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     {% endblock %}
-    <div class="push"></div>
   </div>
   </body>
   <footer class="footer bg-light" id="footer">
