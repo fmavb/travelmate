@@ -7,13 +7,17 @@ My Passport
 
 {% block body_block %}
     <div class="container">
-    <h1>My Passport</h1>
+    <h2>My Passport</h2>
     {% if trips %}
-
+        <div class="row">
             {% for trip in trips %}
-                <li><img src="{{ trip.destination.flag.url }}" alt="{{ trip.destination.name }}"></li>
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <img class="img-thumbnail" src="{{ trip.destination.flag.url }}" alt="{{ trip.destination.name }}">
+                    </div>
+                </div>
             {% endfor %}
-
+        </div>
     {% else %}
     <p>
         You haven't added any trips yet. What are you waiting for? <a href="{% url 'add_trip' %}">Add a new trip</a>
