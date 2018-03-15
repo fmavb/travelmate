@@ -14,7 +14,7 @@ import json
 from operator import itemgetter  
 from django.shortcuts import get_object_or_404
 from django.conf import settings as psettings
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # user auth
 
@@ -69,22 +69,46 @@ def privacy_policy(request):
 	request = render(request,'privacy_policy.html',{})
 	return request
 
+# helper function: returns a dictionary with paginatored value
+def paginatored(l, request):
+	page = request.GET.get('page', 1)
+	paginator = Paginator(l, 10)
+
+	try:
+		trips = paginator.page(page)
+	except PageNotAnInteger:
+		trips = paginator.page(1)
+	except EmptyPage:
+		trips = paginator.page(paginator.num_pages)
+
+	return {'trips':trips}
+
+
+# view for the most popular trips
+# context dictionary gets the list of trips ordered by their scores (highest score first, lowest last)
 def pop_trips(request):
 	
-	trips = Trip.objects.order_by('score').reverse()
-
-	context_dict = {'trips':trips}
-
+	trips_list = Trip.objects.order_by('score').reverse()
+	context_dict = paginatored(trips_list, request)
 	return render(request,'pop_trips.html',context_dict)
 
-# order trips by their start date, in from newest to oldest and return in it in the contect dictionary
+# order trips by their start date, from newest to oldest and return in it in the context dictionary
 def recent_trips(request):
-	trips = Trip.objects.order_by('startDate').reverse()
-	context_dict = {'trips':trips}
+	trips_list = Trip.objects.order_by('startDate').reverse()
+	context_dict = paginatored(trips_list, request)
 	return render(request,'recent_trips.html',context_dict)
 
-# returns a list of list of users and their corresponding number of trips-pairs, in a descending order (based on the number of trips)
-# and puts it into the context dictionary
+# helper function: takes in a dictionary
+# returns a list of list of the key-value pairs ordered by the values (descending)
+def sort_dict(d):
+	user_list = []
+	for key, value in sorted(d.items(), key = itemgetter(1), reverse = True):
+		user_list.append([key, value])
+	return user_list	
+
+
+# view for the best travelled users: context dictionary gets a list of list of users and their corresponding number of trips
+# in descending order
 def best_travelled(request):
 
 	trips = Trip.objects.all()
@@ -92,15 +116,12 @@ def best_travelled(request):
 	for trip in trips:
 		user_trips[trip.owner] = user_trips.get(trip.owner,0)+1
 
-	user_list = []
-	for key, value in sorted(user_trips.items(), key = itemgetter(1), reverse = True):
-		user_list.append([key, value])
-
-	context_dict = {'user_list':user_list}
+	context_dict = paginatored(sort_dict(user_trips), request)
 	return render(request,'best_travelled.html',context_dict)
 
-# returns a list of list of users and their corresponding number of blogpost-pairs, in a descending order
-# and puts it into the context dictionary
+
+# view for the best travelled users: context dictionary gets a list of list of users and their corresponding blogposts
+# in descending order
 def most_active_travellers(request):
 
 	user_posts={}
@@ -109,11 +130,7 @@ def most_active_travellers(request):
 	for post in posts:
 		user_posts[post.user] = user_posts.get(post.user,0)+1
 
-	user_list = []
-	for key, value in sorted(user_posts.items(), key = itemgetter(1), reverse = True):
-		user_list.append([key, value])
-
-	context_dict = {'user_list':user_list}
+	context_dict = paginatored(sort_dict(user_posts), request)
 	return render(request,'most_active_travellers.html',context_dict)
 
 # view for the passport page, context dictionary contains the destinations

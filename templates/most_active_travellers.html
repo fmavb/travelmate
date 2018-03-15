@@ -2,20 +2,53 @@
 {% load staticfiles %}
 
 {% block title_block %}
-The Best Travelled
+Most Recent Trips
 {% endblock %}
 
 {% block body_block %}
-    <h1>The Most-Active</h1>
-    <div>
-        {% if user_list %}
-            <ol>
-                {% for user in user_list %}
 
-                    <li><a href="{% url 'view_profile' user.0 %}">{{user.0}}</a>, Number of blogposts: {{user.1}}</li>
 
-                {% endfor %}
-            </ol>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Number of Blogposts</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    {% if trips %}
+    {% for trip in trips %}
+      <tr>
+        <td><a href="{% url 'view_profile' trip.0 %}">{{trip.0}}</a></td>
+        <td>{{ trip.1 }}</td>   
+        
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if trips.has_other_pages %}
+  <ul class="pagination">
+    {% if trips.has_previous %}
+      <li><a href="?page={{ trips.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in trips.paginator.page_range %}
+      {% if trips.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if trips.has_next %}
+      <li><a href="?page={{ trips.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
         {% else %}
             There are no travellers yet! This is your chance to become the very first one! <br />
 
@@ -26,6 +59,8 @@ The Best Travelled
             {% endif %}
         {% endif %}
 
-
-
 {% endblock %}
+
+
+
+

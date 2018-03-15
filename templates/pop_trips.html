@@ -6,19 +6,61 @@ Most Recent Trips
 {% endblock %}
 
 {% block body_block %}
-<h1>Most Popular Trips</h1>
-    <div>
-        {% if trips %}
-        <ul>
-            {% for trip in trips %}
-               <li><a href="{% url 'view_trip' trip.owner trip.slug %}">{{trip.title}}</a></li>
-               <p>{{ trip.startDate}}, {{trip.endDate}}, {{trip.destination }}, <a href="{% url 'view_profile' trip.owner %}">{{trip.owner}}</a> Score: {{trip.score}}</p>
-            {% endfor %}
-        </ul>
+
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Trip Title</th>
+      <th>Destination</th>
+      <th>Start Date</th>
+      <th>User</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    {% if trips %}
+        {% for trip in trips %}
+          <tr>
+            <td><a href="{% url 'view_trip' trip.owner trip.slug %}">{{trip.title}}</a></td>
+            <td>{{ trip.destination }}</td>
+            <td>{{ trip.startDate }}</td>
+            <td><a href="{% url 'view_profile' trip.owner %}">{{ trip.owner }}</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if trips.has_other_pages %}
+      <ul class="pagination">
+        {% if trips.has_previous %}
+          <li><a href="?page={{ trips.previous_page_number }}">&laquo;</a></li>
         {% else %}
-            There are no public trips yet! This is your chance to add the very first one! <br />
-            <a href="{% url 'add_trip' %}">Add a New Trip</a>
+          <li class="disabled"><span>&laquo;</span></li>
         {% endif %}
-        
+        {% for i in trips.paginator.page_range %}
+          {% if trips.number == i %}
+            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+          {% else %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if trips.has_next %}
+          <li><a href="?page={{ trips.next_page_number }}">&raquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+      </ul>
+    {% endif %}
+
+        {% else %}
+            There are no trips yet! This is your chance to add the very first one! <br />
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'add_trip' %}">Add a New Trip</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        {% endif %}
 
 {% endblock %}

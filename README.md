@@ -16,3 +16,6 @@ https://jqueryui.com/
 
 Hover effect on the Passport view:
 https://mdbootstrap.com/css/hover-effects/
+
+Django Paginator:
+https://simpleisbetterthancomplex.com/tutorial/2016/08/03/how-to-paginate-with-django.html
