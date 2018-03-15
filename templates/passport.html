@@ -16,7 +16,7 @@ My Passport
                         <div class="view overlay">
                         <img class="img-thumbnail" src="{{ trip.destination.flag.url }}" alt="{{ trip.destination.name }}">
                             <div class="mask flex-center rgba-black-light">
-                                <p class="white-text">{{ trip.destination.name }}</p>
+                                <p class="text-white">{{ trip.destination.name }}</p>
                             </div>
                         </div>
 
@@ -30,6 +30,5 @@ My Passport
     </p>
     {% endif %}
     </div>
-    <link type="text/css" rel="stylesheet" href="{% static 'css/mdb.css' %}">
-    <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/passport.css' %}">
 {% endblock %}
