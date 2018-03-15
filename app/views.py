@@ -25,7 +25,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from app.forms import TripForm
-from app.forms import BlogForm, PhotoForm
+from app.forms import BlogForm, PhotoForm, CommentForm
 from datetime import datetime
 
 # Create your views here.
@@ -120,7 +120,7 @@ def most_active_travellers(request):
 @login_required
 def passport(request):
 	destinations = Trip.objects.filter(owner=request.user).order_by('destination')
-	context_dict = {'destinations': destinations}
+	context_dict = {'trips': destinations}
 	return render(request,'passport.html',context_dict)
 
 @login_required

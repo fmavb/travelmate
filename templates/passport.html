@@ -8,10 +8,10 @@ My Passport
 {% block body_block %}
     <div class="container">
     <h1>My Passport</h1>
-    {% if destinations %}
+    {% if trips %}
 
-            {% for destination in destinations %}
-                <li><img src="{{ destination.flag.url }}" alt="{{ destination.destination }}"></li>
+            {% for trip in trips %}
+                <li><img src="{{ trip.destination.flag.url }}" alt="{{ trip.destination.name }}"></li>
             {% endfor %}
 
     {% else %}
