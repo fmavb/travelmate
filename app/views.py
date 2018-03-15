@@ -119,8 +119,19 @@ def most_active_travellers(request):
 # view for the passport page, context dictionary contains the destinations
 @login_required
 def passport(request):
-	destinations = Trip.objects.filter(owner=request.user).order_by('destination')
-	context_dict = {'trips': destinations}
+	trips = Trip.objects.filter(owner=request.user).order_by('destination')
+	output = []
+	# Checking for duplicate destinations
+	for trip in trips:
+		unique = True
+		for elt in output:
+			if trip.destination == elt.destination:
+				unique = False
+				break
+		if unique:
+			output.append(trip)
+
+	context_dict = {'trips': output}
 	return render(request,'passport.html',context_dict)
 
 @login_required
