@@ -26,6 +26,21 @@
     <link href="{% static 'css/landing-page.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/css_tweaks.css' %}" type="text/css">
+  <style>
+      html, body {
+          height: 100%;
+          margin: 0;
+        }
+    .wrapper {
+      min-height: 100%;
+      margin-bottom: -50px;
+    }
+
+    .footer,
+    .push {
+      height: 50px;
+    }
+  </style>
   {% block head_js %}
   {% endblock %}
   </head>
@@ -33,7 +48,7 @@
 
 
   <body>
-      
+      <div class="wrapper">
  
        
     <!-- Navigation -->
@@ -150,7 +165,6 @@
     </nav>
 
  {%endif%}
-
 {% block body_block %}
 
 {% endblock %}
@@ -163,7 +177,8 @@
     <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     {% endblock %}
-
+    <div class="push"></div>
+  </div>
   </body>
   <footer class="footer bg-light" id="footer">
       <div class="container">

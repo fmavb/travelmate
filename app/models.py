@@ -96,13 +96,13 @@ class BlogPost(models.Model):
 		
 class Comment(models.Model):
 	commentID = models.AutoField(primary_key=True)
-	Date = models.DateField()
-	content = models.CharField(max_length=200)
+	Date = models.DateTimeField(auto_now_add=True)
+	content = models.CharField(max_length=255)
 	post = models.ForeignKey(BlogPost, related_name='comments')
 	user = models.ForeignKey(User,on_delete=models.CASCADE)
 
 	def __str__(self):
-		return self.content
+		return self.user.username + " - " + self.post.title
 
 		
 class PostImage(models.Model):

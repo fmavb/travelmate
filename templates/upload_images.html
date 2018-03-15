@@ -36,10 +36,12 @@ Upload Images
               //When we start upload, set the progress window to visible
             start: function (e) {
               $("#modal-progress").modal("show");
+              $(".emergency").disabled = true;
             },
               //When we end upload, hide progress window
             stop: function (e) {
-              $("#modal-progress").modal("hide");
+                $(".emergency").disabled = false;
+                $("#modal-progress").modal("hide");
             },
               //Function below updates the progressbar after each upload
             progressall: function (e, data) {

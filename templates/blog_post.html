@@ -81,5 +81,22 @@
                 <a class="btn btn-primary" href="{% url 'upload_images' user.username trip.slug post.slug %}">Upload Images</a>
             {% endif %}
     {% endif %}
-</div>
+    </div>
+    <div>
+        <form id="CommentForm" method="post" action="/app/{{ user.username }}/{{ trip.slug }}/{{ post.slug }}/">
+            {% csrf_token %}
+            <div class="form-group">
+                 <label id="formGroupDestinationLabel">Comment</label>
+                 {{ form.content }}
+            </div>
+            <input class="btn btn-primary float-right" type="submit" name="submit" value="Publish" />
+        </form>
+    </div>
+
+    {% if comments %}
+        {% for comment in comments%}
+            <p>{{ comment.content }}</p>
+        {% endfor %}
+    {% endif %}
+
 {% endblock %}

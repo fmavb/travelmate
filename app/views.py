@@ -267,6 +267,23 @@ def blog_post(request, username, trip_name_slug, post_name_slug):
 		context_dict['trip'] = None
 	photos_list = PostImage.objects.filter(post=post)
 	context_dict["photos"] = photos_list
+	comments = Comment.objects.filter(post=post)
+	context_dict["comments"] = comments
+
+	form = CommentForm()
+	context_dict["form"]: form
+	if request.method == 'POST':
+		form = CommentForm(request.POST)
+		if form.is_valid():
+			comment = form.save(commit=False)
+			comment.user = request.user
+			post = get_object_or_404(BlogPost, slug__exact=post_name_slug)
+			comment.post = post
+			comment.save()
+			return HttpResponseRedirect(
+				reverse('blog_post', kwargs={'username': username, 'trip_name_slug': trip_name_slug, 'post_name_slug':post_name_slug}))
+		else:
+			print(form.errors)
 
 	return render(request, 'blog_post.html', context_dict)
 
