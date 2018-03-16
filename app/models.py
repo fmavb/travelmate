@@ -47,7 +47,7 @@ class Trip(models.Model):
 	score = models.IntegerField(default=0)
 
 	def save(self, *args, **kwargs):
-		self.slug = slugify(self.title)
+		self.slug = slugify(self.title) + "-" + str(self.owner.id)
 		super(Trip, self).save(*args, **kwargs)
 
 	def __str__(self): # For Python 2, use __unicode__ too
@@ -88,7 +88,7 @@ class BlogPost(models.Model):
 	slug = models.SlugField(unique=True)
 
 	def save(self, *args, **kwargs):
-		self.slug = slugify(self.title)
+		self.slug = slugify(self.title) + "-" + str(self.trip.tripID)
 		super(BlogPost, self).save(*args, **kwargs)
 
 	def __str__(self):
