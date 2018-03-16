@@ -5,29 +5,75 @@
 {{trip.title}}
 {% endblock %}
 
+{% block css %}
+        .checked{
+            color: orange
+        }
+{% endblock %}
+
+{% block head_js %}
+    <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
+    <script>
+     $( function() {
+         var rating = 0;
+         $('.fa-star').click(function () {
+             rating = this.id;
+             $('.fa-star').each(function () {
+                 if(this.id <= rating){
+                     $(this).addClass('checked');
+                 }else{
+                     $(this).removeClass('checked');
+                 }
+             });
+         });
+
+         $('#rate').click(function () {
+             if(rating != 0){
+                 var slug;
+                 slug = $(this).attr("data-slug");
+                 $.get('/app/ajax/like_trip/', {slug: slug, rating:rating}, function(data){
+                     $('#like_count').html("Overall score: " + data);
+                     $('#success').html("You rated this Trip: " + rating);
+                     $('.fa-star').each(function () {
+                         $(this).hide();
+                     });
+                      $('#rate').hide();
+                 });
+             }
+         });
+     });
+    </script>
+{% endblock %}
+
+
 {% block body_block %}
     <div class="container">
 <h1>{{trip.title}}</h1>
     <br>
         You just landed on the page {{trip.title}} to {{trip.destination}} <br>
         Trip from {{trip.startDate}} to {{trip.endDate}} <br>
-        Overall rating:  {{trip.score}}   <br>
 
-    {% if request.user != trip.owner %}
-        {% if not rating %}
-        <form id="RatingForm" method="post" action="/app/{{ user.username }}/{{ trip.slug }}/">
-            {% csrf_token %}
-            <div class="form-group">
-                {% for choice in form.score %}
-                <span>{{ choice.tag }}</span>
-                {% endfor %}
-            </div>
-            <input class="btn btn-primary" type="submit" name="submit" value="Rate" />
-        </form>
-        {% else %}
-            <p>You rated: {{ rating.0.score }}</p>
+
+        <strong id="like_count">Overall score: {{ trip.score }}</strong>
+    <div>
+       {% if request.user != trip.owner %}
+        {% if user.is_authenticated %}
+            {% if not rating %}
+                <span id="1" class="fa fa-star fa-2x"></span>
+                <span id="2" class="fa fa-star fa-2x"></span>
+                <span id="3" class="fa fa-star fa-2x"></span>
+                <span id="4" class="fa fa-star fa-2x"></span>
+                <span id="5" class="fa fa-star fa-2x"></span>
+                <button id="rate" data-slug="{{trip.slug}}" class="btn btn-primary" type="button">
+                Rate
+                </button>
+                <span id="success"></span>
+            {% else %}
+                <span>You rated this Trip: {{rating.0.score}}</span>
+            {% endif %}
         {% endif %}
-    {% endif %}
+       {% endif %}
+    </div>
 
 
     {% if elems %}

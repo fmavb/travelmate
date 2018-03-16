@@ -26,30 +26,11 @@ Upload Images
           $("#fileupload").fileupload({
               // Save uploaded file data in json
             dataType: 'json',
-              //True since we want each image to upload one after the other
-            sequentialUploads: true,
               //Image resizing, self-explanatory attributes
               disableImageResize: false,
               imageMaxWidth: 500,
               imageMaxHeight: 500,
               imageCrop: true,
-              //When we start upload, set the progress window to visible
-            start: function (e) {
-              $("#modal-progress").modal("show");
-              $(".emergency").disabled = true;
-            },
-              //When we end upload, hide progress window
-            stop: function (e) {
-                $(".emergency").disabled = false;
-                $("#modal-progress").modal("hide");
-            },
-              //Function below updates the progressbar after each upload
-            progressall: function (e, data) {
-              var progress = parseInt(data.loaded / data.total * 100, 10);
-              var strProgress = progress + "%";
-              $(".progress-bar").css({"width": strProgress});
-              $(".progress-bar").text(strProgress);
-            },
               //When we are done, and have successfully uploaded our images, add the image data to our JSON
             done: function (e, data) {
               if (data.result.is_valid) {
@@ -98,25 +79,6 @@ Upload Images
     </table>
 
    <a class="btn btn-primary" href="{% url 'blog_post' trip.owner trip.slug post.slug %}">Back to Post</a>
-
-    {#  The HTML, CSS for our upload progress bar that pops up  #}
-    <div class="modal fade" id="modal-progress" data-backdrop="static" data-keyboard="false">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Uploading...</h4>
-          </div>
-          <div class="modal-body">
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" style="width: 0%;">0%</div>
-            </div>
-              <div class="text-center pt-2">
-                  <div class="emergency btn btn-primary">Done!</div>
-              </div>
-          </div>
-        </div>
-     </div>
-    </div>
 
 {% endblock %}
 

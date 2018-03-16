@@ -277,15 +277,13 @@ def view_trip(request, username, trip_name_slug):
 		trip = Trip.objects.get(slug=trip_name_slug)
 		posts = BlogPost.objects.filter(trip__exact=trip).order_by('Date').reverse()
 		context_dict = paginatored(posts, request)
-		
 		context_dict['trip'] = trip
-
+		ratingIN = Rating.objects.filter(trip__exact=trip, owner=request.user)
+		context_dict['rating'] = ratingIN
 	except Trip.DoesNotExist:
 		context_dict['trip'] = None
 	except BlogPost.DoesNotExist:
 		context_dict['elems'] = None
-	ratingIN = Rating.objects.filter(trip__exact=trip, owner=request.user)
-	context_dict['rating'] = ratingIN
 
 	form = RatingForm()
 	if request.method == 'POST':
@@ -412,3 +410,24 @@ def search(request):
 
 	return render(request, 'search_users.html', context_dict)
 
+@login_required
+def like_trip(request):
+	tripslug = None
+	rating = None
+	if request.method == 'GET':
+		tripslug = request.GET['slug']
+		rating = int(request.GET['rating'])
+	score = 0
+	if tripslug:
+		trip = Trip.objects.get(slug=tripslug)
+		r = Rating(score=rating, owner=request.user, trip=trip)
+		r.save()
+		if trip:
+			if trip.score == 0:
+				score = rating
+			else:
+				score = ((trip.score + rating)/2)
+			trip.score = score
+			trip.save()
+
+	return HttpResponse(score)
