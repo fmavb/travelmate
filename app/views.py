@@ -148,7 +148,9 @@ def passport(request):
 		if unique:
 			output.append(trip)
 
-	context_dict = {'trips': output}
+	destinations = Destination.objects.all()
+	numDestinations = int((len(trips)/len(destinations))*100)
+	context_dict = {'trips': output, 'num_destinations' : numDestinations}
 	return render(request,'passport.html',context_dict)
 
 @login_required

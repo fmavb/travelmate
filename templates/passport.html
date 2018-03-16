@@ -9,6 +9,12 @@ My Passport
     <div class="container">
     <h2>My Passport</h2>
     {% if trips %}
+        <p>Percentage of the World you explored:</p>
+        <div class="progress">
+            <div class="progress-bar text-dark" role="progressbar" style="width: {{ num_destinations }}%"
+                 aria-valuenow="{{ num_destinations }}" aria-valuemin="0" aria-valuemax="100">
+                {{ num_destinations }}%</div>
+        </div>
         <div class="row">
             {% for trip in trips %}
                 <div class="col-md-4">
