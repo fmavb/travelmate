@@ -6,8 +6,9 @@ Most Recent Trips
 {% endblock %}
 
 {% block body_block %}
-
-
+<div class="container">
+<h2>Our Most Active Travellers</h2>
+{% if elems %}
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -58,7 +59,10 @@ Most Recent Trips
                     <a href="{% url 'login' %}">Login</a>
             {% endif %}
         {% endif %}
-
+    {% else %}
+    There are no travellers yet! This is your chance to become the very first one!
+    {% endif %}
+    </div>
 {% endblock %}
 
 

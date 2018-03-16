@@ -6,7 +6,8 @@ Most Recent elems
 {% endblock %}
 
 {% block body_block %}
-
+    <div class="container">
+<h2>Popular Trips</h2>
 
 <table class="table table-bordered">
   <thead>
@@ -64,5 +65,5 @@ Most Recent elems
                     <a href="{% url 'login' %}">Login</a>
             {% endif %}
         {% endif %}
-
+    </div>
 {% endblock %}

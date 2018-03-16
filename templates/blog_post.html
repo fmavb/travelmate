@@ -93,7 +93,7 @@
             </form>
         </div>
     {% endif %}
-
+<div class="container">
     <h6>Comments:</h6>
     {% if comments %}
         {% for comment in comments%}
@@ -101,5 +101,5 @@
             <p>{{ comment.content }}</p>
         {% endfor %}
     {% endif %}
-
+</div>
 {% endblock %}

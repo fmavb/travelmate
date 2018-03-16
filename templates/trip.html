@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block body_block %}
+    <div class="container">
 <h1>{{trip.title}}</h1>
     <br>
         You just landed on the page {{trip.title}} to {{trip.destination}} <br>
@@ -28,7 +29,8 @@
         {% endif %}
     {% endif %}
 
-    </div>
+
+    {% if elems %}
     <div class="container">
                   <table class="table table-bordered">
                           <thead>
@@ -76,7 +78,9 @@
                             {% endif %}
                             {% endif %}
                 </div>
-    <a href="{% url 'add_blog_post' trip.owner trip.slug%}">Add a New Blog Post</a>
-        
-
+    {% else %}
+        <p>You have not added any blog posts yet!</p>
+    {% endif %}
+    <a class="btn btn-primary" href="{% url 'add_blog_post' trip.owner trip.slug%}">Add a New Blog Post</a>
+    </div>
 {% endblock %}

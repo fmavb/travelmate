@@ -17,11 +17,10 @@
                         <table class="table table-bordered">
                           <thead>
                             <tr>
-                              <th>elem Title</th>
+                              <th>Title</th>
                               <th>Destination</th>
                               <th>Start Date</th>
                               <th>End Date</th>
-                              
                             </tr>
                           </thead>
                           <tbody>
@@ -31,9 +30,12 @@
                                     <td><a href="{% url 'view_trip' elem.owner elem.slug %}">{{elem.title}}</a></td>
                                     <td>{{ elem.destination }}</td>
                                     <td>{{ elem.startDate }}</td>
-                                    <td>{{ elem.endDate }}</a></td>
-                                    
-                                    
+                                    <td>{{ elem.endDate }}</td>
+                                    {% if request.user == elem.owner %}
+                                    <td>
+                                      <a class="fa fa-times-circle" href="{% url 'delete_trip' user.username elem.slug %}"></a>
+                                    </td>
+                                    {% endif %}
                                   </tr>
                                 {% endfor %}
                               </tbody>
