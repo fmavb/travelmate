@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title_block %}
-Most Recent Trips
+Most Recent elems
 {% endblock %}
 
 {% block body_block %}
@@ -17,33 +17,33 @@ Most Recent Trips
     </tr>
   </thead>
   <tbody>
-    {% if trips %}
-    {% for trip in trips %}
+    {% if elems %}
+    {% for elem in elems %}
       <tr>
-        <td><a href="{% url 'view_profile' trip.0 %}">{{trip.0}}</a></td>
-        <td>{{ trip.1 }}</td>   
+        <td><a href="{% url 'view_profile' elem.0 %}">{{elem.0}}</a></td>
+        <td>{{ elem.1 }}</td>   
         
       </tr>
     {% endfor %}
   </tbody>
 </table>
 
-{% if trips.has_other_pages %}
+{% if elems.has_other_pages %}
   <ul class="pagination">
-    {% if trips.has_previous %}
-      <li><a href="?page={{ trips.previous_page_number }}">&laquo;</a></li>
+    {% if elems.has_previous %}
+      <li><a href="?page={{ elems.previous_page_number }}">&laquo;</a></li>
     {% else %}
       <li class="disabled"><span>&laquo;</span></li>
     {% endif %}
-    {% for i in trips.paginator.page_range %}
-      {% if trips.number == i %}
+    {% for i in elems.paginator.page_range %}
+      {% if elems.number == i %}
         <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
       {% else %}
         <li><a href="?page={{ i }}">{{ i }}</a></li>
       {% endif %}
     {% endfor %}
-    {% if trips.has_next %}
-      <li><a href="?page={{ trips.next_page_number }}">&raquo;</a></li>
+    {% if elems.has_next %}
+      <li><a href="?page={{ elems.next_page_number }}">&raquo;</a></li>
     {% else %}
       <li class="disabled"><span>&raquo;</span></li>
     {% endif %}

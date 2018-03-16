@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title_block %}
-Most Recent Trips
+Most Recent elems
 {% endblock %}
 
 {% block body_block %}
@@ -19,13 +19,13 @@ Most Recent Trips
     </tr>
   </thead>
   <tbody>
-    {% if trips %}
-        {% for trip in trips %}
+    {% if elems %}
+        {% for elem in elems %}
           <tr>
-            <td><a href="{% url 'view_trip' trip.owner trip.slug %}">{{trip.title}}</a></td>
-            <td>{{ trip.destination }}</td>
-            <td>{{ trip.startDate }}</td>
-            <td><a href="{% url 'view_profile' trip.owner %}">{{ trip.owner }}</a></td>
+            <td><a href="{% url 'view_trip' elem.owner elem.slug %}">{{elem.title}}</a></td>
+            <td>{{ elem.destination }}</td>
+            <td>{{ elem.startDate }}</td>
+            <td><a href="{% url 'view_profile' elem.owner %}">{{ elem.owner }}</a></td>
             
             
           </tr>
@@ -33,22 +33,22 @@ Most Recent Trips
       </tbody>
     </table>
 
-    {% if trips.has_other_pages %}
+    {% if elems.has_other_pages %}
       <ul class="pagination">
-        {% if trips.has_previous %}
-          <li><a href="?page={{ trips.previous_page_number }}">&laquo;</a></li>
+        {% if elems.has_previous %}
+          <li><a href="?page={{ elems.previous_page_number }}">&laquo;</a></li>
         {% else %}
           <li class="disabled"><span>&laquo;</span></li>
         {% endif %}
-        {% for i in trips.paginator.page_range %}
-          {% if trips.number == i %}
+        {% for i in elems.paginator.page_range %}
+          {% if elems.number == i %}
             <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
           {% else %}
             <li><a href="?page={{ i }}">{{ i }}</a></li>
           {% endif %}
         {% endfor %}
-        {% if trips.has_next %}
-          <li><a href="?page={{ trips.next_page_number }}">&raquo;</a></li>
+        {% if elems.has_next %}
+          <li><a href="?page={{ elems.next_page_number }}">&raquo;</a></li>
         {% else %}
           <li class="disabled"><span>&raquo;</span></li>
         {% endif %}
@@ -58,7 +58,7 @@ Most Recent Trips
             There are no trips yet! This is your chance to add the very first one! <br />
 
             {% if user.is_authenticated %}
-                <a href="{% url 'add_trip' %}">Add a New Trip</a>
+                <a href="{% url 'add_elem' %}">Add a New elem</a>
                 {% else %}
                     <a href="{% url 'login' %}">Login</a>
         {% endif %}

@@ -30,34 +30,53 @@
 
     </div>
     <div class="container">
-                   <h5>Recent Posts</h5>
-                     <table class="table">
-                        <thead>
-                          <tr>
-                             <th>Title</th>
-                             <th>Publish Date</th>
+                  <table class="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th>Title</th>
+                              <th>Publish Date</th>
                               <th>Number of Comments</th>
-                              <th></th>
-                          </tr>
-                         </thead>
-                    <tbody>
-                    {% for post in posts %}
-                       <tr>
-                           <td><a href="{% url 'blog_post' trip.owner trip.slug post.slug %}">{{ post.title }}</a></td>
-                           <td>{{post.Date}}</td>
-                            <td>Not implemented</td>
-                            <td>
-                            {% if request.user == trip.owner %}
-                                <a class="fa fa-times-circle" href="{% url 'delete_post' user.username trip.slug post.slug %}"></a>
+                              
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% if elems %}
+                                {% for elem in elems %}
+                                  <tr>
+                                    <td><a href="{% url 'blog_post' trip.owner trip.slug elem.slug %}">{{ elem.title }}</a></td>
+                                    <td>{{ elem.Date }}</td>
+                                    <td>{Not implemented</td>
+                                    
+                                    
+                                  </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+
+                            {% if elems.has_other_pages %}
+                              <ul class="pagination">
+                                {% if elems.has_previous %}
+                                  <li><a href="?page={{ elems.previous_page_number }}">&laquo;</a></li>
+                                {% else %}
+                                  <li class="disabled"><span>&laquo;</span></li>
+                                {% endif %}
+                                {% for i in elems.paginator.page_range %}
+                                  {% if elems.number == i %}
+                                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                  {% else %}
+                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                  {% endif %}
+                                {% endfor %}
+                                {% if elems.has_next %}
+                                  <li><a href="?page={{ elems.next_page_number }}">&raquo;</a></li>
+                                {% else %}
+                                  <li class="disabled"><span>&raquo;</span></li>
+                                {% endif %}
+                              </ul>
                             {% endif %}
-                            </td>
-                    {% endfor %}
-                    </tr>
-                    </tbody>
-                     </table>
+                            {% endif %}
                 </div>
     <a href="{% url 'add_blog_post' trip.owner trip.slug%}">Add a New Blog Post</a>
         
-
 
 {% endblock %}

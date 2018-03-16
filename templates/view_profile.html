@@ -13,52 +13,60 @@
                 <div class="col-lg-6 order-lg-1 my-auto showcase-text">
                     <h2>{{ user.username }}</h2>
                     <p class="lead mb-0">
-                        {% if user.is_authenticated %}
-                            {{ user.homeCountry }}
 
-                        {% else %}
-                            <h1>Log in to see this user profile</h1>
-                            <p><a href="{% url 'login' %}">Login</a></p>
+                        <table class="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th>elem Title</th>
+                              <th>Destination</th>
+                              <th>Start Date</th>
+                              <th>End Date</th>
+                              
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% if elems %}
+                                {% for elem in elems %}
+                                  <tr>
+                                    <td><a href="{% url 'view_trip' elem.owner elem.slug %}">{{elem.title}}</a></td>
+                                    <td>{{ elem.destination }}</td>
+                                    <td>{{ elem.startDate }}</td>
+                                    <td>{{ elem.endDate }}</a></td>
+                                    
+                                    
+                                  </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
 
-                        {% endif %}
-
-                    {% if trips %}
-                        <ul>
-                            <div class="container">
-                                <h5>Recent trips</h5>
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                        <th>Destination</th>
-                                        <th>Title</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for trip in trips %}
-                                        <tr>
-                                        <td>{{ trip.startDate}}</td>
-                                        <td>{{trip.endDate}}</td>
-                                        <td>{{trip.destination }}</td>
-                                        <td><a href="{% url 'view_trip' user.username trip.slug %}">{{trip.title}}</a></td>
-                                        <td>
-                                            {% if request.user == trip.owner %}
-                                                <a class="fa fa-times-circle" href="{% url 'delete_trip' user.username trip.slug %}"></a>
-                                            {% endif %}
-                                        </td>
-                                    {% endfor %}
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </ul>
-                    {% else %}
-                        The user has no trips yet! <br />
+                            {% if elems.has_other_pages %}
+                              <ul class="pagination">
+                                {% if elems.has_previous %}
+                                  <li><a href="?page={{ elems.previous_page_number }}">&laquo;</a></li>
+                                {% else %}
+                                  <li class="disabled"><span>&laquo;</span></li>
+                                {% endif %}
+                                {% for i in elems.paginator.page_range %}
+                                  {% if elems.number == i %}
+                                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                  {% else %}
+                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                  {% endif %}
+                                {% endfor %}
+                                {% if elems.has_next %}
+                                  <li><a href="?page={{ elems.next_page_number }}">&raquo;</a></li>
+                                {% else %}
+                                  <li class="disabled"><span>&raquo;</span></li>
+                                {% endif %}
+                              </ul>
+                            {% endif %}
+                                {% else %}
+                                    The user has no trips yet! <br />
+                            {% endif %}
 
 
-                    {% endif %}
+
+                    
                     </p>
                 </div>
             </div>

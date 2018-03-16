@@ -75,13 +75,13 @@ def paginatored(l, request):
 	paginator = Paginator(l, 10)
 
 	try:
-		trips = paginator.page(page)
+		elems = paginator.page(page)
 	except PageNotAnInteger:
-		trips = paginator.page(1)
+		elems = paginator.page(1)
 	except EmptyPage:
-		trips = paginator.page(paginator.num_pages)
+		elems = paginator.page(paginator.num_pages)
 
-	return {'trips':trips}
+	return {'elems':elems}
 
 
 # view for the most popular trips
@@ -259,8 +259,10 @@ def view_profile(request,username):
 		profile = UserProfile.objects.get(user__exact=user)
 	except UserProfile.DoesNotExist:
 		return HttpResponseRedirect("/app/settings/")
-	trips = Trip.objects.filter(owner=user).order_by('startDate').reverse()
-	context_dict = {'user':user, 'trips':trips, 'profile':profile }
+	trips_list = Trip.objects.filter(owner=user).order_by('startDate').reverse()
+	context_dict = paginatored(trips_list, request)
+	context_dict['user'] = user
+	context_dict['profile'] = profile
 
 	return render(request,'view_profile.html',context_dict)
 
@@ -271,13 +273,15 @@ def view_trip(request, username, trip_name_slug):
 	context_dict = {}
 	try:
 		trip = Trip.objects.get(slug=trip_name_slug)
-		context_dict['trip'] = trip
 		posts = BlogPost.objects.filter(trip__exact=trip).order_by('Date').reverse()
-		context_dict['posts'] = posts
+		context_dict = paginatored(posts, request)
+		
+		context_dict['trip'] = trip
+
 	except Trip.DoesNotExist:
 		context_dict['trip'] = None
 	except BlogPost.DoesNotExist:
-		context_dict['posts'] = None
+		context_dict['elems'] = None
 	ratingIN = Rating.objects.filter(trip__exact=trip, owner=request.user)
 	context_dict['rating'] = ratingIN
 
