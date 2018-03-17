@@ -2,13 +2,14 @@
 {% load staticfiles %}
 
 {% block title_block %}
-Most Recent elems
+The Best-Travelled
 {% endblock %}
 
 {% block body_block %}
 
 <div class="container">
 <h2>The Best-Travelled</h2>
+{% if elems %}
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -18,7 +19,7 @@ Most Recent elems
     </tr>
   </thead>
   <tbody>
-    {% if elems %}
+    
     {% for elem in elems %}
       <tr>
         <td><a href="{% url 'view_profile' elem.0 %}">{{elem.0}}</a></td>

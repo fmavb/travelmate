@@ -13,7 +13,7 @@ About us
    <p></p> 
  </div>
  <div class="container">
-   <h5>Travelmate is an online group which enables you to share your own travel experience, make your travel passport,
+   <h5>Travelmate is an online community which enables you to share your own travel experience, make your travel passport,
        as well as see beautiful views and experiences of other members around the world.</h5>
    <p></p>
    <h6>Online Passport</h6>
@@ -24,7 +24,7 @@ About us
        and we would finally give you the proportion of the world that you travelled!</p>
    <p>You can also see your trips on a map, by lines that shows your destinations around the world. </p>
    <p></p>
-   <h6>See Other member's trips</h6>
+   <h6>See Other members' trips</h6>
    <p>You are able to load the <a href="{% url 'pop_trips'%}">most popular trips</a> and
        <a href="{% url 'recent_trips'%}">most recent trips</a> through our website members which as we believe would
        give you some suggestions for your next travel experience. </p>
@@ -43,6 +43,6 @@ About us
    {% endif %}
    <p></p>
    <p></p>
-   <h6>For any other questions, you can always contact us, we would be very happy to help you.</h6>
+   <h6>For any other questions, you can always <a href="{% url 'contact' %}">contact us</a>, we would be very happy to help you.</h6>
  </div>
 {% endblock %}
