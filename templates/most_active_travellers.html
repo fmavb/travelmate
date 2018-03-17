@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title_block %}
-Most Recent Trips
+Most Active Travellers
 {% endblock %}
 
 {% block body_block %}
@@ -18,7 +18,7 @@ Most Recent Trips
     </tr>
   </thead>
   <tbody>
-    {% if elems %}
+    
     {% for elem in elems %}
       <tr>
         <td><a href="{% url 'view_profile' elem.0 %}">{{elem.0}}</a></td>
@@ -58,9 +58,7 @@ Most Recent Trips
                 {% else %}
                     <a href="{% url 'login' %}">Login</a>
             {% endif %}
-        {% endif %}
-    {% else %}
-    There are no travellers yet! This is your chance to become the very first one!
+
     {% endif %}
     </div>
 {% endblock %}
