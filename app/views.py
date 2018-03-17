@@ -48,6 +48,7 @@ def home(request):
 	compile = {'trips':trip_serial, 'start':start_dict}
 	data = json.dumps(compile)
 	context_dict = {'json_data': data}
+	context_dict['previous'] = request.META.get('HTTP_REFERER')
 	response = render(request, 'home.html', context_dict)
 	return response
 
