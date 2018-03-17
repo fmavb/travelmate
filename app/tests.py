@@ -16,7 +16,8 @@ def new_user(self):
 def add_trip():
     trip = Trip(startDate="2018-03-08", endDate="2018-03-07",
                 destination=Destination.objects.get(name__exact="United Kingdom"),
-                owner=User.objects.get(username='testuser'))
+                owner=User.objects.get(username='testuser'),title='UK'
+                )
     trip.save()
 
 
@@ -30,26 +31,26 @@ class TestTripsModel(TestCase):
         add_trip()
         self.assertRaises(ValidationError)
         #self.assertEqual((trip.startDate <= trip.endDate), True)
-    
 
 
-class TestTripsView(TestCase):
+
+class TestMyProfileView(TestCase):
 
     def setUp(self):
         populate()
         new_user(self)
 
     def test_if_correct_view_when_no_trips(self):
-        response = self.client.get(reverse('my_trips'))
+        response = self.client.get(reverse('view_profile',kwargs={'username':'testuser'}))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "You have not added any trips yet, what are you waiting for?")
-        self.assertQuerysetEqual(response.context['trips'], [])
+        self.assertContains(response, "The user has no trips yet!")
+        self.assertQuerysetEqual(response.context['elems'], [])
 
     def test_if_correct_view_when_trips_present(self):
-        response = self.client.get(reverse('my_trips'))
         add_trip()
+        response = self.client.get(reverse('view_profile',kwargs={'username':'testuser'}))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'United Kingdom')
+        self.assertContains(response, "United Kingdom")
 
     def breakDown(self):
         self.client.logout()
@@ -89,7 +90,7 @@ class TestSettingsView(TestCase):
     def test_if_redirected_if_user_not_logged_in(self):
         self.client.logout()
         response = self.client.get(reverse('passport'))
-        self.assertRedirects(response, '/accounts/login/?next=/app/settings/')
+        self.assertRedirects(response, '/login/?next=/app/settings/')
 
     def breakDown(self):
         self.client.logout()
@@ -119,6 +120,7 @@ class TestPassportView(TestCase):
         new_user(self)
 
     def test_if_country_is_shown(self):
+        add_trip()
         response = self.client.get(reverse('passport'))
         self.assertEqual(response.status_code,200)
         self.assertContains(response, 'United Kingdom')
@@ -126,4 +128,28 @@ class TestPassportView(TestCase):
     def test_if_redirected_if_user_not_logged_in(self):
         self.client.logout()
         response = self.client.get(reverse('passport'))
-        self.assertRedirects(response, '/accounts/login/?next=/app/passport/')
+        self.assertRedirects(response, '/login/?next=/app/passport/')
+
+    def test_if_no_countries(self):
+        response = self.client.get(reverse('passport'))
+        self.assertContains(response,"You haven't added any trips yet.")
+
+    def breakDown(self):
+        self.client.logout()
+
+class TestTripView(TestCase):
+    def setUp(self):
+        populate()
+        new_user(self)
+        add_trip()
+
+    def test_if_trip_view_works(self):
+        trip = Trip.objects.get(title='UK')
+        slug = trip.slug
+        response = self.client.get(reverse('view_trip',kwargs={'username':'testuser','trip_name_slug':slug}))
+        self.assertEqual(response.status_code,200)
+        self.assertContains(response,'United Kingdom')
+        self.assertContains(response,'UK')
+
+    def breakDown(self):
+        self.client.logout()
