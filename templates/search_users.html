@@ -8,26 +8,56 @@ Search Results
 {% block body_block %}
     <div class="container">
         <h1>Search Results</h1>
-        {% if user.is_authenticated %}
-            {% if login_required %}
-                <ul>
-                {% for result in login_required %}
-                    <li><a href="{% url 'view_profile' result.username %}">{{ result.username }}</a></li>
-                {% endfor %}
-                </ul>
-            {% else %}
-                No users have been found!
-            {% endif %}
-        {% else %}
-            {% if public %}
-                <ul>
-                {% for result in public %}
-                    <li><a href="{% url 'view_profile' result.username %}">{{ result.username }}</a></li>
-                {% endfor %}
-            {% else %}
-                    No users have been found. Maybe his/her account is not public. <a href="{% url 'login' %}">Log in</a>
-                    or <a href="{% url 'registration_register' %}">register</a> to double check.
-             {% endif %}
-        {% endif %}
+        
+            
+                {% if login_required %}
+             
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+
+                          <th>Username</th>
+                          <th>Home Country</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for result in login_required %}
+                          <tr>
+                            <td><a href="{% url 'view_profile' result.username %}">{{ result.username }}</a></td>
+                            <td>{{ result.get_home_name }}</td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+
+                        {% if login_required.has_other_pages %}
+                          <ul class="pagination">
+                            {% if login_required.has_previous %}
+                              <li><a href="?page={{ login_required.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                              <li class="disabled"><span>&laquo;</span></li>
+                            {% endif %}
+                            {% for i in login_required.paginator.page_range %}
+                              {% if login_required.number == i %}
+                                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                              {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                              {% endif %}
+                            {% endfor %}
+                            {% if login_required.has_next %}
+                              <li><a href="?page={{ login_required.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                              <li class="disabled"><span>&raquo;</span></li>
+                            {% endif %}
+                          </ul>
+                        {% endif %}
+              
+                {% else %}
+                    No users have been found!
+                {% endif %}
+
+        
+            
+       
     </div>
 {% endblock %}

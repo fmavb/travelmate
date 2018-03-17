@@ -388,27 +388,31 @@ def delete_image(request, username, trip_name_slug, post_name_slug, image_name):
 	object.delete()
 	return HttpResponseRedirect(reverse('upload_images', kwargs={'username': username, 'trip_name_slug': trip_name_slug, 'post_name_slug':post_name_slug}))
 
+
+# helper function: returns a dictionary with paginatored value
+def paginatored_log_req(l, request):
+	page = request.GET.get('page', 1)
+	paginator = Paginator(l, 10)
+
+	try:
+		login_required = paginator.page(page)
+	except PageNotAnInteger:
+		login_required = paginator.page(1)
+	except EmptyPage:
+		login_required = paginator.page(paginator.num_pages)
+
+	return {'login_required':login_required}
+
 def search(request):
-	context_dict = {}
+
 	query = request.GET.get('search-bar','')
-	if query != '':
-		try:
-			users = User.objects.filter(username__icontains=query)
-			public = []
-			if len(users) != 0:
-				for user in users:
-					userProfile = UserProfile.objects.get(user__exact=user)
-				if userProfile.public:
-					public.append(user)
-				context_dict['public'] = public
-				context_dict['login_required'] = users
-				return render(request, 'search_users.html',context_dict)
-		except User.DoesNotExist:
-			return render(request, 'search_users.html')
-		except UserProfile.DoesNotExist:
-			return render(request, 'search_users.html')
+
+	users = User.objects.filter(username__icontains=query)
+	context_dict = paginatored_log_req(users, request)
 
 	return render(request, 'search_users.html', context_dict)
+
+
 
 @login_required
 def like_trip(request):
