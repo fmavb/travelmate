@@ -45,6 +45,9 @@
 
       {% endblock %}
   </style>
+
+      <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   {% block head_js %}
   {% endblock %}
   </head>
@@ -178,8 +181,6 @@
 
      <!-- Bootstrap core JavaScript -->
     {% block footer_block %}
-    <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     {% endblock %}
   </div>
   </body>

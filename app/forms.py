@@ -41,25 +41,3 @@ class PhotoForm(forms.ModelForm):
     class Meta:
         model = PostImage
         fields = ('image', )
-
-class CommentForm(forms.ModelForm):
-	content = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows':4, 'class':'form-control', 'placeholder': 'Write Comment...'}))
-
-	class Meta:
-		model = Comment
-		fields = ('content', )
-
-SCORES= [
-    ('1', '1'),
-    ('2', '2'),
-    ('3', '3'),
-    ('4', '4'),
-	('5', '5'),
-    ]
-
-class RatingForm(forms.ModelForm):
-	score = forms.CharField(required=False, widget=forms.RadioSelect(choices=SCORES))
-
-	class Meta:
-		model = Rating
-		fields = ('score', )

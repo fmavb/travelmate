@@ -104,6 +104,13 @@ class Comment(models.Model):
 	def __str__(self):
 		return self.user.username + " - " + self.post.title
 
+	def as_dict(self):
+		return {
+			"date": self.Date.date().__str__(),
+			"content": self.content,
+			"user": self.user.username,
+		}
+
 		
 class PostImage(models.Model):
 	post = models.ForeignKey(BlogPost, related_name='images')

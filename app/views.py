@@ -25,7 +25,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from app.forms import TripForm
-from app.forms import BlogForm, PhotoForm, CommentForm
+from app.forms import BlogForm, PhotoForm
 from datetime import datetime
 
 # Create your views here.
@@ -285,28 +285,6 @@ def view_trip(request, username, trip_name_slug):
 	except BlogPost.DoesNotExist:
 		context_dict['elems'] = None
 
-	form = RatingForm()
-	if request.method == 'POST':
-		form = RatingForm(request.POST)
-		if form.is_valid():
-			rating = form.save(commit=False)
-			rating.owner = request.user
-			rating.trip = trip
-			rating.score = int(form.cleaned_data['score'])
-			rating.save()
-
-			if(trip.score == 0):
-				trip.score = int(form.cleaned_data['score'])
-				trip.save()
-			else:
-				trip.score = (trip.score + int(form.cleaned_data['score']))/2
-				trip.save()
-			return HttpResponseRedirect(
-				reverse('view_trip', kwargs={'username': trip.owner, 'trip_name_slug': trip_name_slug}))
-		else:
-			print(form.errors)
-
-	context_dict['form']=form
 	return render(request, 'trip.html', context_dict)
 
 # context dictionary gets the post and trip identified by their slugified titles
@@ -323,20 +301,7 @@ def blog_post(request, username, trip_name_slug, post_name_slug):
 	photos_list = PostImage.objects.filter(post=post)
 	comments = Comment.objects.filter(post=post)
 
-	form = CommentForm()
-	if request.method == 'POST':
-		form = CommentForm(request.POST)
-		if form.is_valid():
-			comment = form.save(commit=False)
-			comment.user = request.user
-			post = get_object_or_404(BlogPost, slug__exact=post_name_slug)
-			comment.post = post
-			comment.save()
-			return HttpResponseRedirect(
-				reverse('blog_post', kwargs={'username': trip.owner, 'trip_name_slug': trip_name_slug, 'post_name_slug':post_name_slug}))
-		else:
-			print(form.errors)
-	return render(request, 'blog_post.html', {'form': form, 'post':post, 'trip':trip , 'photos':photos_list, 'comments':comments})
+	return render(request, 'blog_post.html', {'post':post, 'trip':trip , 'photos':photos_list, 'comments':comments})
 
 # View that deletes a specific trip
 def delete_trip(request,username, trip_name_slug):
@@ -435,3 +400,16 @@ def like_trip(request):
 			trip.save()
 
 	return HttpResponse(score)
+
+@login_required
+def comment(request):
+	comment = request.POST.get('comment', None)
+	postslug = request.POST.get('slug', None)
+
+	c = None
+	if postslug and comment:
+		post = BlogPost.objects.get(slug=postslug)
+		c = Comment(Date=datetime.today() ,content=comment, user=request.user, post=post)
+		c.save()
+
+	return JsonResponse(c.as_dict())

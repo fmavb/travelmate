@@ -131,6 +131,8 @@
     {% else %}
         <p>You have not added any blog posts yet!</p>
     {% endif %}
-    <a class="btn btn-primary" href="{% url 'add_blog_post' trip.owner trip.slug%}">Add a New Blog Post</a>
+    {% if request.user == trip.owner %}
+        <a class="btn btn-primary" href="{% url 'add_blog_post' trip.owner trip.slug%}">Add a New Blog Post</a>
+    {% endif %}
     </div>
 {% endblock %}
