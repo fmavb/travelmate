@@ -23,7 +23,7 @@ Search Results
                       <tbody>
                         {% for result in login_required %}
                           <tr>
-                            <td><a href="{% url 'view_profile' result.username %}">{{ result.username }}</a></td>
+                            <td><a href="{% url 'view_profile' result.user.username %}">{{ result.user.username }}</a></td>
                             <td>{{ result.get_home_name }}</td>
                           </tr>
                         {% endfor %}

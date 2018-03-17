@@ -372,7 +372,7 @@ def search(request):
 
 	query = request.GET.get('search-bar','')
 
-	users = User.objects.filter(username__icontains=query)
+	users = UserProfile.objects.filter(user__username__icontains=query)
 	context_dict = paginatored_log_req(users, request)
 
 	return render(request, 'search_users.html', context_dict)
