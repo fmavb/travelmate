@@ -1,4 +1,5 @@
-$(function () {
+//$ sign is shortcut for jQuery, and getElementById(), function that sets up start and end datepickers
+        $(function () {
             var dateFormat = "mm/dd/yy",
                 //Date Range start datepicker function, .on function sets minDate for all datepickers
                 start = $(".start").datepicker({
@@ -37,6 +38,12 @@ $(function () {
                 }
                 return date;
             }
+
+            $('#country').val(trip.name);
+            $('#title').val(trip.title);
+            $('.start').val(trip.sDate);
+            $('.end').val(trip.eDate);
+            $('.public').prop('checked', data.public);
         });
 
         //Check if entered destination is correct

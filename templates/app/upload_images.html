@@ -11,41 +11,12 @@
     <script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
     <script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
     <script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
-    <script src="{% static 'js/jquery-file-upload/canvas-to-blob.min.js' %}"></script>
-    <script src="{% static 'js/jquery-file-upload/load-image.all.min.js' %}"></script>
-    <script src="{% static 'js/jquery-file-upload/jquery.fileupload-process.js' %}"></script>
-    <script src="{% static 'js/jquery-file-upload/jquery.fileupload-image.js' %}"></script>
 
     <script>
-        // Attach jQuery file uploader to certain class
-        $(function () {
-            $(".js-upload-photos").click(function () {
-                $("#fileupload").click();
-            });
-
-            $("#fileupload").fileupload({
-                // Save uploaded file data in json
-                dataType: 'json',
-                //When we are done, and have successfully uploaded our images, add the image data to our JSON
-                done: function (e, data) {
-                    if (data.result.is_valid) {
-                        var deletestring = '<td><a class="fa fa-times-circle" href="' + "{% url 'blog_post' user.username trip.slug post.slug %}" + 'delete_image/' + data.result.name + '/"></a></td>';
-                        $("#gallery tbody").prepend(
-                            "<tr>" +
-                            "<td><a href='" + data.result.url + "'>" + data.result.name + "</a></td>" +
-                            deletestring +
-                            "</tr>"
-                        )
-                    }
-                }
-            });
-
-            // Emergency button to quit the upload pop up, since if uploading small files, upload finishes before pop up is displayed
-            $(".emergency").click(function () {
-                $("#modal-progress").modal("hide");
-            })
-        });
+    //String that holds the image deletion URL
+        var deletestring = '<td><a class="fa fa-times-circle" href="' + "{% url 'blog_post' user.username trip.slug post.slug %}" + 'delete_image/';
     </script>
+    <script src="{% static 'js/image_upload.js' %}"></script>
 {% endblock %}
 
 {% block body_block %}

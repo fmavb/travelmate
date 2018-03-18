@@ -12,37 +12,7 @@
 {% endblock %}
 
 {% block head_js %}
-    <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
-    <script>
-        $(function () {
-            var rating = 0;
-            $('.fa-star').click(function () {
-                rating = this.id;
-                $('.fa-star').each(function () {
-                    if (this.id <= rating) {
-                        $(this).addClass('checked');
-                    } else {
-                        $(this).removeClass('checked');
-                    }
-                });
-            });
-
-            $('#rate').click(function () {
-                if (rating != 0) {
-                    var slug;
-                    slug = $(this).attr("data-slug");
-                    $.get('/app/ajax/like_trip/', {slug: slug, rating: rating}, function (data) {
-                        $('#like_count').html("Overall score: " + data);
-                        $('#success').html("You rated this Trip: " + rating);
-                        $('.fa-star').each(function () {
-                            $(this).hide();
-                        });
-                        $('#rate').hide();
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="{% static 'js/rating.js' %}"></script>
 {% endblock %}
 
 

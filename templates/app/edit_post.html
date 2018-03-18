@@ -1,7 +1,7 @@
 {% extends 'app/base.html' %}
 {% load staticfiles %}
 {% block title_block %}
-    Add a Blog Post
+    Edit Blog Post
 {% endblock %}
 
 {% block head_js %}
@@ -16,7 +16,7 @@
 
 {% block body_block %}
     <div class="card text-white bg-secondary">
-        <h1 class="card-header">Add a Blog Post</h1>
+        <h1 class="card-header">Edit Blog Post</h1>
         <form class="card-body" id="BlogForm" method="post" action="/app/{{ user.username }}/{{ tripslug }}/edit_post/{{ postslug }}/">
             {% csrf_token %}
             <div class="form-group">

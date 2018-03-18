@@ -369,7 +369,7 @@ def upload_images(request, username, trip_name_slug, post_name_slug):
 
 
 def delete_image(request, username, trip_name_slug, post_name_slug, image_name):
-    object = PostImage.objects.get(name__exact=image_name)
+    object = PostImage.objects.get(name__exact=image_name, post__slug__exact=post_name_slug)
     # Remove image from media folder
     os.remove(os.path.join(psettings.MEDIA_ROOT, object.image.name))
     object.delete()

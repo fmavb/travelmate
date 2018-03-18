@@ -100,7 +100,8 @@
         if (previous.includes('login') || previous.includes('settings')) {
             setTimeout('$("#welcome").fadeOut(1000)', 3000);
         } else {
-            setTimeout('$("#welcome").fadeOut(0)', 0);
+            $('#box').remove();
+            $('#map').height($('#map').height()+100);
         }
     </script>
     <script async defer

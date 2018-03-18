@@ -6,41 +6,16 @@
 {% endblock %}
 
 {% block head_js %}
-    <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
     <script>
-        //We have a function, which for all elements of class .destination, adds autocomplete func
-        //Parse the available places from JSON
+    //Parse the available places from JSON
         var data = JSON.parse('{{ json_data | escapejs }}');
         var availableTags = data.names;
-
-        $(document).ready(function () {
-            $(".destination").autocomplete({
-                //MaxResults is the number of results displayed when autocompleting
-                maxResults: 10,
-                //Source is the array of values we can suggest, inner function slices our parsed array
-                source: function (request, response) {
-                    var results = $.ui.autocomplete.filter(availableTags, request.term);
-                    response(results.slice(0, this.options.maxResults));
-                }
-            });
-        });
-
-        //Check if entered destination is correct
-        function validateForm() {
-            var nameValue = document.getElementById("country").value;
-            if (!availableTags.includes(nameValue)) {
-                $(".destination").addClass("is-invalid");
-                $(".destination").val("");
-                $("#formGroupDestinationLabel").addClass("text-danger");
-                $(".invalid-feedback").removeClass("invisible");
-                return false;
-            }
-        }
     </script>
+    <script src="{% static 'js/settings.js' %}"></script>
 {% endblock %}
 
 {% block body_block %}
