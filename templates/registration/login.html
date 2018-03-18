@@ -3,6 +3,9 @@
 {% block title_block %}
     Log in
 {% endblock %}
+{% block head_js %}
+    <link href="{% static '/css/facebook-login.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
 {% block body_block %}
     <div class="form container">
     <h1>Login</h1>
@@ -15,13 +18,14 @@
         <p>{{ form.password.errors }}</p>
         <input class="btn btn-primary" type="submit" value="Log In" />
     </form>
-        <a href="{% url 'social:begin' 'facebook' %}">Sign in with Facebook</a> <br />
-        <a href="{% url 'social:begin' 'twitter' %}">Sign in with Twitter</a>
+        <button class="loginBtn loginBtn--facebook" onclick="location.href='{% url 'social:begin' 'facebook' %}'">
+            Login with Facebook
+        </button><br/>
+        <a href="{% url 'social:begin' 'facebook' %}">Login with Twitter</a>
     </div>
     <div class="form">
         <p>
             Want to join Travelmate! <br />
-            Follow this link... <br />
             <a class="btn btn-secondary" href="{% url 'registration_register' %}">Register</a>
         </p>
     </div>

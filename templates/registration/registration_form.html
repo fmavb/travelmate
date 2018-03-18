@@ -3,6 +3,9 @@
 {% block title_block %}
 Register
 {% endblock %}
+{% block head_js %}
+    <link href="{% static '/css/facebook-login.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
 {% block body_block %}
     <div class="form">
     <h1>Register Here</h1>
@@ -11,7 +14,9 @@ Register
         {{ form.as_p }}
         <input class="btn btn-primary" type="submit" value="Register" />
     </form>
-    <a href="{% url 'social:begin' 'facebook' %}">Register with Facebook</a> <br />
+        <button class="loginBtn loginBtn--facebook" onclick="location.href='{% url 'social:begin' 'facebook' %}'">
+            Login with Facebook
+        </button><br/>
     <a href="{% url 'social:begin' 'twitter' %}">Register with Twitter</a>
     </div>
     <style>
