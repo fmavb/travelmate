@@ -21,7 +21,8 @@
         <button class="loginBtn loginBtn--facebook" onclick="location.href='{% url 'social:begin' 'facebook' %}'">
             Login with Facebook
         </button><br/>
-        <a href="{% url 'social:begin' 'facebook' %}">Login with Twitter</a>
+        <button id="twitter" onclick="location.href='{% url 'social:begin' 'twitter' %}'">
+        </button>
     </div>
     <div class="form">
         <p>
@@ -31,5 +32,10 @@
     </div>
     <style>
     .form {text-align: center}
+    #twitter{
+        background-image: url("{% static 'images/sign-in-with-twitter-gray.png' %}");
+        width: 160px;
+        height: 30px;
+    }
     </style>
 {% endblock %}

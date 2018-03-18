@@ -22,3 +22,6 @@ https://simpleisbetterthancomplex.com/tutorial/2016/08/03/how-to-paginate-with-d
 
 Facebook login button:
 https://codepen.io/davidelrizzo/pen/vEYvyv
+
+Twitter login button:
+https://dev.twitter.com/web/sign-in/resources
