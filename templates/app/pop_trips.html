@@ -1,13 +1,13 @@
-{% extends 'base.html' %}
+{% extends 'app/base.html' %}
 {% load staticfiles %}
 
 {% block title_block %}
-Most Recent Trips
+Most Popular Trips
 {% endblock %}
 
 {% block body_block %}
     <div class="container">
-<h2>Most Recent Trips</h2>
+<h2>Most Popular Trips</h2>
 {% if elems %}
 <table class="table table-bordered">
   <thead>
@@ -15,6 +15,7 @@ Most Recent Trips
       <th>Trip Title</th>
       <th>Destination</th>
       <th>Start Date</th>
+      <th>Score</th>
       <th>User</th>
       
     </tr>
@@ -26,9 +27,8 @@ Most Recent Trips
             <td><a href="{% url 'view_trip' elem.owner elem.slug %}">{{elem.title}}</a></td>
             <td>{{ elem.destination }}</td>
             <td>{{ elem.startDate }}</td>
+            <td>{{ elem.score }}</td>
             <td><a href="{% url 'view_profile' elem.owner %}">{{ elem.owner }}</a></td>
-            
-            
           </tr>
         {% endfor %}
       </tbody>
@@ -55,6 +55,7 @@ Most Recent Trips
         {% endif %}
       </ul>
     {% endif %}
+
         {% else %}
             There are no trips yet! This is your chance to add the very first one! <br />
 
@@ -62,17 +63,7 @@ Most Recent Trips
                 <a href="{% url 'add_trip' %}">Add a New Trip</a>
                 {% else %}
                     <a href="{% url 'login' %}">Login</a>
+            {% endif %}
         {% endif %}
-    {% endif %}
     </div>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-

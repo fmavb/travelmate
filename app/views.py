@@ -49,25 +49,25 @@ def home(request):
 	data = json.dumps(compile)
 	context_dict = {'json_data': data}
 	context_dict['previous'] = request.META.get('HTTP_REFERER')
-	response = render(request, 'home.html', context_dict)
+	response = render(request, 'app/home.html', context_dict)
 	return response
 
 
 #views for static pages /about, /contact, /terms_of_use, and privacy_policy
 def about(request):
-	request = render(request,'about.html',{})
+	request = render(request,'app/about.html',{})
 	return request
 
 def contact(request):
-	request = render(request,'contact.html',{})
+	request = render(request,'app/contact.html',{})
 	return request
 
 def terms_of_use(request):
-	request = render(request,'terms_of_use.html',{})
+	request = render(request,'app/terms_of_use.html',{})
 	return request
 
 def privacy_policy(request):
-	request = render(request,'privacy_policy.html',{})
+	request = render(request,'app/privacy_policy.html',{})
 	return request
 
 # helper function: returns a dictionary with paginatored value
@@ -91,13 +91,13 @@ def pop_trips(request):
 	
 	trips_list = Trip.objects.order_by('score').reverse()
 	context_dict = paginatored(trips_list, request)
-	return render(request,'pop_trips.html',context_dict)
+	return render(request,'app/pop_trips.html',context_dict)
 
 # order trips by their start date, from newest to oldest and return in it in the context dictionary
 def recent_trips(request):
 	trips_list = Trip.objects.order_by('startDate').reverse()
 	context_dict = paginatored(trips_list, request)
-	return render(request,'recent_trips.html',context_dict)
+	return render(request,'app/recent_trips.html',context_dict)
 
 # helper function: takes in a dictionary
 # returns a list of list of the key-value pairs ordered by the values (descending)
@@ -118,7 +118,7 @@ def best_travelled(request):
 		user_trips[trip.owner] = user_trips.get(trip.owner,0)+1
 
 	context_dict = paginatored(sort_dict(user_trips), request)
-	return render(request,'best_travelled.html',context_dict)
+	return render(request,'app/best_travelled.html',context_dict)
 
 
 # view for the best travelled users: context dictionary gets a list of list of users and their corresponding blogposts
@@ -132,7 +132,7 @@ def most_active_travellers(request):
 		user_posts[post.user] = user_posts.get(post.user,0)+1
 
 	context_dict = paginatored(sort_dict(user_posts), request)
-	return render(request,'most_active_travellers.html',context_dict)
+	return render(request,'app/most_active_travellers.html',context_dict)
 
 # view for the passport page, context dictionary contains the destinations
 @login_required
@@ -152,7 +152,7 @@ def passport(request):
 	destinations = Destination.objects.all()
 	numDestinations = int((len(trips)/len(destinations))*100)
 	context_dict = {'trips': output, 'num_destinations' : numDestinations}
-	return render(request,'passport.html',context_dict)
+	return render(request,'app/passport.html',context_dict)
 
 @login_required
 def settings(request):
@@ -195,7 +195,7 @@ def settings(request):
 	else:
 		form = Settings(instance=profile)
 
-	request = render(request,'settings.html',{'form': form, 'json_data': data, 'previous' : request.META.get('HTTP_REFERER')})
+	request = render(request,'app/settings.html',{'form': form, 'json_data': data, 'previous' : request.META.get('HTTP_REFERER')})
 	return request
 
 
@@ -225,7 +225,7 @@ def add_trip(request):
 			return HttpResponseRedirect(reverse('home'))
 		else:
 			print(form.errors)
-	return render(request, 'add_trip.html', {'form': form, 'json_data': data})
+	return render(request, 'app/add_trip.html', {'form': form, 'json_data': data})
 
 @login_required
 def add_blog_post(request, username,trip_name_slug):
@@ -243,7 +243,7 @@ def add_blog_post(request, username,trip_name_slug):
 			return HttpResponseRedirect(reverse('view_trip', kwargs={'username': username, 'trip_name_slug': trip_name_slug}))
 		else:
 			print(form.errors)
-	return render(request, 'add_blog_post.html', {'form': form, 'slug':trip_name_slug})
+	return render(request, 'app/add_blog_post.html', {'form': form, 'slug':trip_name_slug})
 
 # view for base.html, passes the user object into the context dictionary
 def base(request):
@@ -251,7 +251,7 @@ def base(request):
 	user = get_object_or_404(User, username=request.user)
 	context_dict['user'] = user
 
-	return render(request,'base.html',context_dict)
+	return render(request,'app/base.html',context_dict)
 
 # view for the user profile, context dictionary contains the user, userprofile and the user's trips in reverse chronological order
 @login_required
@@ -267,7 +267,7 @@ def view_profile(request,username):
 	context_dict['user'] = user
 	context_dict['profile'] = profile
 
-	return render(request,'view_profile.html',context_dict)
+	return render(request,'app/view_profile.html',context_dict)
 
 
 # view for a given trip. context dictionary gets the trip object (identified by slugified title)
@@ -286,7 +286,7 @@ def view_trip(request, username, trip_name_slug):
 	except BlogPost.DoesNotExist:
 		context_dict['elems'] = None
 
-	return render(request, 'trip.html', context_dict)
+	return render(request, 'app/trip.html', context_dict)
 
 # context dictionary gets the post and trip identified by their slugified titles
 # and the photos of the given post
@@ -302,7 +302,7 @@ def blog_post(request, username, trip_name_slug, post_name_slug):
 	photos_list = PostImage.objects.filter(post=post)
 	comments = Comment.objects.filter(post=post)
 
-	return render(request, 'blog_post.html', {'post':post, 'trip':trip , 'photos':photos_list, 'comments':comments})
+	return render(request, 'app/blog_post.html', {'post':post, 'trip':trip , 'photos':photos_list, 'comments':comments})
 
 # View that deletes a specific trip
 def delete_trip(request,username, trip_name_slug):
@@ -345,7 +345,7 @@ def upload_images(request, username, trip_name_slug, post_name_slug):
 		# If GET add current post photos to the context dict
 		photos_list = PostImage.objects.filter(post=inpost)
 		context_dict["photos"] = photos_list
-		return render(request, 'upload_images.html', context_dict)
+		return render(request, 'app/upload_images.html', context_dict)
 
 def delete_image(request, username, trip_name_slug, post_name_slug, image_name):
 	object = PostImage.objects.get(name__exact=image_name)
@@ -376,7 +376,7 @@ def search(request):
 	users = UserProfile.objects.filter(user__username__icontains=query)
 	context_dict = paginatored_log_req(users, request)
 
-	return render(request, 'search_users.html', context_dict)
+	return render(request, 'app/search_users.html', context_dict)
 
 
 
