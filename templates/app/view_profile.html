@@ -1,7 +1,7 @@
 {% extends 'app/base.html' %}
 {% load staticfiles %}
 {% block title_block %}
-{{user.username}}
+    {{ user.username }}
 {% endblock %}
 {% block body_block %}
     <section class="showcase">
@@ -9,67 +9,68 @@
             <div class="row no-gutters">
 
                 <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image:
-                url('{{ profile.profilePic.url }}');"></div>
+                        url('{{ profile.profilePic.url }}');"></div>
                 <div class="col-lg-6 order-lg-1 my-auto showcase-text">
                     <h2>{{ user.username }}</h2>
                     <p class="lead mb-0">
 
-                    {% if elems %}
-                        <table class="table table-bordered">
-                          <thead>
-                            <tr>
-                              <th>Title</th>
-                              <th>Destination</th>
-                              <th>Start Date</th>
-                              <th>End Date</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            
+                        {% if elems %}
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Destination</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
                                 {% for elem in elems %}
-                                  <tr>
-                                    <td><a href="{% url 'view_trip' elem.owner elem.slug %}">{{elem.title}}</a></td>
-                                    <td>{{ elem.destination }}</td>
-                                    <td>{{ elem.startDate }}</td>
-                                    <td>{{ elem.endDate }}</td>
-                                    {% if request.user == elem.owner %}
-                                    <td>
-                                      <a class="fa fa-times-circle" href="{% url 'delete_trip' user.username elem.slug %}"></a>
-                                    </td>
-                                    {% endif %}
-                                  </tr>
+                                    <tr>
+                                        <td><a href="{% url 'view_trip' elem.owner elem.slug %}">{{ elem.title }}</a>
+                                        </td>
+                                        <td>{{ elem.destination }}</td>
+                                        <td>{{ elem.startDate }}</td>
+                                        <td>{{ elem.endDate }}</td>
+                                        {% if request.user == elem.owner %}
+                                            <td>
+                                                <a class="fa fa-times-circle"
+                                                   href="{% url 'delete_trip' user.username elem.slug %}"></a>
+                                            </td>
+                                        {% endif %}
+                                    </tr>
                                 {% endfor %}
-                              </tbody>
+                                </tbody>
                             </table>
 
                             {% if elems.has_other_pages %}
-                              <ul class="pagination">
-                                {% if elems.has_previous %}
-                                  <li><a href="?page={{ elems.previous_page_number }}">&laquo;</a></li>
-                                {% else %}
-                                  <li class="disabled"><span>&laquo;</span></li>
-                                {% endif %}
-                                {% for i in elems.paginator.page_range %}
-                                  {% if elems.number == i %}
-                                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                                  {% else %}
-                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                  {% endif %}
-                                {% endfor %}
-                                {% if elems.has_next %}
-                                  <li><a href="?page={{ elems.next_page_number }}">&raquo;</a></li>
-                                {% else %}
-                                  <li class="disabled"><span>&raquo;</span></li>
-                                {% endif %}
-                              </ul>
+                                <ul class="pagination">
+                                    {% if elems.has_previous %}
+                                        <li><a href="?page={{ elems.previous_page_number }}">&laquo;</a></li>
+                                    {% else %}
+                                        <li class="disabled"><span>&laquo;</span></li>
+                                    {% endif %}
+                                    {% for i in elems.paginator.page_range %}
+                                        {% if elems.number == i %}
+                                            <li class="active"><span>{{ i }} <span
+                                                    class="sr-only">(current)</span></span></li>
+                                        {% else %}
+                                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if elems.has_next %}
+                                        <li><a href="?page={{ elems.next_page_number }}">&raquo;</a></li>
+                                    {% else %}
+                                        <li class="disabled"><span>&raquo;</span></li>
+                                    {% endif %}
+                                </ul>
                             {% endif %}
-                                {% else %}
-                                    The user has no trips yet! <br />
-                            {% endif %}
+                        {% else %}
+                            The user has no trips yet! <br/>
+                        {% endif %}
 
 
-
-                    
                     </p>
                 </div>
             </div>

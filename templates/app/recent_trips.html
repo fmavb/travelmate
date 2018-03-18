@@ -2,68 +2,68 @@
 {% load staticfiles %}
 
 {% block title_block %}
-Most Recent Trips
+    Most Recent Trips
 {% endblock %}
 
 {% block body_block %}
     <div class="container">
-<h2>Most Recent Trips</h2>
-{% if elems %}
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Trip Title</th>
-      <th>Destination</th>
-      <th>Start Date</th>
-      <th>User</th>
-      
-    </tr>
-  </thead>
-  <tbody>
-    
-        {% for elem in elems %}
-          <tr>
-            <td><a href="{% url 'view_trip' elem.owner elem.slug %}">{{elem.title}}</a></td>
-            <td>{{ elem.destination }}</td>
-            <td>{{ elem.startDate }}</td>
-            <td><a href="{% url 'view_profile' elem.owner %}">{{ elem.owner }}</a></td>
-            
-            
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        <h2>Most Recent Trips</h2>
+        {% if elems %}
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Trip Title</th>
+                    <th>Destination</th>
+                    <th>Start Date</th>
+                    <th>User</th>
 
-    {% if elems.has_other_pages %}
-      <ul class="pagination">
-        {% if elems.has_previous %}
-          <li><a href="?page={{ elems.previous_page_number }}">&laquo;</a></li>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for elem in elems %}
+                    <tr>
+                        <td><a href="{% url 'view_trip' elem.owner elem.slug %}">{{ elem.title }}</a></td>
+                        <td>{{ elem.destination }}</td>
+                        <td>{{ elem.startDate }}</td>
+                        <td><a href="{% url 'view_profile' elem.owner %}">{{ elem.owner }}</a></td>
+
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% if elems.has_other_pages %}
+                <ul class="pagination">
+                    {% if elems.has_previous %}
+                        <li><a href="?page={{ elems.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in elems.paginator.page_range %}
+                        {% if elems.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if elems.has_next %}
+                        <li><a href="?page={{ elems.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
         {% else %}
-          <li class="disabled"><span>&laquo;</span></li>
-        {% endif %}
-        {% for i in elems.paginator.page_range %}
-          {% if elems.number == i %}
-            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-          {% else %}
-            <li><a href="?page={{ i }}">{{ i }}</a></li>
-          {% endif %}
-        {% endfor %}
-        {% if elems.has_next %}
-          <li><a href="?page={{ elems.next_page_number }}">&raquo;</a></li>
-        {% else %}
-          <li class="disabled"><span>&raquo;</span></li>
-        {% endif %}
-      </ul>
-    {% endif %}
-        {% else %}
-            There are no trips yet! This is your chance to add the very first one! <br />
+            There are no trips yet! This is your chance to add the very first one! <br/>
 
             {% if user.is_authenticated %}
                 <a href="{% url 'add_trip' %}">Add a New Trip</a>
-                {% else %}
-                    <a href="{% url 'login' %}">Login</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
         {% endif %}
-    {% endif %}
     </div>
 {% endblock %}
 

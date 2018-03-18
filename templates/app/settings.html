@@ -2,63 +2,64 @@
 {% load staticfiles %}
 
 {% block title_block %}
-My Settings
+    My Settings
 {% endblock %}
 
 {% block head_js %}
-<script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
-<script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
-<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-<script src="{% static 'js/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
-<script>
-    //We have a function, which for all elements of class .destination, adds autocomplete func
-    //Parse the available places from JSON
-    var data = JSON.parse('{{ json_data | escapejs }}');
-    var availableTags = data.names;
+    <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
+    <script>
+        //We have a function, which for all elements of class .destination, adds autocomplete func
+        //Parse the available places from JSON
+        var data = JSON.parse('{{ json_data | escapejs }}');
+        var availableTags = data.names;
 
-    $(document).ready( function() {
-        $( ".destination" ).autocomplete({
-            //MaxResults is the number of results displayed when autocompleting
-            maxResults: 10,
-            //Source is the array of values we can suggest, inner function slices our parsed array
-            source: function(request, response) {
-                var results = $.ui.autocomplete.filter(availableTags, request.term);
-                response(results.slice(0, this.options.maxResults));
-            }
+        $(document).ready(function () {
+            $(".destination").autocomplete({
+                //MaxResults is the number of results displayed when autocompleting
+                maxResults: 10,
+                //Source is the array of values we can suggest, inner function slices our parsed array
+                source: function (request, response) {
+                    var results = $.ui.autocomplete.filter(availableTags, request.term);
+                    response(results.slice(0, this.options.maxResults));
+                }
+            });
         });
-    });
 
-    //Check if entered destination is correct
-    function validateForm() {
-        var nameValue = document.getElementById("country").value;
-        if (!availableTags.includes(nameValue)) {
-            $( ".destination" ).addClass("is-invalid");
-            $( ".destination" ).val("");
-            $( "#formGroupDestinationLabel" ).addClass("text-danger");
-            $( ".invalid-feedback" ).removeClass("invisible");
-            return false;
+        //Check if entered destination is correct
+        function validateForm() {
+            var nameValue = document.getElementById("country").value;
+            if (!availableTags.includes(nameValue)) {
+                $(".destination").addClass("is-invalid");
+                $(".destination").val("");
+                $("#formGroupDestinationLabel").addClass("text-danger");
+                $(".invalid-feedback").removeClass("invisible");
+                return false;
+            }
         }
-    }
-</script>
+    </script>
 {% endblock %}
 
 {% block body_block %}
-<div class="card text-white bg-secondary">
-        <h1 class ="card-header" id="settings">Settings</h1>
+    <div class="card text-white bg-secondary">
+        <h1 class="card-header" id="settings">Settings</h1>
         <h1 class="card-header" id="welcome">We need a bit more information about you...</h1>
-        <form class="card-body" enctype="multipart/form-data" id="SettingsForm" method="post" action="/app/settings/" onsubmit="return validateForm();">
+        <form class="card-body" enctype="multipart/form-data" id="SettingsForm" method="post" action="/app/settings/"
+              onsubmit="return validateForm();">
             {% csrf_token %}
             <div class="form-group">
-                 <label id="formGroupDestinationLabel">Home Country</label>
-                 {{ form.homeCountryText }}
+                <label id="formGroupDestinationLabel">Home Country</label>
+                {{ form.homeCountryText }}
                 <div class="invalid-feedback invisible text-danger">
                     Please enter a valid country (select from Autocomplete)!
                 </div>
             </div>
             <script>
-                if(data.hc.valueOf() != "".valueOf()){
-                    document.getElementById("country").setAttribute('value',data.hc);
+                if (data.hc.valueOf() != "".valueOf()) {
+                    document.getElementById("country").setAttribute('value', data.hc);
                 }
             </script>
 
@@ -67,13 +68,13 @@ My Settings
                 <span class="alert alert-info"> Check this if you want unregistered users to see your trip!</span>
             </div>
             <label>Profile Picture:</label>
-            {{ form.profilePic}}
-            <input class="btn btn-primary float-right" type="submit" name="submit" value="Apply" />
+            {{ form.profilePic }}
+            <input class="btn btn-primary float-right" type="submit" name="submit" value="Apply"/>
         </form>
     </div>
     <div>
         <ul>
-            <li><a href="{% url 'auth_password_change' %}">Change your Password</a> </li>
+            <li><a href="{% url 'auth_password_change' %}">Change your Password</a></li>
         </ul>
     </div>
 {% endblock %}
@@ -82,7 +83,7 @@ My Settings
         var previous = '{{ previous }}',
             settings = document.getElementById('settings'),
             welcome = document.getElementById('welcome');
-        if (previous.includes('register')){
+        if (previous.includes('register')) {
             settings.style.display = 'none';
             welcome.style.display = 'block';
         } else {

@@ -1,54 +1,59 @@
 ﻿{% extends 'app/base.html' %}
 {% load staticfiles %}
 {% block title_block %}
-Register
+    Register
 {% endblock %}
 {% block head_js %}
     <link href="{% static '/css/facebook-login.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block body_block %}
     <div class="form container">
-    <h1>Register Here</h1>
-    <form method="post" action=".">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
+        <h1>Register Here</h1>
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
             <label for="username">Username:</label><input type="text" name="username" required size="50">
             <p>{{ form.username.errors }}</p>
-        <label for="email">Email: </label><input type="email" name="email" required size="50">
+            <label for="email">Email: </label><input type="email" name="email" required size="50">
             <p></p>
-        <label for="password1">Password:</label><input type="password" name="password1" required size="50">
-        <p>{{ form.password.errors }}</p>
+            <label for="password1">Password:</label><input type="password" name="password1" required size="50">
+            <p>{{ form.password.errors }}</p>
             <label for="password2">Repeat Password:</label><input type="password" name="password2" required size="50">
-        <p>{{ form.password2.errors }}</p>
-        <input class="btn btn-primary" type="submit" value="Register" />
-    </form>
+            <p>{{ form.password2.errors }}</p>
+            <input class="btn btn-primary" type="submit" value="Register"/>
+        </form>
         <button class="loginBtn loginBtn--facebook" onclick="location.href='{% url 'social:begin' 'facebook' %}'">
             Login with Facebook
-        </button><br/>
+        </button>
+        <br/>
         <button id="twitter" onclick="location.href='{% url 'social:begin' 'twitter' %}'">
         </button>
     </div>
     <style>
-    .form {text-align: center}
-    #twitter{
-        background-image: url("{% static 'images/sign-in-with-twitter-gray.png' %}");
-        width: 160px;
-        height: 30px;
-    }
-    label{
-        display:inline-block;
-        width:200px;
-        margin-right:30px;
-        text-align:right;
-    }
+        .form {
+            text-align: center
+        }
 
-    input{
+        #twitter {
+            background-image: url("{% static 'images/sign-in-with-twitter-gray.png' %}");
+            width: 160px;
+            height: 30px;
+        }
 
-    }
+        label {
+            display: inline-block;
+            width: 200px;
+            margin-right: 30px;
+            text-align: right;
+        }
 
-    fieldset{
-        border:none;
-        margin:0px auto;
-    }
+        input {
+
+        }
+
+        fieldset {
+            border: none;
+            margin: 0px auto;
+        }
     </style>
 {% endblock %}

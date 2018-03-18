@@ -2,65 +2,65 @@
 {% load staticfiles %}
 
 {% block title_block %}
-The Best-Travelled
+    The Best-Travelled
 {% endblock %}
 
 {% block body_block %}
 
-<div class="container">
-<h2>The Best-Travelled</h2>
-{% if elems %}
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Number of Trips</th>
-      
-    </tr>
-  </thead>
-  <tbody>
-    
-    {% for elem in elems %}
-      <tr>
-        <td><a href="{% url 'view_profile' elem.0 %}">{{elem.0}}</a></td>
-        <td>{{ elem.1 }}</td>   
-        
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    <div class="container">
+        <h2>The Best-Travelled</h2>
+        {% if elems %}
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Number of Trips</th>
 
-{% if elems.has_other_pages %}
-  <ul class="pagination">
-    {% if elems.has_previous %}
-      <li><a href="?page={{ elems.previous_page_number }}">&laquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in elems.paginator.page_range %}
-      {% if elems.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-      {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
-      {% endif %}
-    {% endfor %}
-    {% if elems.has_next %}
-      <li><a href="?page={{ elems.next_page_number }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
-    {% endif %}
-  </ul>
-{% endif %}
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for elem in elems %}
+                    <tr>
+                        <td><a href="{% url 'view_profile' elem.0 %}">{{ elem.0 }}</a></td>
+                        <td>{{ elem.1 }}</td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% if elems.has_other_pages %}
+                <ul class="pagination">
+                    {% if elems.has_previous %}
+                        <li><a href="?page={{ elems.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in elems.paginator.page_range %}
+                        {% if elems.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if elems.has_next %}
+                        <li><a href="?page={{ elems.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
         {% else %}
-            There are no travellers yet! This is your chance to become the very first one! <br />
+            There are no travellers yet! This is your chance to become the very first one! <br/>
 
             {% if user.is_authenticated %}
                 <a href="{% url 'add_trip' %}">Add a New Trip</a>
-                {% else %}
-                    <a href="{% url 'login' %}">Login</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
             {% endif %}
         {% endif %}
-</div>
+    </div>
 {% endblock %}
 
 

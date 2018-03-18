@@ -2,39 +2,42 @@
 {% load staticfiles %}
 
 {% block title_block %}
-My Passport
+    My Passport
 {% endblock %}
 
 {% block body_block %}
     <div class="container">
-    <h2>My Passport</h2>
-    {% if trips %}
-        <p>Percentage of the World you explored:</p>
-        <div class="progress">
-            <div class="progress-bar text-dark" role="progressbar" style="width: {{ num_destinations }}%"
-                 aria-valuenow="{{ num_destinations }}" aria-valuemin="0" aria-valuemax="100">
-                {{ num_destinations }}%</div>
-        </div>
-        <div class="row">
-            {% for trip in trips %}
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <div class="view overlay">
-                        <img class="img-thumbnail" src="{{ trip.destination.flag.url }}" alt="{{ trip.destination.name }}">
-                            <div class="mask flex-center rgba-black-light">
-                                <p class="text-white">{{ trip.destination.name }}</p>
-                            </div>
-                        </div>
-
-                    </div>
+        <h2>My Passport</h2>
+        {% if trips %}
+            <p>Percentage of the World you explored:</p>
+            <div class="progress">
+                <div class="progress-bar text-dark" role="progressbar" style="width: {{ num_destinations }}%"
+                     aria-valuenow="{{ num_destinations }}" aria-valuemin="0" aria-valuemax="100">
+                    {{ num_destinations }}%
                 </div>
-            {% endfor %}
-        </div>
-    {% else %}
-    <p>
-        You haven't added any trips yet. What are you waiting for? <a href="{% url 'add_trip' %}">Add a new trip</a>
-    </p>
-    {% endif %}
+            </div>
+            <div class="row">
+                {% for trip in trips %}
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <div class="view overlay">
+                                <img class="img-thumbnail" src="{{ trip.destination.flag.url }}"
+                                     alt="{{ trip.destination.name }}">
+                                <div class="mask flex-center rgba-black-light">
+                                    <p class="text-white">{{ trip.destination.name }}</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>
+                You haven't added any trips yet. What are you waiting for? <a href="{% url 'add_trip' %}">Add a new
+                trip</a>
+            </p>
+        {% endif %}
     </div>
     <link type="text/css" rel="stylesheet" href="{% static 'css/passport.css' %}">
 {% endblock %}

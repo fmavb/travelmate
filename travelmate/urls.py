@@ -21,23 +21,25 @@ from app import views as app_views
 from django.contrib.auth import views as auth_views
 from registration.backends.simple.views import RegistrationView
 
+
 class MyRegistrationView(RegistrationView):
-    def get_success_url(self,user):
+    def get_success_url(self, user):
         return '/app/settings/'
 
-urlpatterns = [
-    url(r'^$', app_views.home, name='home'),
-    url(r'^admin/', admin.site.urls),
-    url(r'^login/$', auth_views.login, name='login'),
-    url(r'^logout/$',auth_views.logout,name='logout'),
-    url(r'^oauth/',include('social_django.urls',namespace='social')),
-    url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
-    url(r'^accounts/',include('registration.backends.simple.urls')),
-    
-    url(r'^app/', include('app.urls')),
-    #url(r'^(?P<username>[\w\-]+)/$', app_views.view_profile, name='view_profile'),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-LOGIN_URL='/login'
-LOGOUT_URL='/logout'
+urlpatterns = [
+                  url(r'^$', app_views.home, name='home'),
+                  url(r'^admin/', admin.site.urls),
+                  url(r'^login/$', auth_views.login, name='login'),
+                  url(r'^logout/$', auth_views.logout, name='logout'),
+                  url(r'^oauth/', include('social_django.urls', namespace='social')),
+                  url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
+                  url(r'^accounts/', include('registration.backends.simple.urls')),
+
+                  url(r'^app/', include('app.urls')),
+                  # url(r'^(?P<username>[\w\-]+)/$', app_views.view_profile, name='view_profile'),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+LOGIN_URL = '/login'
+LOGOUT_URL = '/logout'
 LOGIN_REDIRECT_URL = '/home'

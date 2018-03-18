@@ -2,17 +2,17 @@
 {% load staticfiles %}
 <html lang="en">
 
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no,">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <title>
-    {% block title_block %}
-    {% endblock %}
-    - Travelmate
-  </title>
+        {% block title_block %}
+        {% endblock %}
+        - Travelmate
+    </title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -20,213 +20,219 @@
     <!-- Custom fonts for this template -->
     <link href="{% static 'css/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/vendor/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
 
     <!-- Custom styles for this template -->
     <link href="{% static 'css/landing-page.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/css_tweaks.css' %}" type="text/css">
-  <style>
+    <style>
         html, body {
-          height: 100%;
+            height: 100%;
         }
+
         body {
-          display: flex;
-          flex-direction: column;
+            display: flex;
+            flex-direction: column;
         }
+
         .content {
-          flex: 1 0 auto;
+            flex: 1 0 auto;
         }
+
         .footer {
-          flex-shrink: 0;
+            flex-shrink: 0;
         }
 
-      {% block css %}
+        {% block css %}
 
-      {% endblock %}
-  </style>
+        {% endblock %}
+    </style>
 
-      <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
-      <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  {% block head_js %}
-  {% endblock %}
-  </head>
+    <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    {% block head_js %}
+    {% endblock %}
+</head>
 
 
-
-  <body>
-      <div class="content">
+<body>
+<div class="content">
 
 
     <!-- Navigation -->
- 
- {% if user.is_authenticated %}  
-   
-         
-  
-   <div id="logo">
 
-           <a href="{% url 'home'%}"><img src="{% static "images/back.jpg" %}"
-                alt="logo" /></a>
+    {% if user.is_authenticated %}
+
+
+
+        <div id="logo">
+
+            <a href="{% url 'home' %}"><img src="{% static "images/back.jpg" %}"
+                                            alt="logo"/></a>
 
         </div>
 
-    <nav class="navbar navbar-light bg-light static top" >
-           <a class="btn btn-light" href="{% url 'home' %}" >Home</a>
-           <a class="btn btn-light" href="{% url 'add_trip' %}" style="">Add a New Trip</a>
-          <a class="btn btn-light" href="{% url 'settings' %}">Settings</a>
-          <a class="btn btn-light" href="{% url 'view_profile' request.user.username %}">My Profile</a>
-          <a class="btn btn-light" href="{% url 'passport' %}">Passport</a>
-        
+        <nav class="navbar navbar-light bg-light static top">
+            <a class="btn btn-light" href="{% url 'home' %}">Home</a>
+            <a class="btn btn-light" href="{% url 'add_trip' %}" style="">Add a New Trip</a>
+            <a class="btn btn-light" href="{% url 'settings' %}">Settings</a>
+            <a class="btn btn-light" href="{% url 'view_profile' request.user.username %}">My Profile</a>
+            <a class="btn btn-light" href="{% url 'passport' %}">Passport</a>
 
 
-			<div class="dropdown">
-			  <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    Trips
-			  </button>
-			  <ul class="dropdown-menu">
-			    <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
-			    <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
-			  </ul>
-			  </div>
-
-		<div class="dropdown">
-			  <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    Travellers
-			  </button>
-			    <ul class="dropdown-menu">
-			    	<li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a></li>
-			    	<li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
-			    </ul>
-			  </div>
-         
-           
-               <form  class="nform-inline" action="{% url 'search' %}" method="get">
-        <div class="input-group">
-            <input required name="search-bar" type="text" class="form-control" placeholder="Search for other users">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit">
-                    <i class="fa fa-search"></i>
+            <div class="dropdown">
+                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Trips
                 </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
+                    <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
+                </ul>
             </div>
-        </div>
-    </form>
 
-           <div style="text-align:right;">
-           
-            <a class="btn btn-primary" href="{% url 'logout' %}?next=/">Log out</a>
-            
-          
-           </div>
-    </nav>
-
- {%else%}
-  
-       
- <div id="menubar">
-
-           <a href="{% url 'home'%}"><img src="{% static "images/back.jpg" %}"
-                alt="back" /></a> </div>
-     
-         <nav class="navbar navbar-light bg-light static top" >
-         <a class="btn btn-light" href="{% url 'home' %}" >Home</a>
-          <a class="btn btn-light" href="{% url 'about' %}">Who are we</a>
-			  
-         <div class="dropdown">
-			  <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    Trips
-			  </button>
-			  <ul class="dropdown-menu">
-			    <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
-			    <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
-			  </ul>
-			  </div>
+            <div class="dropdown">
+                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Travellers
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a></li>
+                    <li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
+                </ul>
+            </div>
 
 
-			
+            <form class="nform-inline" action="{% url 'search' %}" method="get">
+                <div class="input-group">
+                    <input required name="search-bar" type="text" class="form-control"
+                           placeholder="Search for other users">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
 
-		<div class="dropdown">
-			  <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    Travellers
-			  </button>
-			    <ul class="dropdown-menu">
-			    	<li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a></li>
-			    	<li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
-			    </ul>
-			  </div>
+            <div style="text-align:right;">
 
-             <form  class="nform-inline" action="{% url 'search' %}" method="get">
-                 <div class="input-group">
-                     <input required name="search-bar" type="text" class="form-control" placeholder="Search for other users">
-                     <div class="input-group-btn">
-                         <button class="btn btn-default" type="submit">
-                             <i class="fa fa-search"></i>
-                         </button>
-                     </div>
-                 </div>
-             </form>
+                <a class="btn btn-primary" href="{% url 'logout' %}?next=/">Log out</a>
 
-           <div id="login">
-              <a class="btn btn-primary" href="{% url 'login' %}?next=/">Log In</a>
-    </div>
-    </nav>
 
- {% endif %}
-{% block body_block %}
+            </div>
+        </nav>
 
-{% endblock %}
+    {% else %}
+
+
+        <div id="menubar">
+
+            <a href="{% url 'home' %}"><img src="{% static "images/back.jpg" %}"
+                                            alt="back"/></a></div>
+
+        <nav class="navbar navbar-light bg-light static top">
+            <a class="btn btn-light" href="{% url 'home' %}">Home</a>
+            <a class="btn btn-light" href="{% url 'about' %}">Who are we</a>
+
+            <div class="dropdown">
+                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Trips
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
+                    <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
+                </ul>
+            </div>
+
+
+            <div class="dropdown">
+                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Travellers
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a></li>
+                    <li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
+                </ul>
+            </div>
+
+            <form class="nform-inline" action="{% url 'search' %}" method="get">
+                <div class="input-group">
+                    <input required name="search-bar" type="text" class="form-control"
+                           placeholder="Search for other users">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div id="login">
+                <a class="btn btn-primary" href="{% url 'login' %}?next=/">Log In</a>
+            </div>
+        </nav>
+
+    {% endif %}
+    {% block body_block %}
+
+    {% endblock %}
 
     <!-- Footer -->
 
 
-     <!-- Bootstrap core JavaScript -->
+    <!-- Bootstrap core JavaScript -->
     {% block footer_block %}
     {% endblock %}
-  </div>
-  </body>
-  <footer class="footer bg-light" id="footer">
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-                  <ul class="list-inline mb-2">
-                      <li class="list-inline-item">
-                          <a href="{% url 'about' %}">About</a>
-                      </li>
-                      <li class="list-inline-item">&sdot;</li>
-                      <li class="list-inline-item">
-                          <a href="{% url 'contact' %}">Contact</a>
-                      </li>
-                      <li class="list-inline-item">&sdot;</li>
-                      <li class="list-inline-item">
-                          <a href="{% url 'terms_of_use' %}">Terms of Use</a>
-                      </li>
-                      <li class="list-inline-item">&sdot;</li>
-                      <li class="list-inline-item">
-                          <a href="{% url 'privacy_policy' %}">Privacy Policy</a>
-                      </li>
-                  </ul>
-                  <p class="text-muted small mb-4 mb-lg-0">&copy; Travelmate 2018. All Rights Reserved.</p>
-              </div>
-              <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
-                  <ul class="list-inline mb-0">
-                      <li class="list-inline-item mr-3">
-                          <a href="#">
-                              <i class="fa fa-facebook fa-2x fa-fw"></i>
-                          </a>
-                      </li>
-                      <li class="list-inline-item mr-3">
-                          <a href="#">
-                              <i class="fa fa-twitter fa-2x fa-fw"></i>
-                          </a>
-                      </li>
-                      <li class="list-inline-item">
-                          <a href="#">
-                              <i class="fa fa-instagram fa-2x fa-fw"></i>
-                          </a>
-                      </li>
-                  </ul>
-              </div>
-          </div>
-      </div>
-  </footer>
+</div>
+</body>
+<footer class="footer bg-light" id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                <ul class="list-inline mb-2">
+                    <li class="list-inline-item">
+                        <a href="{% url 'about' %}">About</a>
+                    </li>
+                    <li class="list-inline-item">&sdot;</li>
+                    <li class="list-inline-item">
+                        <a href="{% url 'contact' %}">Contact</a>
+                    </li>
+                    <li class="list-inline-item">&sdot;</li>
+                    <li class="list-inline-item">
+                        <a href="{% url 'terms_of_use' %}">Terms of Use</a>
+                    </li>
+                    <li class="list-inline-item">&sdot;</li>
+                    <li class="list-inline-item">
+                        <a href="{% url 'privacy_policy' %}">Privacy Policy</a>
+                    </li>
+                </ul>
+                <p class="text-muted small mb-4 mb-lg-0">&copy; Travelmate 2018. All Rights Reserved.</p>
+            </div>
+            <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item mr-3">
+                        <a href="#">
+                            <i class="fa fa-facebook fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item mr-3">
+                        <a href="#">
+                            <i class="fa fa-twitter fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fa fa-instagram fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
 </html>

@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title_block %}
-Upload Images
+    Upload Images
 {% endblock %}
 
 {% block head_js %}
@@ -16,70 +16,75 @@ Upload Images
     <script src="{% static 'js/jquery-file-upload/jquery.fileupload-process.js' %}"></script>
     <script src="{% static 'js/jquery-file-upload/jquery.fileupload-image.js' %}"></script>
 
-      <script>
-      // Attach jQuery file uploader to certain class
+    <script>
+        // Attach jQuery file uploader to certain class
         $(function () {
-          $(".js-upload-photos").click(function () {
-            $("#fileupload").click();
-          });
+            $(".js-upload-photos").click(function () {
+                $("#fileupload").click();
+            });
 
-          $("#fileupload").fileupload({
-              // Save uploaded file data in json
-            dataType: 'json',
-              //Image resizing, self-explanatory attributes
-              disableImageResize: false,
-              imageMaxWidth: 500,
-              imageMaxHeight: 500,
-              imageCrop: true,
-              //When we are done, and have successfully uploaded our images, add the image data to our JSON
-            done: function (e, data) {
-              if (data.result.is_valid) {
-                  var deletestring = '<td><a class="fa fa-times-circle" href="' + "{% url 'blog_post' user.username trip.slug post.slug %}" +'delete_image/'+ data.result.name +'/"></a></td>';
-                $("#gallery tbody").prepend(
-                    "<tr>" +
-                    "<td><a href='" + data.result.url + "'>" + data.result.name + "</a></td>" +
-                        deletestring +
-                    "</tr>"
-                )
-              }
-            }
-          });
+            $("#fileupload").fileupload({
+                // Save uploaded file data in json
+                dataType: 'json',
+                //Image resizing, self-explanatory attributes
+                disableImageResize: false,
+                imageMaxWidth: 500,
+                imageMaxHeight: 500,
+                imageCrop: true,
+                //When we are done, and have successfully uploaded our images, add the image data to our JSON
+                done: function (e, data) {
+                    if (data.result.is_valid) {
+                        var deletestring = '<td><a class="fa fa-times-circle" href="' + "{% url 'blog_post' user.username trip.slug post.slug %}" + 'delete_image/' + data.result.name + '/"></a></td>';
+                        $("#gallery tbody").prepend(
+                            "<tr>" +
+                            "<td><a href='" + data.result.url + "'>" + data.result.name + "</a></td>" +
+                            deletestring +
+                            "</tr>"
+                        )
+                    }
+                }
+            });
 
-          // Emergency button to quit the upload pop up, since if uploading small files, upload finishes before pop up is displayed
-          $(".emergency").click(function () {
-              $("#modal-progress").modal("hide");
-          })
+            // Emergency button to quit the upload pop up, since if uploading small files, upload finishes before pop up is displayed
+            $(".emergency").click(function () {
+                $("#modal-progress").modal("hide");
+            })
         });
-      </script>
+    </script>
 {% endblock %}
 
 {% block body_block %}
-    <button type="button" class="fa fa-arrow-circle-up btn btn-primary js-upload-photos"> Upload photos</button>
-    <span>
+    <div class="container">
+        <h2>Upload your pictures here</h2>
+        <p>
+            <button type="button" class="fa fa-arrow-circle-up btn btn-primary js-upload-photos"> Upload photos</button>
+            <span>
     <input id="fileupload" type="file" name="image" multiple
            style="display: none;"
-           data-url="{% url 'upload_images' user.username trip.slug post.slug%}"
+           data-url="{% url 'upload_images' user.username trip.slug post.slug %}"
            data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
     </span>
-    <table id="gallery" class="table table-bordered">
-      <thead>
-        <tr>
-            <th style="width: 50%;">Photo</th>
-            <th>Manage</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for photo in photos %}
-          <tr>
-              <td><a href="{{ photo.image.url }}">{{ photo.name }}</a></td>
-              <td><a class="fa fa-times-circle" href="{% url 'delete_image' user.username trip.slug post.slug  photo.name %}"></a></td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        <table id="gallery" class="table table-bordered">
+            <thead>
+            <tr>
+                <th style="width: 50%;">Photo</th>
+                <th>Manage</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for photo in photos %}
+                <tr>
+                    <td><a href="{{ photo.image.url }}">{{ photo.name }}</a></td>
+                    <td><a class="fa fa-times-circle"
+                           href="{% url 'delete_image' user.username trip.slug post.slug photo.name %}"></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-   <a class="btn btn-primary" href="{% url 'blog_post' trip.owner trip.slug post.slug %}">Back to Post</a>
-
+        <a class="btn btn-primary" href="{% url 'blog_post' trip.owner trip.slug post.slug %}">Back to Post</a>
+        </p>
+    </div>
 {% endblock %}
 
 {% block footer_block %}

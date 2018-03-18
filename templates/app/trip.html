@@ -2,137 +2,140 @@
 {% load staticfiles %}
 
 {% block title_block %}
-{{trip.title}}
+    {{ trip.title }}
 {% endblock %}
 
 {% block css %}
-        .checked{
-            color: orange
-        }
+    .checked{
+    color: orange
+    }
 {% endblock %}
 
 {% block head_js %}
     <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
     <script>
-     $( function() {
-         var rating = 0;
-         $('.fa-star').click(function () {
-             rating = this.id;
-             $('.fa-star').each(function () {
-                 if(this.id <= rating){
-                     $(this).addClass('checked');
-                 }else{
-                     $(this).removeClass('checked');
-                 }
-             });
-         });
+        $(function () {
+            var rating = 0;
+            $('.fa-star').click(function () {
+                rating = this.id;
+                $('.fa-star').each(function () {
+                    if (this.id <= rating) {
+                        $(this).addClass('checked');
+                    } else {
+                        $(this).removeClass('checked');
+                    }
+                });
+            });
 
-         $('#rate').click(function () {
-             if(rating != 0){
-                 var slug;
-                 slug = $(this).attr("data-slug");
-                 $.get('/app/ajax/like_trip/', {slug: slug, rating:rating}, function(data){
-                     $('#like_count').html("Overall score: " + data);
-                     $('#success').html("You rated this Trip: " + rating);
-                     $('.fa-star').each(function () {
-                         $(this).hide();
-                     });
-                      $('#rate').hide();
-                 });
-             }
-         });
-     });
+            $('#rate').click(function () {
+                if (rating != 0) {
+                    var slug;
+                    slug = $(this).attr("data-slug");
+                    $.get('/app/ajax/like_trip/', {slug: slug, rating: rating}, function (data) {
+                        $('#like_count').html("Overall score: " + data);
+                        $('#success').html("You rated this Trip: " + rating);
+                        $('.fa-star').each(function () {
+                            $(this).hide();
+                        });
+                        $('#rate').hide();
+                    });
+                }
+            });
+        });
     </script>
 {% endblock %}
 
 
 {% block body_block %}
     <div class="container">
-<h1>{{trip.title}}</h1>
-    <br>
-        You just landed on the page {{trip.title}} to {{trip.destination}} <br>
-        Trip from {{trip.startDate}} to {{trip.endDate}} <br>
+        <h1>{{ trip.title }}</h1>
+        <br>
+        You just landed on the page {{ trip.title }} to {{ trip.destination }} <br>
+        Trip from {{ trip.startDate }} to {{ trip.endDate }} <br>
 
 
         <strong id="like_count">Overall score: {{ trip.score }}</strong>
-    <div>
-       {% if request.user != trip.owner %}
-        {% if user.is_authenticated %}
-            {% if not rating %}
-                <span id="1" class="fa fa-star fa-2x"></span>
-                <span id="2" class="fa fa-star fa-2x"></span>
-                <span id="3" class="fa fa-star fa-2x"></span>
-                <span id="4" class="fa fa-star fa-2x"></span>
-                <span id="5" class="fa fa-star fa-2x"></span>
-                <button id="rate" data-slug="{{trip.slug}}" class="btn btn-primary" type="button">
-                Rate
-                </button>
-                <span id="success"></span>
-            {% else %}
-                <span>You rated this Trip: {{rating.0.score}}</span>
+        <div>
+            {% if request.user != trip.owner %}
+                {% if user.is_authenticated %}
+                    {% if not rating %}
+                        <span id="1" class="fa fa-star fa-2x"></span>
+                        <span id="2" class="fa fa-star fa-2x"></span>
+                        <span id="3" class="fa fa-star fa-2x"></span>
+                        <span id="4" class="fa fa-star fa-2x"></span>
+                        <span id="5" class="fa fa-star fa-2x"></span>
+                        <button id="rate" data-slug="{{ trip.slug }}" class="btn btn-primary" type="button">
+                            Rate
+                        </button>
+                        <span id="success"></span>
+                    {% else %}
+                        <span>You rated this Trip: {{ rating.0.score }}</span>
+                    {% endif %}
+                {% endif %}
             {% endif %}
-        {% endif %}
-       {% endif %}
-    </div>
+        </div>
 
 
-    {% if elems %}
-    <div class="container">
-                  <table class="table table-bordered">
-                          <thead>
+        {% if elems %}
+            <div class="container">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Publish Date</th>
+                        <th>Number of Comments</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if elems %}
+                        {% for elem in elems %}
                             <tr>
-                              <th>Title</th>
-                              <th>Publish Date</th>
-                              <th>Number of Comments</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {% if elems %}
-                                {% for elem in elems %}
-                                  <tr>
-                                    <td><a href="{% url 'blog_post' trip.owner trip.slug elem.slug %}">{{ elem.title }}</a></td>
-                                    <td>{{ elem.Date }}</td>
-                                    <td>Not implemented</td>
-                                    <td>
+                                <td><a href="{% url 'blog_post' trip.owner trip.slug elem.slug %}">{{ elem.title }}</a>
+                                </td>
+                                <td>{{ elem.Date }}</td>
+                                <td>Not implemented</td>
+                                <td>
                                     {% if request.user == trip.owner %}
-                                        <a class="fa fa-times-circle" href="{% url 'delete_post' user.username trip.slug elem.slug %}"></a>
+                                        <a class="fa fa-times-circle"
+                                           href="{% url 'delete_post' user.username trip.slug elem.slug %}"></a>
                                     {% endif %}
-                                    </td>
-                                    
-                                  </tr>
-                                {% endfor %}
-                              </tbody>
-                            </table>
+                                </td>
 
-                            {% if elems.has_other_pages %}
-                              <ul class="pagination">
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        </table>
+
+                        {% if elems.has_other_pages %}
+                            <ul class="pagination">
                                 {% if elems.has_previous %}
-                                  <li><a href="?page={{ elems.previous_page_number }}">&laquo;</a></li>
+                                    <li><a href="?page={{ elems.previous_page_number }}">&laquo;</a></li>
                                 {% else %}
-                                  <li class="disabled"><span>&laquo;</span></li>
+                                    <li class="disabled"><span>&laquo;</span></li>
                                 {% endif %}
                                 {% for i in elems.paginator.page_range %}
-                                  {% if elems.number == i %}
-                                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                                  {% else %}
-                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                  {% endif %}
+                                    {% if elems.number == i %}
+                                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
+                                        </li>
+                                    {% else %}
+                                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
                                 {% endfor %}
                                 {% if elems.has_next %}
-                                  <li><a href="?page={{ elems.next_page_number }}">&raquo;</a></li>
+                                    <li><a href="?page={{ elems.next_page_number }}">&raquo;</a></li>
                                 {% else %}
-                                  <li class="disabled"><span>&raquo;</span></li>
+                                    <li class="disabled"><span>&raquo;</span></li>
                                 {% endif %}
-                              </ul>
-                            {% endif %}
-                            {% endif %}
-                </div>
-    {% else %}
-        <p>You have not added any blog posts yet!</p>
-    {% endif %}
-    {% if request.user == trip.owner %}
-        <a class="btn btn-primary" href="{% url 'add_blog_post' trip.owner trip.slug%}">Add a New Blog Post</a>
-    {% endif %}
+                            </ul>
+                        {% endif %}
+                    {% endif %}
+            </div>
+        {% else %}
+            <p>You have not added any blog posts yet!</p>
+        {% endif %}
+        {% if request.user == trip.owner %}
+            <a class="btn btn-primary" href="{% url 'add_blog_post' trip.owner trip.slug %}">Add a New Blog Post</a>
+        {% endif %}
     </div>
 {% endblock %}

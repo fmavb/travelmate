@@ -1,60 +1,70 @@
 {% extends 'app/base.html' %}
 {% load staticfiles %}
 {% block title_block %}
-Add a Trip
+    Add a Trip
 {% endblock %}
 {% block body_block %}
     <div id="wrapper">
-    <div class="card text-white bg-secondary">
-        <h1 class ="card-header">Add a new Trip</h1>
-        <form class ="card-body" id="TripForm" method="post" action="/app/add_trip/" onsubmit="return validateForm()">
-            {% csrf_token %}
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    Start of Trip
-                    {{ form.startDate }}
+        <div class="card text-white bg-secondary">
+            <h1 class="card-header">Add a new Trip</h1>
+            <form class="card-body" id="TripForm" method="post" action="/app/add_trip/"
+                  onsubmit="return validateForm()">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        Start of Trip
+                        {{ form.startDate }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        End of Trip
+                        {{ form.endDate }}
+                    </div>
                 </div>
-                <div class="form-group col-md-6">
-                    End of Trip
-                    {{ form.endDate }}
+                <div class="form-group">
+                    <span class="pr-5" id="publicSelector">Public? {{ form.public }}</span>
+                    <span class="alert alert-info"> Check this if you want unregistered users to see your trip!</span>
                 </div>
-            </div>
-            <div class="form-group">
-                <span class="pr-5" id="publicSelector">Public? {{ form.public }}</span>
-                <span class="alert alert-info"> Check this if you want unregistered users to see your trip!</span>
-            </div>
-            <div class="form-group">
-                 <label id="formGroupDestinationLabel">Destination</label>
-                 {{ form.destinationText }}
-                <div class="invalid-feedback invisible text-danger">
-                    Please enter a valid destination (select from Autocomplete)!
+                <div class="form-group">
+                    <label id="formGroupDestinationLabel">Destination</label>
+                    {{ form.destinationText }}
+                    <div class="invalid-feedback invisible text-danger">
+                        Please enter a valid destination (select from Autocomplete)!
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                {{ form.title }}
-            </div>
-            <input class="btn btn-primary float-right" type="submit" name="submit" value="Add Trip" />
-        </form>
-    </div>
+                <div class="form-group">
+                    {{ form.title }}
+                </div>
+                <input class="btn btn-primary float-right" type="submit" name="submit" value="Add Trip"/>
+            </form>
+        </div>
     </div>
 {% endblock %}
 {% block footer_block %}
     <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
     <!--read-only fields will have white backgrounds-->
     <style>
-        html {position: relative;
-            min-height: 100%;}
-        #wrapper{height: 100%}
-        footer{position: absolute;
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+
+        #wrapper {
+            height: 100%
+        }
+
+        footer {
+            position: absolute;
             left: 0;
             bottom: 0;
             width: 100%;
-            overflow:hidden;}
-        input[readonly]
-        {
+            overflow: hidden;
+        }
+
+        input[readonly] {
             background-color: white !important;
         }
     </style>
@@ -65,41 +75,41 @@ Add a Trip
         var data = JSON.parse('{{ json_data | escapejs }}');
         var availableTags = data.names;
         //$ sign is shortcut for jQuery, and getElementById(), function that sets up start and end datepickers
-        $( function() {
+        $(function () {
             var dateFormat = "mm/dd/yy",
                 //Date Range start datepicker function, .on function sets minDate for all datepickers
-                start = $( ".start" ).datepicker({
+                start = $(".start").datepicker({
                     defaultDate: "0",
                     changeMonth: true,
                     changeYear: true,
-                }).on( "change", function() {
-                    end.datepicker( "option", "minDate", getDate( this ) );
+                }).on("change", function () {
+                    end.datepicker("option", "minDate", getDate(this));
                 }),
                 //Date Range end datepicker function, .on function sets maxDate for all datepickers
-                end = $( ".end" ).datepicker({
+                end = $(".end").datepicker({
                     defaultDate: "+1w",
                     changeMonth: true,
                     changeYear: true,
-                }).on( "change", function() {
-                    start.datepicker( "option", "maxDate", getDate( this ) );
+                }).on("change", function () {
+                    start.datepicker("option", "maxDate", getDate(this));
                 });
 
-            $( ".destination" ).autocomplete({
+            $(".destination").autocomplete({
                 //MaxResults is the number of results displayed when autocompleting
                 maxResults: 10,
                 //Source is the array of values we can suggest, inner function slices our parsed array
-                source: function(request, response) {
+                source: function (request, response) {
                     var results = $.ui.autocomplete.filter(availableTags, request.term);
                     response(results.slice(0, this.options.maxResults));
                 }
             });
 
             //Returns selected date in correct format from the element
-            function getDate( element ) {
+            function getDate(element) {
                 var date;
                 try {
-                    date = $.datepicker.parseDate( dateFormat, element.value );
-                } catch( error ) {
+                    date = $.datepicker.parseDate(dateFormat, element.value);
+                } catch (error) {
                     date = null;
                 }
                 return date;
@@ -110,10 +120,10 @@ Add a Trip
         function validateForm() {
             var nameValue = document.getElementById("country").value;
             if (!availableTags.includes(nameValue)) {
-                $( ".destination" ).addClass("is-invalid");
-                $( ".destination" ).val("");
-                $( "#formGroupDestinationLabel" ).addClass("text-danger");
-                $( ".invalid-feedback" ).removeClass("invisible");
+                $(".destination").addClass("is-invalid");
+                $(".destination").val("");
+                $("#formGroupDestinationLabel").addClass("text-danger");
+                $(".invalid-feedback").removeClass("invisible");
                 return false;
             }
         }

@@ -2,62 +2,60 @@
 {% load staticfiles %}
 
 {% block title_block %}
-Search Results
+    Search Results
 {% endblock %}
 
 {% block body_block %}
     <div class="container">
         <h1>Search Results</h1>
-        
-            
-                {% if login_required %}
-             
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr>
 
-                          <th>Username</th>
-                          <th>Home Country</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for result in login_required %}
-                          <tr>
-                            <td><a href="{% url 'view_profile' result.user.username %}">{{ result.user.username }}</a></td>
-                            <td>{{ result.get_home_name }}</td>
-                          </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
 
-                        {% if login_required.has_other_pages %}
-                          <ul class="pagination">
-                            {% if login_required.has_previous %}
-                              <li><a href="?page={{ login_required.previous_page_number }}">&laquo;</a></li>
-                            {% else %}
-                              <li class="disabled"><span>&laquo;</span></li>
-                            {% endif %}
-                            {% for i in login_required.paginator.page_range %}
-                              {% if login_required.number == i %}
-                                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                              {% else %}
-                                <li><a href="?page={{ i }}">{{ i }}</a></li>
-                              {% endif %}
-                            {% endfor %}
-                            {% if login_required.has_next %}
-                              <li><a href="?page={{ login_required.next_page_number }}">&raquo;</a></li>
-                            {% else %}
-                              <li class="disabled"><span>&raquo;</span></li>
-                            {% endif %}
-                          </ul>
+        {% if login_required %}
+
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+
+                    <th>Username</th>
+                    <th>Home Country</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for result in login_required %}
+                    <tr>
+                        <td><a href="{% url 'view_profile' result.user.username %}">{{ result.user.username }}</a></td>
+                        <td>{{ result.get_home_name }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% if login_required.has_other_pages %}
+                <ul class="pagination">
+                    {% if login_required.has_previous %}
+                        <li><a href="?page={{ login_required.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in login_required.paginator.page_range %}
+                        {% if login_required.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
                         {% endif %}
-              
-                {% else %}
-                    No users have been found!
-                {% endif %}
+                    {% endfor %}
+                    {% if login_required.has_next %}
+                        <li><a href="?page={{ login_required.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
 
-        
-            
-       
+        {% else %}
+            No users have been found!
+        {% endif %}
+
+
     </div>
 {% endblock %}
