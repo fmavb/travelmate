@@ -291,6 +291,11 @@ def view_trip(request, username, trip_name_slug):
         context_dict['trip'] = trip
         ratingIN = Rating.objects.filter(trip__exact=trip, owner=request.user)
         context_dict['rating'] = ratingIN
+        comments = {}
+        for post in posts:
+            c = Comment.objects.filter(post=post).count()
+            comments[post.title] = c
+        context_dict['comments'] = comments
     except Trip.DoesNotExist:
         context_dict['trip'] = None
     except BlogPost.DoesNotExist:
@@ -431,3 +436,48 @@ def comment(request):
         c.save()
 
     return JsonResponse(c.as_dict())
+
+@login_required
+def edit_trip(request, username, trip_name_slug):
+    dest = [destination.name for destination in Destination.objects.all().order_by('name')]
+    trip = Trip.objects.get(slug=trip_name_slug)
+    compile = {'names': dest, 'trip':trip.as_dict(), 'public':trip.public}
+    data = json.dumps(compile)
+    form = TripForm()
+    if request.method == 'POST':
+        form = TripForm(request.POST)
+        if form.is_valid():
+            # AutoComplete works with TextInput, therefore we match a valid text input to Destination entity
+            # Form Validation happens in JavaScript, only valid result accepted onSubmit
+            destinationText = form.cleaned_data['destinationText']
+            destinationObject = Destination.objects.get(name__exact=destinationText)
+            trip.destination = destinationObject
+            trip.title = form.cleaned_data['title']
+            trip.startDate = form.cleaned_data['startDate']
+            trip.endDate = form.cleaned_data['endDate']
+            trip.public = form.cleaned_data['public']
+            trip.save()
+            # Use Redirect so that URL in browser also changes
+            return HttpResponseRedirect(reverse('view_profile', kwargs={'username': trip.owner}))
+        else:
+            print(form.errors)
+    return render(request, 'app/edit_trip.html', {'form': form, 'json_data': data, 'slug':trip.slug})
+
+@login_required
+def edit_post(request, username, trip_name_slug, post_name_slug):
+    blog = BlogPost.objects.get(slug=post_name_slug)
+    compile = {'post': blog.as_dict()}
+    data = json.dumps(compile)
+    form = BlogForm()
+    if request.method == 'POST':
+        form = BlogForm(request.POST)
+        if form.is_valid():
+            blog.title = form.cleaned_data['title']
+            blog.content = form.cleaned_data['content']
+            blog.save()
+            # Use Redirect so that URL in browser also changes
+            return HttpResponseRedirect(
+                reverse('view_trip', kwargs={'username': username, 'trip_name_slug': trip_name_slug}))
+        else:
+            print(form.errors)
+    return render(request, 'app/edit_post.html', {'json_data': data, 'form': form, 'tripslug': trip_name_slug, 'postslug': post_name_slug})

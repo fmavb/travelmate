@@ -95,6 +95,12 @@ class BlogPost(models.Model):
         self.slug = slugify(self.title) + "-" + str(self.trip.tripID)
         super(BlogPost, self).save(*args, **kwargs)
 
+    def as_dict(self):
+        return {
+            "content": self.content,
+            "title": self.title,
+        }
+
     def __str__(self):
         return self.title
 

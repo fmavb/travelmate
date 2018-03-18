@@ -3,13 +3,20 @@
 {% block title_block %}
     {{ user.username }}
 {% endblock %}
+{% block css %}
+    img {
+      display: block;
+      max-width:400px;
+      max-height:400px;
+      width: auto;
+      height: auto;
+    }
+{% endblock %}
 {% block body_block %}
     <section class="showcase">
         <div class="container-fluid p-0">
             <div class="row no-gutters">
-
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image:
-                        url('{{ profile.profilePic.url }}');"></div>
+                <div class="col-lg-6 order-lg-2 text-white showcase-img"><img src="{{ profile.profilePic.url }}"></div>
                 <div class="col-lg-6 order-lg-1 my-auto showcase-text">
                     <h2>{{ user.username }}</h2>
                     <p class="lead mb-0">
@@ -37,6 +44,8 @@
                                             <td>
                                                 <a class="fa fa-times-circle"
                                                    href="{% url 'delete_trip' user.username elem.slug %}"></a>
+                                            <a class="fa fa-edit"
+                                                   href="{% url 'edit_trip' user.username elem.slug %}"></a>
                                             </td>
                                         {% endif %}
                                     </tr>

@@ -26,11 +26,6 @@
             $("#fileupload").fileupload({
                 // Save uploaded file data in json
                 dataType: 'json',
-                //Image resizing, self-explanatory attributes
-                disableImageResize: false,
-                imageMaxWidth: 500,
-                imageMaxHeight: 500,
-                imageCrop: true,
                 //When we are done, and have successfully uploaded our images, add the image data to our JSON
                 done: function (e, data) {
                     if (data.result.is_valid) {
