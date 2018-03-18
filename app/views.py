@@ -195,7 +195,7 @@ def settings(request):
 	else:
 		form = Settings(instance=profile)
 
-	request = render(request,'settings.html',{'form': form, 'json_data': data})
+	request = render(request,'settings.html',{'form': form, 'json_data': data, 'previous' : request.META.get('HTTP_REFERER')})
 	return request
 
 

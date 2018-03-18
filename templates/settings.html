@@ -45,7 +45,8 @@ My Settings
 
 {% block body_block %}
 <div class="card text-white bg-secondary">
-        <h1 class ="card-header">Settings</h1>
+        <h1 class ="card-header" id="settings">Settings</h1>
+        <h1 class="card-header" id="welcome">We need a bit more information about you...</h1>
         <form class="card-body" enctype="multipart/form-data" id="SettingsForm" method="post" action="/app/settings/" onsubmit="return validateForm();">
             {% csrf_token %}
             <div class="form-group">
@@ -77,4 +78,16 @@ My Settings
     </div>
 {% endblock %}
 {% block footer_block %}
+    <script>
+        var previous = '{{ previous }}',
+            settings = document.getElementById('settings'),
+            welcome = document.getElementById('welcome');
+        if (previous.includes('register')){
+            settings.style.display = 'none';
+            welcome.style.display = 'block';
+        } else {
+            settings.style.display = "block";
+            welcome.style.display = "none";
+        }
+    </script>
 {% endblock %}
