@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from app.models import *
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 
 def new_user(self):
@@ -21,6 +22,16 @@ def add_trip():
                 owner=User.objects.get(username='testuser'), title='UK'
                 )
     trip.save()
+
+
+def add_blog():
+    blog = BlogPost(user=User.objects.get(username="testuser"), trip=Trip.objects.get(title='UK'), title="Post",
+                    content="Some content", Date=timezone.now())
+    blog.save()
+
+def add_comment():
+    comment = Comment(user=User.objects.get(username='testuser'),post=BlogPost.objects.get(title="Post"),content="A comment")
+    comment.save()
 
 
 # Create your tests here.
@@ -147,15 +158,53 @@ class TestTripView(TestCase):
     def setUp(self):
         populate()
         new_user(self)
-        add_trip()
 
     def test_if_trip_view_works(self):
+        add_trip()
         trip = Trip.objects.get(title='UK')
         slug = trip.slug
         response = self.client.get(reverse('view_trip', kwargs={'username': 'testuser', 'trip_name_slug': slug}))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'United Kingdom')
         self.assertContains(response, 'UK')
+
+    def breakDown(self):
+        self.client.logout()
+
+
+class TestBlogView(TestCase):
+    def setUp(self):
+        populate()
+        new_user(self)
+
+    def test_if_blog_view_works_if_no_comment(self):
+        add_trip()
+        add_blog()
+        blog = BlogPost.objects.get(title='Post')
+        blogSlug = blog.slug
+        trip = Trip.objects.get(title='UK')
+        tripSlug = trip.slug
+        response = self.client.get(reverse('blog_post', kwargs={'username': 'testuser', 'trip_name_slug': tripSlug,
+                                                                'post_name_slug': blogSlug}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Post')
+        self.assertContains(response, 'Some content')
+        self.assertContains(response,'No comments')
+
+    def test_if_blog_view_shows_comments(self):
+        add_trip()
+        add_blog()
+        add_comment()
+        blog = BlogPost.objects.get(title='Post')
+        blogSlug = blog.slug
+        trip = Trip.objects.get(title='UK')
+        tripSlug = trip.slug
+        response = self.client.get(reverse('blog_post', kwargs={'username': 'testuser', 'trip_name_slug': tripSlug,
+                                                                'post_name_slug': blogSlug}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Post')
+        self.assertContains(response, 'Some content')
+        self.assertContains(response, 'A comment')
 
     def breakDown(self):
         self.client.logout()
