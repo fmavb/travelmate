@@ -49,6 +49,10 @@ users = {"john_test":"United Kingdom", "maria_test":"Hungary", "alex_test":"Slov
          "tarzan_test":"United States - California", "cicero_test": "Italy", "julius_test":"Italy", "tom_test":"Switzerland", "ben_test":"Japan",
          "brutus_test":"Australia", "mike_test":"South Africa"}
 
+trips = {
+	"john_test" : {"title": "Trip to New Zealand", "destination":"New Zealand", "s"},
+}
+
 def populate():
 	with open('countries.csv') as csvfile:
 		line = 1

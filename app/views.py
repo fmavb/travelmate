@@ -265,7 +265,6 @@ def base(request):
 
 
 # view for the user profile, context dictionary contains the user, userprofile and the user's trips in reverse chronological order
-@login_required
 def view_profile(request, username):
     user = get_object_or_404(User, username__exact=username)
     try:
