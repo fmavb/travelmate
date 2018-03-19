@@ -18,8 +18,6 @@ class Settings(forms.ModelForm):
 
 
 class TripForm(forms.ModelForm):
-    public = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'public'}))
-    # CharField, since AutoComplete works with text
     destinationText = forms.CharField(required=True, widget=forms.TextInput(
         attrs={'id': 'country', 'class': 'destination form-control', 'placeholder': 'Type Country/State'}))
     title = forms.CharField(required=True, widget=forms.TextInput(
@@ -36,7 +34,7 @@ class TripForm(forms.ModelForm):
 		        attrs={'class': 'end form-control', 'placeholder': 'Please select end of Trip (mm/dd/yyyy)',
 		               'required': 'required'}),
         }
-        fields = ('title', 'startDate', 'endDate', 'public')
+        fields = ('title', 'startDate', 'endDate')
 
 
 class BlogForm(forms.ModelForm):

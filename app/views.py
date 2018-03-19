@@ -226,7 +226,6 @@ def add_trip(request):
             destinationText = form.cleaned_data['destinationText']
             destinationObject = Destination.objects.get(name__exact=destinationText)
             trip.destination = destinationObject
-            trip.public = form.cleaned_data['public']
             trip.save()
             # Use Redirect so that URL in browser also changes
             return HttpResponseRedirect(reverse('home'))
@@ -410,17 +409,15 @@ def like_trip(request):
     score = 0
     if tripslug:
         trip = Trip.objects.get(slug=tripslug)
-        r = Rating(score=rating, owner=request.user, trip=trip)
-        r.save()
         if trip:
+            r = Rating(score=rating, owner=request.user, trip=trip)
+            r.save()
             if trip.score == 0:
                 score = rating
             else:
-                score = ((trip.score + rating) / 2)
-            trip.score = score
-            trip.save()
+                score = ((int(trip.score) + rating) / 2)
 
-    return HttpResponse(score)
+    return HttpResponse(int(score))
 
 
 @login_required
@@ -454,7 +451,6 @@ def edit_trip(request, username, trip_name_slug):
             trip.title = form.cleaned_data['title']
             trip.startDate = form.cleaned_data['startDate']
             trip.endDate = form.cleaned_data['endDate']
-            trip.public = form.cleaned_data['public']
             trip.save()
             # Use Redirect so that URL in browser also changes
             return HttpResponseRedirect(reverse('view_profile', kwargs={'username': trip.owner}))
