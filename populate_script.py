@@ -79,12 +79,16 @@ def add_destination(cc, nam, lat, longi, path):
     return d
 
 def add_user(username, hc):
-	u = User.objects.get_or_create(username=username, password="test1234", email=username+"@test.com")
+	u = User.objects.get_or_create(username=username, password="test1234", email=username+"@test.com")[0]
+	u.username = username
+	u.password = "test1234"
+	u.email = username + "@test.com"
+	u.save()
 	d = Destination.objects.get(name=hc)
 	p = True
 	if(username[0] == "b"):
 		p = False
-	profile = UserProfile.objects.get_or_create(user=u, homeCountry=d, public=p)
+	profile = UserProfile.objects.get_or_create(user=u, homeCountry=d)[0]
 	profile.user = u
 	profile.public = p
 	profile.homeCountry = d
