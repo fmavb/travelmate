@@ -265,6 +265,12 @@ def base(request):
 
 # view for the user profile, context dictionary contains the user, userprofile and the user's trips in reverse chronological order
 def view_profile(request, username):
+    user = get_object_or_404(User,username=username)
+    userPublic = UserProfile.objects.get(user=user)
+    userPublic = userPublic.public
+    if userPublic == False and request.user.is_authenticated == False:
+        return HttpResponseRedirect('/login/')
+
     user = get_object_or_404(User, username__exact=username)
     try:
         profile = UserProfile.objects.get(user__exact=user)
@@ -433,11 +439,12 @@ def comment(request):
 
     return JsonResponse(c.as_dict())
 
+
 @login_required
 def edit_trip(request, username, trip_name_slug):
     dest = [destination.name for destination in Destination.objects.all().order_by('name')]
     trip = Trip.objects.get(slug=trip_name_slug)
-    compile = {'names': dest, 'trip':trip.as_dict(), 'public':trip.public}
+    compile = {'names': dest, 'trip': trip.as_dict(), 'public': trip.public}
     data = json.dumps(compile)
     form = TripForm()
     if request.method == 'POST':
@@ -456,7 +463,8 @@ def edit_trip(request, username, trip_name_slug):
             return HttpResponseRedirect(reverse('view_profile', kwargs={'username': trip.owner}))
         else:
             print(form.errors)
-    return render(request, 'app/edit_trip.html', {'form': form, 'json_data': data, 'slug':trip.slug})
+    return render(request, 'app/edit_trip.html', {'form': form, 'json_data': data, 'slug': trip.slug})
+
 
 @login_required
 def edit_post(request, username, trip_name_slug, post_name_slug):
@@ -475,4 +483,5 @@ def edit_post(request, username, trip_name_slug, post_name_slug):
                 reverse('view_trip', kwargs={'username': username, 'trip_name_slug': trip_name_slug}))
         else:
             print(form.errors)
-    return render(request, 'app/edit_post.html', {'json_data': data, 'form': form, 'tripslug': trip_name_slug, 'postslug': post_name_slug})
+    return render(request, 'app/edit_post.html',
+                  {'json_data': data, 'form': form, 'tripslug': trip_name_slug, 'postslug': post_name_slug})
