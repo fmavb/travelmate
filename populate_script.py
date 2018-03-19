@@ -9,7 +9,8 @@ import django
 django.setup()
 import random
 import csv
-from app.models import Destination
+from django.contrib.auth.models import User
+from app.models import Destination, UserProfile
 
 def auto_migrations():
 	os.environ.setdefault("DJANGO_SETTINGS_MODULE", "travelmate.settings")
@@ -44,19 +45,27 @@ def clear_media():
 		except Exception as e:
 			print(e)
 
+users = {"john_test":"United Kingdom", "maria_test":"Hungary", "alex_test":"Slovakia", "bob_test":"Turkey", "peter_test":"Argentina",
+         "tarzan_test":"United States - California", "cicero_test": "Italy", "julius_test":"Italy", "tom_test":"Switzerland", "ben_test":"Japan",
+         "brutus_test":"Australia", "mike_test":"South Africa"}
+
 def populate():
 	with open('countries.csv') as csvfile:
 		line = 1
-		countries = csv.reader(csvfile, delimiter=';', quotechar='|')
-		for row in countries:
-			print(str(line)+ ".)" + ', '.join(row))
-			line = line +1
-			cc = row[0]
-			name = row[1]
-			latitude = float(row[2])
-			longitude = float(row[3])
-			picPath = "flags\\" + row[4]
-			add_destination(cc, name, latitude, longitude,picPath)
+		# countries = csv.reader(csvfile, delimiter=';', quotechar='|')
+		# for row in countries:
+		# 	print(str(line)+ ".)" + ', '.join(row))
+		# 	line = line +1
+		# 	cc = row[0]
+		# 	name = row[1]
+		# 	latitude = float(row[2])
+		# 	longitude = float(row[3])
+		# 	picPath = "flags\\" + row[4]
+		# 	add_destination(cc, name, latitude, longitude,picPath)
+
+		for key, value in users.items():
+			print("Creating user: " + key)
+			add_user(username=key,hc=value)
             
 
 def add_destination(cc, nam, lat, longi, path):
@@ -69,11 +78,23 @@ def add_destination(cc, nam, lat, longi, path):
     d.save()
     return d
 
+def add_user(username, hc):
+	u = User.objects.get_or_create(username=username, password="test1234", email=username+"@test.com")
+	d = Destination.objects.get(name=hc)
+	p = True
+	if(username[0] == "b"):
+		p = False
+	profile = UserProfile.objects.get_or_create(user=u, homeCountry=d, public=p)
+	profile.user = u
+	profile.public = p
+	profile.homeCountry = d
+	profile.save()
+
 # Start execution here!
 if __name__ == '__main__':
-	print("Auto-migrations")
-	auto_migrations()
-	print("Clearing media/flags")
-	clear_media()
-	print("Starting Country population script...")
+	# print("Auto-migrations")
+	# auto_migrations()
+	# print("Clearing media/flags")
+	# clear_media()
+	print("Starting population script...")
 	populate()
