@@ -6,14 +6,16 @@
 {% block body_block %}
     <header class="masthead text-dark text-center">
         <div class="overlay" id="map"></div>
-        <div class="row">
-            <div class="col-xl-9 mx-auto" id="box">
-                {% if user.is_authenticated %}
-                    <h1 class="mb-lg-5" id="welcome">Welcome to Travelmate, {{ user.username }}!</h1>
-                {% else %}
-                    <h1 class="mb-lg-5">Welcome to Travelmate!</h1>
-                    <a class="btn btn-lg btn-primary" href="{% url 'registration_register' %}">Sign up!</a>
-                {% endif %}
+        <div class="container" id="box">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    {% if user.is_authenticated %}
+                        <h1 class="mb-lg-5" id="welcome">Welcome to Travelmate, {{ user.username }}!</h1>
+                    {% else %}
+                        <h1 class="mb-lg-5">Welcome to Travelmate!</h1>
+                        <a class="btn btn-lg btn-primary" href="{% url 'registration_register' %}">Sign up!</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </header>
@@ -100,19 +102,10 @@
         if (previous.includes('login') || previous.includes('settings')) {
             setTimeout('$("#welcome").fadeOut(1000)', 3000);
         } else {
-            $('#box').remove();
-            $('#map').height($('#map').height()+100);
+            setTimeout('$("#welcome").fadeOut(0)', 0);
         }
     </script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-R2PpdSaF_ER0VvYoxoCuiNVWDaZ60m4&callback=initMap">
     </script>
-    <style>
-    html{
-        overflow-x: hidden;
-    }
-        #box {
-            height: 15vh;
-        }
-    </style>
 {% endblock %}
