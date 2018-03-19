@@ -55,15 +55,18 @@
             {{ post.content }}
 
         </div>
-
+           
         {% if photos %}
-            <div class="jumbotron" style="height: 500px;">
-                <span class="display-3">Image Album!</span>
+            
+            <div class="jumbotron" style="height: 500px;padding-top:50px;">
+            <div class="display-4">Image Album!</div>  
+                
                 <span class="float-right">
                 {% if request.user == trip.owner %}
                     <a class="btn btn-primary" href="{% url 'upload_images' user.username trip.slug post.slug %}">Manage Images</a>
                 {% endif %}
             </span>
+               <br/><br/> <br/>
                 <div id="carouselControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
