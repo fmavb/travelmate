@@ -99,11 +99,13 @@
         }
 
         var previous = '{{ previous }}';
+        {% if user.is_authenticated %}
         if (previous.includes('login') || previous.includes('settings')) {
             setTimeout('$("#box").fadeOut(1000)', 3000);
         } else {
             document.getElementById("box").remove();
         }
+        {% endif %}
     </script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-R2PpdSaF_ER0VvYoxoCuiNVWDaZ60m4&callback=initMap">
