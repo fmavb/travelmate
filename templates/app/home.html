@@ -4,24 +4,22 @@
     Home
 {% endblock %}
 {% block body_block %}
-    <header class="masthead text-dark text-center">
-        <div class="container">
+
+    <div class="map-container">
         <div id="map"></div>
-        </div>
-        <div class="container" id="box">
-            <div class="row">
-                <div class="col-xl-9 mx-auto">
-                    {% if user.is_authenticated %}
-                        <h1 class="mb-lg-5" id="welcome">Welcome to Travelmate, {{ user.username }}!</h1>
-                    {% else %}
-                        <h1 class="mb-lg-5">Welcome to Travelmate!</h1>
-                        <a class="btn btn-lg btn-primary" href="{% url 'registration_register' %}">Sign up!</a>
-                    {% endif %}
-                </div>
+    </div>
+    <div id="box">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                {% if user.is_authenticated %}
+                    <h1 class="mb-lg-5" id="welcome">Welcome to Travelmate, {{ user.username }}!</h1>
+                {% else %}
+                    <h1 class="mb-lg-5">Welcome to Travelmate!</h1>
+                    <a class="btn btn-lg btn-primary" href="{% url 'registration_register' %}">Sign up!</a>
+                {% endif %}
             </div>
         </div>
-    </header>
-
+    </div>
 
 
     <script>
@@ -111,21 +109,26 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-R2PpdSaF_ER0VvYoxoCuiNVWDaZ60m4&callback=initMap">
     </script>
     <style>
-        container{
-            position: relative;
-        }
-        #map{
+    html{
+        overflow-x: hidden;
+    }
+        #map {
             position: absolute;
-            top: 0;
+            top: 200px;
             right: 0;
             bottom: 0;
             left: 0;
         }
         #box {
-            position: relative;
-            float: right;
-            right: 12.5%;
-            top: -60px;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 1000px;
+            height: 100px;
+            text-align: center;
         }
     </style>
 {% endblock %}
