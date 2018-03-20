@@ -293,8 +293,14 @@ def view_trip(request, username, trip_name_slug):
         posts = BlogPost.objects.filter(trip__exact=trip).order_by('Date').reverse()
         context_dict = paginatored(posts, request)
         context_dict['trip'] = trip
+        stringscore = "o"*trip.score
+        context_dict['score'] = stringscore
         ratingIN = Rating.objects.filter(trip__exact=trip, owner=request.user)
-        context_dict['rating'] = ratingIN
+        if(ratingIN.__len__() is not 0):
+            stringrating = "o"*ratingIN[0].score
+        else:
+            stringrating = ""
+        context_dict['rating'] = stringrating
         comments = {}
         for post in posts:
             c = Comment.objects.filter(post=post).count()
@@ -421,7 +427,7 @@ def like_trip(request):
             if trip.score == 0:
                 score = rating
             else:
-                score = ((int(trip.score) + rating) / 2)
+                score = (int(trip.score) + rating) // 2
 
     return HttpResponse(int(score))
 

@@ -4,7 +4,7 @@
     Add a Blog Post
 {% endblock %}
 {% block body_block %}
-    <div class="card text-white bg-secondary">
+    <div class="card">
         <h1 class="card-header">Add a Blog Post</h1>
         <form class="card-body" id="BlogForm" method="post" action="/app/{{ user.username }}/{{ slug }}/add_blog_post/">
             {% csrf_token %}

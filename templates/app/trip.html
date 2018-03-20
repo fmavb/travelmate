@@ -9,6 +9,9 @@
     .checked{
     color: orange
     }
+
+    .overall{
+    color: goldenrod
 {% endblock %}
 
 {% block head_js %}
@@ -20,15 +23,23 @@
     <div class="container">
         <h1>{{ trip.title }}</h1>
         <br>
-        You just landed on the page {{ trip.title }} to {{ trip.destination }} <br>
+        You just landed on <a href="{% url 'view_profile' trip.owner %}">{{ trip.owner.username }}</a>'s trip to {{ trip.destination }} <br>
         Trip from {{ trip.startDate }} to {{ trip.endDate }} <br>
 
 
-        <strong id="like_count">Overall score: {{ trip.score }}</strong>
+        <span><strong id="like_count">Overall score: </strong></span>
+            {% if score != "" %}
+                {% for o in score %}
+                    <span class="fa fa-star fa-2x overall"></span>
+                {% endfor %}
+            {% else %}
+                <span id="norating">Be the first one to rate this trip!</span>
+            {% endif %}
         <div>
             {% if request.user != trip.owner %}
                 {% if user.is_authenticated %}
                     {% if not rating %}
+                        <span id="success"></span>
                         <span id="1" class="fa fa-star fa-2x"></span>
                         <span id="2" class="fa fa-star fa-2x"></span>
                         <span id="3" class="fa fa-star fa-2x"></span>
@@ -37,9 +48,11 @@
                         <button id="rate" data-slug="{{ trip.slug }}" class="btn btn-primary" type="button">
                             Rate
                         </button>
-                        <span id="success"></span>
                     {% else %}
-                        <span>You rated this Trip: {{ rating.0.score }}</span>
+                        <span>You rated this Trip: </span>
+                            {% for o in rating %}
+                                <span class="fa fa-star fa-2x checked"></span>
+                            {% endfor %}
                     {% endif %}
                 {% endif %}
             {% endif %}

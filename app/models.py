@@ -84,7 +84,7 @@ class Rating(models.Model):
 		if(self.trip.score == 0):
 			self.trip.score = self.score
 		else:
-			self.trip.score = (self.trip.score + self.score)/2
+			self.trip.score = (self.trip.score + self.score)//2
 		self.trip.save()
 		super(Rating, self).save(*args, **kwargs)
 

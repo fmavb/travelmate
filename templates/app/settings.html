@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block body_block %}
-    <div class="card text-white bg-secondary">
+    <div class="card">
         <h1 class="card-header" id="settings">Settings</h1>
         <h1 class="card-header" id="welcome">We need a bit more information about you...</h1>
         <form class="card-body" enctype="multipart/form-data" id="SettingsForm" method="post" action="/app/settings/"
@@ -40,7 +40,7 @@
 
             <div class="form-group">
                 <span class="pr-5" id="publicSelector">Public? {{ form.public }}</span>
-                <span class="alert alert-info"> Check this if you want unregistered users to see your trip!</span>
+                <span class="alert alert-info"> Check this if you want unregistered users to see your trips!</span>
             </div>
             <label>Profile Picture:</label>
             {{ form.profilePic }}

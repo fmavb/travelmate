@@ -55,6 +55,9 @@
             {{ post.content }}
 
         </div>
+        <div class="pt-5">
+            <a class="btn btn-primary" href="{% url 'view_trip' user.username trip.slug %}">Back to Trip</a>
+        </div>
            
         {% if photos %}
             
@@ -96,15 +99,15 @@
         {% endif %}
     </div>
 
-    {% if request.user != trip.owner %}
-        <div class="container">
-            <textarea id="comment" rows="4" cols="125" maxlength="255" placeholder="Write a nice comment..."></textarea>
-            <input id="commentsubmit" data-slug="{{ post.slug }}" class="btn btn-primary float-right" type="submit"
-                   name="submit" value="Publish"/>
-        </div>
-    {% endif %}
 
-    <div class="container">
+    <div class="container pt-3">
+        {% if request.user != trip.owner %}
+            <div>
+                <textarea id="comment" rows="4" cols="125" maxlength="255" placeholder="Write a nice comment..."></textarea>
+                <input id="commentsubmit" data-slug="{{ post.slug }}" class="btn btn-primary float-right" type="submit"
+                       name="submit" value="Publish"/>
+            </div>
+        {% endif %}
         <h6>Comments:</h6>
         <div id="commentsection">
             {% if comments %}
