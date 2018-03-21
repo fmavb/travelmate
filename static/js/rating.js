@@ -29,6 +29,9 @@
                         $('.unchecked').each(function () {
                             $(this).hide();
                         });
+                        $('.checked').each(function () {
+                            $(this).unbind('click');
+                        });
                         $('#rate').hide();
                         $('#norating').hide();
                     });

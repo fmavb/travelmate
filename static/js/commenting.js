@@ -41,6 +41,7 @@ $(function () {
                             commentstring = "<p>" + response.user + " on " + response.date + " said: <br>" +
                                 response.content + "</p>";
                             $('#commentsection').append(commentstring);
+                            $('#comment').val("");
                         }
                     });
 

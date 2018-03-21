@@ -15,7 +15,9 @@
 {% endblock %}
 
 {% block head_js %}
-    <script src="{% static 'js/rating.js' %}"></script>
+    {% if not rating %}
+        <script src="{% static 'js/rating.js' %}"></script>
+    {% endif %}
 {% endblock %}
 
 
@@ -27,14 +29,19 @@
         Trip from {{ trip.startDate }} to {{ trip.endDate }} <br>
 
 
-        <span><strong id="like_count">Overall score: </strong></span>
+        <div id="like_count">Overall score:
             {% if score != "" %}
                 {% for o in score %}
                     <span class="fa fa-star fa-2x overall"></span>
                 {% endfor %}
             {% else %}
-                <span id="norating">Be the first one to rate this trip!</span>
+                {% if request.user != trip.owner %}
+                    <span id="norating">Be the first one to rate this trip!</span>
+                {% else %}
+                    <span id="norating">No one yet rated your trip!</span>
+                {% endif %}
             {% endif %}
+        </div>
         <div>
             {% if request.user != trip.owner %}
                 {% if user.is_authenticated %}
