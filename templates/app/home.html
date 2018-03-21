@@ -100,7 +100,7 @@
 
         var previous = '{{ previous }}';
         {% if user.is_authenticated %}
-        if (previous.includes('login') || previous.includes('settings')) {
+        if (previous.includes('login') || previous.includes('settings') || previous.includes('register')) {
             setTimeout('$("#box").fadeOut(1000)', 3000);
         } else {
             document.getElementById("box").remove();
