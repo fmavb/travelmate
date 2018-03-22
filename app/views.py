@@ -288,6 +288,11 @@ def view_profile(request, username):
 # and the trip's blogposts ordered by in reverse chronological order
 def view_trip(request, username, trip_name_slug):
     context_dict = {}
+    user = get_object_or_404(User, username=username)
+    userPublic = UserProfile.objects.get(user=user)
+    userPublic = userPublic.public
+    if userPublic == False and request.user.is_authenticated == False:
+        return HttpResponseRedirect('/login/')
     try:
         trip = Trip.objects.get(slug=trip_name_slug)
         posts = BlogPost.objects.filter(trip__exact=trip).order_by('Date').reverse()
@@ -295,7 +300,9 @@ def view_trip(request, username, trip_name_slug):
         context_dict['trip'] = trip
         stringscore = "o"*trip.score
         context_dict['score'] = stringscore
-        ratingIN = Rating.objects.filter(trip__exact=trip, owner=request.user)
+        ratingIN = []
+        if (not request.user.is_anonymous):
+            ratingIN = Rating.objects.filter(trip__exact=trip, owner=request.user)
         if(ratingIN.__len__() is not 0):
             stringrating = "o"*ratingIN[0].score
         else:

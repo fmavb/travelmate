@@ -36,7 +36,11 @@
                 {% endfor %}
             {% else %}
                 {% if request.user != trip.owner %}
-                    <span id="norating">Be the first one to rate this trip!</span>
+                    {% if user.is_authenticated %}
+                        <span id="norating">Be the first one to rate this trip!</span>
+                    {% else %}
+                        <span id="norating"><a href="{% url 'login' %}">Log in</a>, and be the first one to rate this trip!</span>
+                    {% endif %}
                 {% else %}
                     <span id="norating">No one yet rated your trip!</span>
                 {% endif %}
