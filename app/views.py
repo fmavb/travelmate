@@ -295,12 +295,13 @@ def view_trip(request, username, trip_name_slug):
         context_dict['trip'] = trip
         stringscore = "o"*trip.score
         context_dict['score'] = stringscore
-        ratingIN = Rating.objects.filter(trip__exact=trip, owner=request.user)
-        if(ratingIN.__len__() is not 0):
-            stringrating = "o"*ratingIN[0].score
-        else:
-            stringrating = ""
-        context_dict['rating'] = stringrating
+        if request.user.is_authenticated:
+            ratingIN = Rating.objects.filter(trip__exact=trip, owner=request.user)
+            if(ratingIN.__len__() is not 0):
+                stringrating = "o"*ratingIN[0].score
+            else:
+                stringrating = ""
+            context_dict['rating'] = stringrating
         comments = {}
         for post in posts:
             c = Comment.objects.filter(post=post).count()
