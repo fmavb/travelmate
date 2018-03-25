@@ -10,6 +10,7 @@
             {% csrf_token %}
             <div class="form-group">
                 <label id="formGroupDestinationLabel">Title</label>
+                {{ form.title.errors }}
                 {{ form.title }}
             </div>
             <div class="form-group">
