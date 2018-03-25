@@ -5,7 +5,7 @@
 {% endblock %}
 {% block body_block %}
     <div id="wrapper">
-        <div class="card text-white bg-secondary">
+        <div class="card">
             <h1 class="card-header">Edit Trip</h1>
             <form class="card-body" id="TripForm" method="post" action="/app/{{ user.username }}/edit_trip/{{ slug }}/"
                   onsubmit="return validateForm()">

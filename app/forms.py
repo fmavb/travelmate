@@ -21,7 +21,7 @@ class TripForm(forms.ModelForm):
     destinationText = forms.CharField(required=True, widget=forms.TextInput(
         attrs={'id': 'country', 'class': 'destination form-control', 'placeholder': 'Type Country/State'}))
     title = forms.CharField(required=True, widget=forms.TextInput(
-        attrs={'id': 'title' ,'class': 'form-control', 'placeholder': 'Give your trip a title!'}))
+        attrs={'id': 'title', 'class': 'form-control', 'placeholder': 'Give your trip a title!'}))
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
@@ -30,18 +30,18 @@ class TripForm(forms.ModelForm):
         widgets = {'startDate': DateInput(
             attrs={'class': 'start form-control', 'placeholder': 'Please select start of Trip (mm/dd/yyyy)',
                    'required': 'required'}),
-	        'endDate': DateInput(
-		        attrs={'class': 'end form-control', 'placeholder': 'Please select end of Trip (mm/dd/yyyy)',
-		               'required': 'required'}),
+            'endDate': DateInput(
+                attrs={'class': 'end form-control', 'placeholder': 'Please select end of Trip (mm/dd/yyyy)',
+                       'required': 'required'}),
         }
         fields = ('title', 'startDate', 'endDate')
 
 
 class BlogForm(forms.ModelForm):
     title = forms.CharField(required=True, widget=forms.TextInput(
-        attrs={'id':'title','class': 'form-control', 'placeholder': 'Give your blogpost a title!'}))
+        attrs={'id': 'title', 'class': 'form-control', 'placeholder': 'Give your blogpost a title!'}))
     content = forms.CharField(required=True, widget=forms.Textarea(
-        attrs={'id':'content', 'rows': 8, 'class': 'form-control', 'placeholder': 'Give your trip some content!'}))
+        attrs={'id': 'content', 'rows': 8, 'class': 'form-control', 'placeholder': 'Give your trip some content!'}))
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:

@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
+
 # Tests were written before the population script was extended, it is therefore normal that some tests fail.
 
 def new_user(self):
@@ -30,8 +31,10 @@ def add_blog():
                     content="Some content", Date=timezone.now())
     blog.save()
 
+
 def add_comment():
-    comment = Comment(user=User.objects.get(username='testuser'),post=BlogPost.objects.get(title="Post"),content="A comment")
+    comment = Comment(user=User.objects.get(username='testuser'), post=BlogPost.objects.get(title="Post"),
+                      content="A comment")
     comment.save()
 
 
@@ -212,7 +215,7 @@ class TestBlogView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Post')
         self.assertContains(response, 'Some content')
-        self.assertContains(response,'No comments')
+        self.assertContains(response, 'No comments')
 
     def test_if_blog_view_shows_comments(self):
         add_trip()

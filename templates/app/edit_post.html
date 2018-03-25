@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block body_block %}
-    <div class="card text-white bg-secondary">
+    <div class="card">
         <h1 class="card-header">Edit Blog Post</h1>
         <form class="card-body" id="BlogForm" method="post" action="/app/{{ user.username }}/{{ tripslug }}/edit_post/{{ postslug }}/">
             {% csrf_token %}
