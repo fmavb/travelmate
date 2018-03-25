@@ -12,6 +12,27 @@
       height: auto;
     }
 {% endblock %}
+{% block head_js %}
+<script>
+  $(function () {
+    var href;
+    var title;
+    var elem = $(".deletestart");
+    elem.each(function(){
+      $(this).click(function(){
+        href = $(this).attr("data-href");
+        title = $(this).attr("data-title");
+        $("#title").text(title);
+      });
+    });
+    $("#deletebutton").click(function(){
+      if(href != ""){
+        window.location.href = href;
+      }
+    });
+  });
+</script>
+{% endblock %}
 {% block body_block %}
     <section class="showcase">
         <div class="container-fluid p-0">
@@ -42,9 +63,9 @@
                                         <td>{{ elem.endDate }}</td>
                                         {% if request.user == elem.owner %}
                                             <td>
-                                                <a class="fa fa-times-circle"
-                                                   href="{% url 'delete_trip' user.username elem.slug %}"></a>
-                                            <a class="fa fa-edit"
+                                              <a data-href="{% url 'delete_trip' user.username elem.slug %}" class="fa fa-times-circle deletestart" href="#"
+                                              data-title="{{ elem.title }}" data-toggle="modal" data-target="#deletebox"></a>
+                                              <a class="fa fa-edit"
                                                    href="{% url 'edit_trip' user.username elem.slug %}"></a>
                                             </td>
                                         {% endif %}
@@ -85,4 +106,25 @@
             </div>
         </div>
     </section>
+
+    <div id="deletebox" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="modaltext">Are you sure you want to delete this trip?</p>
+            <p id="title"></p>
+          </div>
+          <div class="modal-footer">
+            <button id="deletebutton" type="button" class="btn btn-primary">Delete</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 {% endblock %}

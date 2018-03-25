@@ -58,12 +58,12 @@
         <div class="pt-5">
             <a class="btn btn-primary" href="{% url 'view_trip' user.username trip.slug %}">Back to Trip</a>
         </div>
-           
+
         {% if photos %}
-            
+
             <div class="jumbotron" style="height: 500px;padding-top:50px;">
-            <div class="display-4">Image Album!</div>  
-                
+            <div class="display-4">Image Album!</div>
+
                 <span class="float-right">
                 {% if request.user == trip.owner %}
                     <a class="btn btn-primary" href="{% url 'upload_images' user.username trip.slug post.slug %}">Manage Images</a>
