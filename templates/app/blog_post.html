@@ -99,7 +99,7 @@
         {% endif %}
     </div>
 
-
+    {% if request.user.is_authenticated %}
     <div class="container pt-3">
         {% if request.user != trip.owner %}
             <div>
@@ -120,4 +120,5 @@
             {% endif %}
         </div>
     </div>
+    {% endif %}
 {% endblock %}

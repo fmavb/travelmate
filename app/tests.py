@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
+# Tests were written before the population script was extended, it is therefore normal that some tests fail.
 
 def new_user(self):
     self.user = User.objects.create_user(username='testuser', password='12345')
@@ -100,11 +101,6 @@ class TestSettingsView(TestCase):
         response = self.client.get(reverse('settings'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'United Kingdom')
-
-    def test_if_redirected_if_user_not_logged_in(self):
-        self.client.logout()
-        response = self.client.get(reverse('passport'))
-        self.assertRedirects(response, '/login/?next=/app/settings/')
 
     def breakDown(self):
         self.client.logout()
@@ -205,6 +201,23 @@ class TestBlogView(TestCase):
         self.assertContains(response, 'Post')
         self.assertContains(response, 'Some content')
         self.assertContains(response, 'A comment')
+
+    def test_blog_view_redirect_when_logged_out_and_user_private(self):
+        add_trip()
+        add_blog()
+        user = User.objects.get(username='testuser')
+        user = UserProfile.objects.get(user=user)
+        user.public = False
+        user.save()
+        self.client.logout()
+        blog = BlogPost.objects.get(title='Post')
+        blogSlug = blog.slug
+        trip = Trip.objects.get(title='UK')
+        tripSlug = trip.slug
+        response = self.client.get(reverse('blog_post', kwargs={'username': 'testuser', 'trip_name_slug': tripSlug,
+                                                                'post_name_slug': blogSlug}))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/login/')
 
     def breakDown(self):
         self.client.logout()
