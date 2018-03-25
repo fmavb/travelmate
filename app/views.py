@@ -325,6 +325,7 @@ def view_trip(request, username, trip_name_slug):
 def blog_post(request, username, trip_name_slug, post_name_slug):
 	# Had to remove the context_dict, it was interfering with the form
 	try:
+		user = User.objects.get(username=username)
 		post = BlogPost.objects.get(slug=post_name_slug)
 		trip = Trip.objects.get(slug=trip_name_slug)
 	except BlogPost.DoesNotExist:
@@ -335,7 +336,7 @@ def blog_post(request, username, trip_name_slug, post_name_slug):
 	comments = Comment.objects.filter(post=post)
 
 	return render(request, 'app/blog_post.html',
-				  {'post': post, 'trip': trip, 'photos': photos_list, 'comments': comments})
+				  {'post': post, 'trip': trip, 'photos': photos_list, 'comments': comments,'user':user})
 
 
 # View that deletes a specific trip
