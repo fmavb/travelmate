@@ -164,6 +164,33 @@ class TestTripView(TestCase):
         self.assertContains(response, 'United Kingdom')
         self.assertContains(response, 'UK')
 
+    def test_blog_view_redirect_when_logged_out_and_user_private(self):
+        add_trip()
+        user = User.objects.get(username='testuser')
+        user = UserProfile.objects.get(user=user)
+        user.public = False
+        user.save()
+        self.client.logout()
+        trip = Trip.objects.get(title='UK')
+        tripSlug = trip.slug
+        response = self.client.get(reverse('view_trip', kwargs={'username': 'testuser', 'trip_name_slug': tripSlug}))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/login/')
+
+    def test_blog_view_redirect_when_logged_out_and_user_public(self):
+        add_trip()
+        add_blog()
+        user = User.objects.get(username='testuser')
+        user = UserProfile.objects.get(user=user)
+        user.public = True
+        user.save()
+        self.client.logout()
+        trip = Trip.objects.get(title='UK')
+        tripSlug = trip.slug
+        response = self.client.get(reverse('view_trip', kwargs={'username': 'testuser', 'trip_name_slug': tripSlug}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'UK')
+
     def breakDown(self):
         self.client.logout()
 
@@ -218,6 +245,23 @@ class TestBlogView(TestCase):
                                                                 'post_name_slug': blogSlug}))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/login/')
+
+    def test_blog_view_redirect_when_logged_out_and_user_public(self):
+        add_trip()
+        add_blog()
+        user = User.objects.get(username='testuser')
+        user = UserProfile.objects.get(user=user)
+        user.public = True
+        user.save()
+        self.client.logout()
+        blog = BlogPost.objects.get(title='Post')
+        blogSlug = blog.slug
+        trip = Trip.objects.get(title='UK')
+        tripSlug = trip.slug
+        response = self.client.get(reverse('blog_post', kwargs={'username': 'testuser', 'trip_name_slug': tripSlug,
+                                                                'post_name_slug': blogSlug}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Post')
 
     def breakDown(self):
         self.client.logout()

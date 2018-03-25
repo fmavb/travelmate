@@ -359,7 +359,7 @@ def delete_post(request, username, trip_name_slug, post_name_slug):
     object.delete()
     return HttpResponseRedirect(reverse('view_trip', kwargs={'username': username, 'trip_name_slug': trip_name_slug}))
 
-
+@login_required
 def upload_images(request, username, trip_name_slug, post_name_slug):
     # Construct the context Dictionary
     context_dict = {}
