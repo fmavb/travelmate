@@ -513,19 +513,20 @@ def check_title(request):
     type = None
     if request.method == 'GET':
         title = request.GET['title']
+        title = title.lower()
         type = request.GET['type']
 
     check = False
     if title:
         if(type == "trip"):
             try:
-                trip = Trip.objects.get(owner=request.user, title__exact=title)
+                trip = Trip.objects.get(owner=request.user, title__iexact=title)
                 check = False
             except Trip.DoesNotExist:
                 check = True
         elif(type == "blog"):
             try:
-                blog = BlogPost.objects.get(user=request.user, title__exact=title)
+                blog = BlogPost.objects.get(user=request.user, title__iexact=title)
                 check = False
             except BlogPost.DoesNotExist:
                 check = True
