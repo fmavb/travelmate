@@ -37,6 +37,12 @@ def add_comment():
                       content="A comment")
     comment.save()
 
+def sort_dict(d):
+    user_list = []
+    for key, value in sorted(d.items(), key=itemgetter(1), reverse=True):
+        user_list.append([key, value])
+    return user_list
+
 
 # Create your tests here.
 class TestTripsModel(TestCase):
@@ -265,6 +271,34 @@ class TestBlogView(TestCase):
                                                                 'post_name_slug': blogSlug}))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Post')
+
+    def breakDown(self):
+        self.client.logout()
+
+class TestPopularTripsView(TestCase):
+    def setUp(self):
+        populate()
+        new_user(self)
+
+    def test_if_trips_are_shown_in_popular_order(self):
+        popTrips = Trip.objects.order_by('score').reverse()[:10]
+        response = self.client.get(reverse('pop_trips'))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['elems'], [repr(elt) for elt in popTrips])
+
+    def breakDown(self):
+        self.client.logout()
+
+class TestRecentTripsView(TestCase):
+    def setUp(self):
+        populate()
+        new_user(self)
+
+    def test_if_trips_are_shown_in_most_recent_order(self):
+        recentTrips = Trip.objects.order_by('startDate').reverse()[:10]
+        response = self.client.get(reverse('recent_trips'))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['elems'], [repr(elt) for elt in recentTrips])
 
     def breakDown(self):
         self.client.logout()
