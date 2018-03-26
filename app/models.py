@@ -49,9 +49,7 @@ class Trip(models.Model):
     score = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
-        someTrip = Trip.objects.all().order_by("-tripID")[0]
-        newTripID = someTrip.tripID + 1
-        self.slug = slugify(self.title) + "-" + str(self.owner.id) + "-" + str(newTripID)
+        self.slug = slugify(self.title) + "-" + str(self.owner.id)
         profile = UserProfile.objects.get(user=self.owner)
         self.public = profile.public
         super(Trip, self).save(*args, **kwargs)
@@ -104,9 +102,7 @@ class BlogPost(models.Model):
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
-        someBlogPost = BlogPost.objects.all().order_by("-postID")[0]
-        newPostID = someBlogPost.postID + 1
-        self.slug = slugify(self.title) + "-" + str(self.trip.tripID) + "-" + str(newPostID)
+        self.slug = slugify(self.title) + "-" + str(self.trip.tripID)
         super(BlogPost, self).save(*args, **kwargs)
 
     def as_dict(self):

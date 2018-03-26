@@ -1,3 +1,6 @@
+//These are used for checking if datepickers are empty
+var startcheck = null;
+var endcheck = null;
 $(function () {
             var dateFormat = "mm/dd/yy",
                 //Date Range start datepicker function, .on function sets minDate for all datepickers
@@ -6,6 +9,7 @@ $(function () {
                     changeMonth: true,
                     changeYear: true,
                 }).on("change", function () {
+                    startcheck = getDate(this);
                     end.datepicker("option", "minDate", getDate(this));
                 }),
                 //Date Range end datepicker function, .on function sets maxDate for all datepickers
@@ -14,6 +18,7 @@ $(function () {
                     changeMonth: true,
                     changeYear: true,
                 }).on("change", function () {
+                    endcheck = getDate(this);
                     start.datepicker("option", "maxDate", getDate(this));
                 });
 
@@ -54,6 +59,12 @@ $(function () {
             $("#title").removeClass("is-invalid");
             $("#TitleLabel").removeClass("text-danger");
             $(".invalid-title").addClass("invisible");
+            $(".start").removeClass("is-invalid");
+            $("#StartLabel").removeClass("text-danger");
+            $(".invalid-start").addClass("invisible");
+            $(".end").removeClass("is-invalid");
+            $("#EndLabel").removeClass("text-danger");
+            $(".invalid-end").addClass("invisible");
 
             var nameValue = document.getElementById("country").value;
             var title = $("#title").val();
@@ -65,12 +76,17 @@ $(function () {
                 $(".invalid-feedback").removeClass("invisible");
                 flag= false;
             }
-            if($(".start".val() == "")){
+            if(startcheck == null){
               flag= false;
               $(".start").addClass("is-invalid");
-              $(".start").val("");
               $("#StartLabel").addClass("text-danger");
               $(".invalid-start").removeClass("invisible");
+            }
+            if(endcheck == null){
+              flag= false;
+              $(".end").addClass("is-invalid");
+              $("#EndLabel").addClass("text-danger");
+              $(".invalid-end").removeClass("invisible");
             }
             if(title != ""){
               $.ajax({
@@ -90,6 +106,7 @@ $(function () {
                 }
               });
             }else{
+              flag = false;
               $("#title").addClass("is-invalid");
               $("#title").val("");
               $("#TitleLabel").addClass("text-danger");

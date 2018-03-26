@@ -25,20 +25,31 @@ function validateForm() {
       $("#ContentLabel").addClass("text-danger");
       $(".invalid-content").removeClass("invisible");
     }
-    $.ajax({
-      type: 'GET',
-      async:false,
-      url: '/app/ajax/check_title/',
-      data: {title:title, type:"blog"},
-      success: function(data){
-        if(data=="False"){
-          flag = false;
-          $("#title").addClass("is-invalid");
-          $("#title").val("");
-          $("#TitleLabel").addClass("text-danger");
-          $(".invalid-title").removeClass("invisible");
+    if(title != ""){
+      $.ajax({
+        type: 'GET',
+        async:false,
+        url: '/app/ajax/check_title/',
+        data: {title:title, type:"blog"},
+        success: function(data){
+          if(data=="False"){
+            flag = false;
+            $("#title").addClass("is-invalid");
+            $("#title").val("");
+            $("#TitleLabel").addClass("text-danger");
+            $(".invalid-title").text("This trip already has a BlogPost with this title!");
+            $(".invalid-title").removeClass("invisible");
+          }
         }
-      }
-    });
+      });
+    }else{
+      flag = false;
+      $("#title").addClass("is-invalid");
+      $("#title").val("");
+      $("#TitleLabel").addClass("text-danger");
+      $(".invalid-title").text("Please enter a title for your BlogPost!");
+      $(".invalid-title").removeClass("invisible");
+    }
+
     return flag;
 }
