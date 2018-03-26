@@ -44,7 +44,7 @@ class Trip(models.Model):
     endDate = models.DateField()
     public = models.BooleanField(default=False)
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE)
-    title = models.CharField(max_length=85, unique=True)
+    title = models.CharField(max_length=85)
     slug = models.SlugField(unique=True)
     score = models.IntegerField(default=0)
 
@@ -98,7 +98,7 @@ class BlogPost(models.Model):
     Date = models.DateField()
     content = models.TextField()
     trip = models.ForeignKey(Trip, related_name='posts')
-    title = models.CharField(max_length=85,unique=True)
+    title = models.CharField(max_length=85)
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):

@@ -7,17 +7,18 @@
     <div id="wrapper">
         <div class="card">
             <h1 class="card-header">Add a new Trip</h1>
-            <form class="card-body" id="TripForm" method="post" action="/app/add_trip/"
-                  onsubmit="return validateForm()">
+            <form id="tripform" class="card-body" method="post" action="/app/add_trip/">
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        Start of Trip
+                        <label id="StartLabel">Start of Trip</label>
                         {{ form.startDate }}
+                        <div class="invalid-start invisible text-danger"></div>
                     </div>
                     <div class="form-group col-md-6">
-                        End of Trip
+                        <label id="EndLabel">End of Trip</label>
                         {{ form.endDate }}
+                        <div class="invalid-end invisible text-danger"></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -28,10 +29,12 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    {{ form.title.errors}}
+                  <label id="TitleLabel">Title</label>
                     {{ form.title }}
+                    {{ form.title.errors}}
+                    <div class="invalid-title invisible text-danger"></div>
                 </div>
-                <input class="btn btn-primary float-right" type="submit" name="submit" value="Add Trip"/>
+                <input id="submit-button"class="btn btn-primary float-right" type="submit" name="validate" value="Add Trip"/>
             </form>
         </div>
     </div>

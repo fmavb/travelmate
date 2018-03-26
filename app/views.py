@@ -506,3 +506,27 @@ def edit_post(request, username, trip_name_slug, post_name_slug):
             print(form.errors)
     return render(request, 'app/edit_post.html',
                   {'json_data': data, 'form': form, 'tripslug': trip_name_slug, 'postslug': post_name_slug})
+
+@login_required
+def check_title(request):
+    title = None
+    type = None
+    if request.method == 'GET':
+        title = request.GET['title']
+        type = request.GET['type']
+
+    check = False
+    if title:
+        if(type == "trip"):
+            try:
+                trip = Trip.objects.get(owner=request.user, title__exact=title)
+                check = False
+            except Trip.DoesNotExist:
+                check = True
+        elif(type == "blog"):
+            try:
+                blog = BlogPost.objects.get(user=request.user, title__exact=title)
+                check = False
+            except BlogPost.DoesNotExist:
+                check = True
+    return HttpResponse(check)

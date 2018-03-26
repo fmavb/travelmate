@@ -7,8 +7,7 @@
     <div id="wrapper">
         <div class="card">
             <h1 class="card-header">Edit Trip</h1>
-            <form class="card-body" id="TripForm" method="post" action="/app/{{ user.username }}/edit_trip/{{ slug }}/"
-                  onsubmit="return validateForm()">
+            <form class="card-body" id="tripform" method="post" action="/app/{{ user.username }}/edit_trip/{{ slug }}/">
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -28,10 +27,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    {{ form.title.errors }}
+                  <label id="TitleLabel">Title</label>
                     {{ form.title }}
+                    {{ form.title.errors}}
+                    <div class="invalid-title invisible text-danger">
+                        You already have a trip with that title!
+                    </div>
                 </div>
-                <input class="btn btn-primary float-right" type="submit" name="submit" value="Edit Trip"/>
+                <input id="submit-button" class="btn btn-primary float-right" type="submit" name="validate" value="Edit Trip"/>
             </form>
         </div>
     </div>

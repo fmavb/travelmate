@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^settings/$', views.settings, name='settings'),
     url(r'^ajax/like_trip/$', views.like_trip, name='like_trip'),
     url(r'^ajax/comment/$', views.comment, name='comment'),
+    url(r'^ajax/check_title/$', views.check_title, name='check_title'),
     url(r'^(?P<username>[\w\-]+)/$', views.view_profile, name='view_profile'),
 
     url(r'^(?P<username>[\w\-]+)/delete_trip/(?P<trip_name_slug>[\w\-]+)/$', views.delete_trip, name='delete_trip'),
