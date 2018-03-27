@@ -142,6 +142,10 @@ def most_active_travellers(request):
 # view for the passport page, context dictionary contains the destinations
 @login_required
 def passport(request):
+    try:
+        userprofile = UserProfile.objects.get(user__exact=request.user)
+    except UserProfile.DoesNotExist:
+        return HttpResponseRedirect(reverse('settings'))
     trips = Trip.objects.filter(owner=request.user).order_by('destination')
     output = []
     # Checking for duplicate destinations
@@ -215,6 +219,11 @@ def add_trip(request):
     compile = {'names': dest}
     data = json.dumps(compile)
 
+    try:
+        userprofile = UserProfile.objects.get(user__exact=request.user)
+    except UserProfile.DoesNotExist:
+        return HttpResponseRedirect(reverse('settings'))
+
     form = TripForm()
     if request.method == 'POST':
         form = TripForm(request.POST)
@@ -265,17 +274,24 @@ def base(request):
 
 # view for the user profile, context dictionary contains the user, userprofile and the user's trips in reverse chronological order
 def view_profile(request, username):
+    try:
+        user = User.objects.get(username=username)
+        userProfile = UserProfile.objects.get(user=user)
+    except User.DoesNotExist:
+        return HttpResponseRedirect(reverse('home'))
+    except UserProfile.DoesNotExist:
+        return HttpResponseRedirect(reverse('settings'))
+
     user = get_object_or_404(User, username=username)
     userPublic = UserProfile.objects.get(user=user)
     userPublic = userPublic.public
     if userPublic == False and request.user.is_authenticated == False:
-        return HttpResponseRedirect('/login/')
-
-    user = get_object_or_404(User, username__exact=username)
+        return HttpResponseRedirect(reverse('login'))
     try:
         profile = UserProfile.objects.get(user__exact=user)
     except UserProfile.DoesNotExist:
-        return HttpResponseRedirect("/app/settings/")
+        return HttpResponseRedirect(reverse('settings'))
+    user = get_object_or_404(User, username__exact=username)
     trips_list = Trip.objects.filter(owner=user).order_by('startDate').reverse()
     context_dict = paginatored(trips_list, request)
     context_dict['user'] = user
