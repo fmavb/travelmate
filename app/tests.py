@@ -6,6 +6,7 @@ from app.models import *
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+import operator
 
 
 # Tests were written before the population script was extended, it is therefore normal that some tests fail.
@@ -39,7 +40,7 @@ def add_comment():
 
 def sort_dict(d):
     user_list = []
-    for key, value in sorted(d.items(), key=itemgetter(1), reverse=True):
+    for key, value in sorted(d.items(), key=operator.itemgetter(1), reverse=True):
         user_list.append([key, value])
     return user_list
 
@@ -54,6 +55,8 @@ class TestTripsModel(TestCase):
         add_trip()
         self.assertRaises(ValidationError)
         # self.assertEqual((trip.startDate <= trip.endDate), True)
+
+
 
 
 class TestMyProfileView(TestCase):
@@ -77,6 +80,8 @@ class TestMyProfileView(TestCase):
     def breakDown(self):
         self.client.logout()
 
+    def breakDown(self):
+        self.client.logout()
 
 class TestHomeView(TestCase):
 
@@ -186,7 +191,7 @@ class TestTripView(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/login/')
 
-    def test_blog_view_redirect_when_logged_out_and_user_public(self):
+    def test_blog_view_when_logged_out_and_user_public(self):
         add_trip()
         add_blog()
         user = User.objects.get(username='testuser')
@@ -278,7 +283,6 @@ class TestBlogView(TestCase):
 class TestPopularTripsView(TestCase):
     def setUp(self):
         populate()
-        new_user(self)
 
     def test_if_trips_are_shown_in_popular_order(self):
         popTrips = Trip.objects.order_by('score').reverse()[:10]
@@ -292,13 +296,69 @@ class TestPopularTripsView(TestCase):
 class TestRecentTripsView(TestCase):
     def setUp(self):
         populate()
-        new_user(self)
 
     def test_if_trips_are_shown_in_most_recent_order(self):
         recentTrips = Trip.objects.order_by('startDate').reverse()[:10]
         response = self.client.get(reverse('recent_trips'))
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['elems'], [repr(elt) for elt in recentTrips])
+
+    def breakDown(self):
+        self.client.logout()
+
+class TestMostActiveTravellersView(TestCase):
+    def setUp(self):
+        populate()
+
+    def test_if_travellers_shown_by_number_of_blogposts(self):
+        users = {}
+        posts = BlogPost.objects.all()
+        for post in posts:
+            users[post.user] = users.get(post.user, 0) + 1
+
+        sorted = sort_dict(users)[:10]
+
+        response = self.client.get(reverse('most_active_travellers'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['elems'], [repr(elt) for elt in sorted])
+
+    def breakDown(self):
+        self.client.logout()
+
+class TestWellTravelledView(TestCase):
+    def setUp(self):
+        populate()
+
+    def test_if_users_shown_by_number_of_trips(self):
+        users = {}
+        trips = Trip.objects.all()
+
+        for trip in trips:
+            users[trip.owner] = users.get(trip.owner, 0) + 1
+
+        sorted = sort_dict(users)[:10]
+
+        response = self.client.get(reverse('best_travelled'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['elems'], [repr(elt) for elt in sorted])
+
+    def breakDown(self):
+        self.client.logout()
+
+class TestSearchView(TestCase):
+    def setUp(self):
+        populate()
+
+    def test_if_search_works(self):
+        users = UserProfile.objects.filter(user__username__icontains='julius')[:10]
+
+        url = reverse('search') + "?search-bar=julius"
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['login_required'], [repr(elt) for elt in users])
 
     def breakDown(self):
         self.client.logout()
