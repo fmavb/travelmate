@@ -2,14 +2,26 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    About us
+    Terms of Use
 {% endblock %}
 
 {% block body_block %}
 
-    <p>ONLY THOSE WHO PLAY WIN. ONLY THOSE WHO RISK WIN. HISTORY FAVORS RISK-TAKERS. FORGETS THE TIMID. EVERYTHING ELSE
-        IS COMMENTARY.</p>
 
-    <p>IVETA CHERNEVA</p>
+
+    <h1 id="title">Terms of Use</h1>
+    <div class="container">
+        <p>Only those who play win. Only those who risk win. History favours risk-takers. Forgets the timid. Everything else is commentary.</p>
+        <p id="signature">Iveta Cherneva</p>
+    </div>
+<style>
+    #signature {
+        text-align: right;
+    }
+    #title{
+        text-align: center;
+    }
+</style>
+
 
 {% endblock %}
