@@ -8,9 +8,12 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 import operator
 
+# In setUp, database is populated using the population_script. Also, a user is created where it is relevant
+# In breakDown, the user that is logged in is logged out.
 
-# Tests were written before the population script was extended, it is therefore normal that some tests fail.
+## Helper function
 
+# Creates a new user 'testuser'
 def new_user(self):
     self.user = User.objects.create_user(username='testuser', password='12345')
     self.client.login(username='testuser', password='12345')
@@ -18,7 +21,7 @@ def new_user(self):
                        homeCountry=Destination.objects.get(name__exact="United Kingdom"))
     user.save()
 
-
+# Adds a new trip with owner 'testuser'
 def add_trip():
     trip = Trip(startDate="2018-03-08", endDate="2018-03-07",
                 destination=Destination.objects.get(name__exact="United Kingdom"),
@@ -26,18 +29,20 @@ def add_trip():
                 )
     trip.save()
 
-
+# Adds a new blog post related to 'testuser''s trip
 def add_blog():
     blog = BlogPost(user=User.objects.get(username="testuser"), trip=Trip.objects.get(title='UK'), title="Post",
                     content="Some content", Date=timezone.now())
     blog.save()
 
 
+# Adds a comment to the blogpost cited above
 def add_comment():
     comment = Comment(user=User.objects.get(username='testuser'), post=BlogPost.objects.get(title="Post"),
                       content="A comment")
     comment.save()
 
+# Returns a sorted dictionary with values in descending order
 def sort_dict(d):
     user_list = []
     for key, value in sorted(d.items(), key=operator.itemgetter(1), reverse=True):
