@@ -23,7 +23,7 @@ def new_user(self):
 
 # Adds a new trip with owner 'testuser'
 def add_trip():
-    trip = Trip(startDate="2018-03-08", endDate="2018-03-07",
+    trip = Trip(startDate="2018-03-05", endDate="2018-03-07",
                 destination=Destination.objects.get(name__exact="United Kingdom"),
                 owner=User.objects.get(username='testuser'), title='UK'
                 )
@@ -57,11 +57,16 @@ class TestTripsModel(TestCase):
         new_user(self)
 
     def test_if_startDate_after_endDate(self):
-        add_trip()
+        trip = Trip(startDate="2018-03-08", endDate="2018-03-07",
+                    destination=Destination.objects.get(name__exact="United Kingdom"),
+                    owner=User.objects.get(username='testuser'), title='UK'
+                    )
+        trip.save()
         self.assertRaises(ValidationError)
         # self.assertEqual((trip.startDate <= trip.endDate), True)
 
-
+        def breakDown(self):
+            self.client.logout()
 
 
 class TestMyProfileView(TestCase):
@@ -105,6 +110,14 @@ class TestHomeView(TestCase):
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Welcome to Travelmate, testuser!")
+
+    def test_if_user_redirect_when_UserProfile_does_not_exist(self):
+        self.user = User.objects.create_user(username='testuser1', password='12345')
+        self.client.login(username='testuser1', password='12345')
+
+        response = self.client.get(reverse('home'))
+
+        self.assertRedirects(response, reverse('settings'))
 
     def breakDown(self):
         self.client.logout()

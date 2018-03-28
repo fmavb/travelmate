@@ -42,7 +42,7 @@ def home(request):
         try:
             userprofile = UserProfile.objects.get(user__exact=request.user)
         except UserProfile.DoesNotExist:
-            return HttpResponseRedirect("/app/settings/")
+            return HttpResponseRedirect(reverse('settings'))
         start_dict = userprofile.as_dict()
         trip_list = Trip.objects.filter(owner__exact=request.user)
         trip_serial = [trip.as_dict() for trip in trip_list]
@@ -282,9 +282,7 @@ def view_profile(request, username):
     except UserProfile.DoesNotExist:
         return HttpResponseRedirect(reverse('settings'))
 
-    user = get_object_or_404(User, username=username)
-    userPublic = UserProfile.objects.get(user=user)
-    userPublic = userPublic.public
+    userPublic = userProfile.public
     if userPublic == False and request.user.is_authenticated == False:
         return HttpResponseRedirect(reverse('login'))
     try:
@@ -308,7 +306,7 @@ def view_trip(request, username, trip_name_slug):
     userPublic = UserProfile.objects.get(user=user)
     userPublic = userPublic.public
     if userPublic == False and request.user.is_authenticated == False:
-        return HttpResponseRedirect('/login/')
+        return HttpResponseRedirect(reverse('login'))
     try:
         trip = Trip.objects.get(slug=trip_name_slug)
         posts = BlogPost.objects.filter(trip__exact=trip).order_by('Date').reverse()
@@ -347,7 +345,7 @@ def blog_post(request, username, trip_name_slug, post_name_slug):
         userProfile = UserProfile.objects.get(user=user)
         userPublic = userProfile.public
         if userPublic == False and request.user.is_authenticated == False:
-            return HttpResponseRedirect('/login/')
+            return HttpResponseRedirect(reverse('login'))
     except BlogPost.DoesNotExist:
         post = None
     except Trip.DoesNotExist:
