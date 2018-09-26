@@ -40,12 +40,10 @@
     </div>
 {% endblock %}
 {% block footer_block %}
-    <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
     <!--read-only fields will have white backgrounds-->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
     <style>
         html {
             position: relative;
@@ -60,8 +58,6 @@
             background-color: white !important;
         }
     </style>
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
     <script>
         //Parse the available places from JSON
         var data = JSON.parse('{{ json_data | escapejs }}');
