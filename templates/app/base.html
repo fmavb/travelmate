@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no,">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -28,6 +28,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/css_tweaks.css' %}" type="text/css">
     <style>
+        *{
+            margin: 0;
+        }
         html, body {
             height: 100%;
         }
@@ -36,13 +39,19 @@
             display: flex;
             flex-direction: column;
         }
-
-        .content {
-            flex: 1 0 auto;
-        }
-
         .footer {
-            flex-shrink: 0;
+            width:100%;
+            height:200px;
+        }
+        .content {
+            min-height: 100%;
+            padding-bottom: -200px;
+        }
+        .content:after{
+            display: block;
+            content: "";
+        }
+        .footer, .content:after{
         }
 
         {% block css %}
@@ -67,20 +76,21 @@
 
 
 
-        <div id="logo">
-
-            <a href="{% url 'home' %}"><img src="{% static "images/back.jpg" %}"
-                                            alt="logo"/></a>
-
-        </div>
 
         <nav class="navbar navbar-light bg-light static top">
             <a class="btn btn-light" href="{% url 'home' %}">Home</a>
-            <a class="btn btn-light" href="{% url 'add_trip' %}" style="">Add a New Trip</a>
-            <a class="btn btn-light" href="{% url 'settings' %}">Settings</a>
-            <a class="btn btn-light" href="{% url 'view_profile' request.user.username %}">My Profile</a>
-            <a class="btn btn-light" href="{% url 'passport' %}">Passport</a>
-
+            <div class="dropdown">
+                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Me
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="btn btn-light" href="{% url 'add_trip' %}" style="">Add a New Trip</a></li>
+                    <li><a class="btn btn-light" href="{% url 'view_profile' request.user.username %}">My Profile</a></li>
+                    <li><a class="btn btn-light" href="{% url 'passport' %}">Passport</a></li>
+                    <li><a class="btn btn-light" href="{% url 'settings' %}">Settings</a></li>
+                </ul>
+            </div>
 
             <div class="dropdown">
                 <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
@@ -189,31 +199,32 @@
     {% block footer_block %}
     {% endblock %}
 </div>
-</body>
-<footer class="footer bg-light" id="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-                <ul class="list-inline mb-2">
-                    <li class="list-inline-item">
-                        <a href="{% url 'about' %}">About</a>
-                    </li>
-                    <li class="list-inline-item">&sdot;</li>
-                    <li class="list-inline-item">
-                        <a href="{% url 'contact' %}">Contact</a>
-                    </li>
-                    <li class="list-inline-item">&sdot;</li>
-                    <li class="list-inline-item">
-                        <a href="{% url 'terms_of_use' %}">Terms of Use</a>
-                    </li>
-                    <li class="list-inline-item">&sdot;</li>
-                    <li class="list-inline-item">
-                        <a href="{% url 'privacy_policy' %}">Privacy Policy</a>
-                    </li>
-                </ul>
-                <p class="text-muted small mb-4 mb-lg-0">&copy; Travelmate 2018. All Rights Reserved.</p>
+    <footer class="footer bg-light" id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                    <ul class="list-inline mb-2">
+                        <li class="list-inline-item">
+                            <a href="{% url 'about' %}">About</a>
+                        </li>
+                        <li class="list-inline-item">&sdot;</li>
+                        <li class="list-inline-item">
+                            <a href="{% url 'contact' %}">Contact</a>
+                        </li>
+                        <li class="list-inline-item">&sdot;</li>
+                        <li class="list-inline-item">
+                            <a href="{% url 'terms_of_use' %}">Terms of Use</a>
+                        </li>
+                        <li class="list-inline-item">&sdot;</li>
+                        <li class="list-inline-item">
+                            <a href="{% url 'privacy_policy' %}">Privacy Policy</a>
+                        </li>
+                    </ul>
+                    <p class="text-muted small mb-4 mb-lg-0">&copy; Travelmate 2018. All Rights Reserved.</p>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
+</body>
 </html>
+

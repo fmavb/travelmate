@@ -5,9 +5,7 @@
 {% endblock %}
 {% block body_block %}
 
-    <div class="map-container">
-        <div id="map"></div>
-    </div>
+    <div class="container-fluid" id="map"></div>
     <div id="box">
         <div class="row">
             <div class="col-xl-9 mx-auto">
@@ -83,8 +81,8 @@
             //Create new InfoWindow, with trip details, and link
             var infowindow = new google.maps.InfoWindow({
                 content: dateString +
-                "<br />To: " + trips.name +
-                "<br />Title: <a href=" + urlString + ">" + trips.title
+                    "<br />To: " + trips.name +
+                    "<br />Title: <a href=" + urlString + ">" + trips.title
             });
             google.maps.event.addListener(polyLine, 'click', function (e) {
                 //If there is a open infowindow on the map, close it
@@ -100,37 +98,35 @@
 
         var previous = '{{ previous }}';
         {% if user.is_authenticated %}
-        if (previous.includes('login') || previous.includes('settings') || previous.includes('register')) {
-            setTimeout('$("#box").fadeOut(1000)', 3000);
-        } else {
-            document.getElementById("box").remove();
-        }
+            if (previous.includes('login') || previous.includes('settings') || previous.includes('register')) {
+                setTimeout('$("#box").fadeOut(1000)', 3000);
+            } else {
+                document.getElementById("box").remove();
+            }
         {% endif %}
     </script>
     <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-R2PpdSaF_ER0VvYoxoCuiNVWDaZ60m4&callback=initMap">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh6NyV3XA60p9wjRd9mD3hllWfwAuKPkQ&callback=initMap">
     </script>
     <style>
-    html{
-        overflow-x: hidden;
-    }
+         html, body{
+            height: 100%;
+            width: 100%;
+        }
+
         #map {
             position: absolute;
-            top: 190px;
-            right: 0;
-            bottom: 180px;
-            left: 0;
+            min-height: 93%;
+            width: 100%;
         }
+
         #box {
-            position: absolute;
-            margin: auto;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            width: 800px;
-            height: 100px;
+            margin-top: 125px;
+            position: relative;
             text-align: center;
+        }
+        .footer{
+
         }
     </style>
 {% endblock %}
