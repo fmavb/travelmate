@@ -43,7 +43,6 @@
             flex: 1;
         }
         .footer{
-            padding-bottom:10px;
         }
         {% block css %}
 
@@ -67,13 +66,9 @@
 
 
     <!-- Navigation -->
-
     {% if request.user.is_authenticated %}
 
-
-
-
-        <nav class="navbar navbar-light bg-light static top">
+        <nav class="navbar navbar-light bg-light">
             <a class="btn btn-light" href="{% url 'home' %}">Home</a>
             <div class="dropdown">
                 <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
