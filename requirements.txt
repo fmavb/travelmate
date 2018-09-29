@@ -6,6 +6,7 @@ Django==1.11.7
 django-registration-redux==1.4
 idna==2.6
 oauthlib==2.0.6
+zlib==1.2.11
 Pillow==5.0.0
 PyJWT==1.6.0
 python-social-auth==0.3.6
