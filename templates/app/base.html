@@ -18,6 +18,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
             crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
@@ -34,16 +35,20 @@
             height: 100%;
             margin: 0;
         }
-        body{
+
+        body {
             display: flex;
             min-height: 100%;
             flex-direction: column;
         }
-        .content{
+
+        .content {
             flex: 1;
         }
-        .footer{
+
+        .footer {
         }
+
         {% block css %}
         {% endblock %}
     </style>
@@ -67,113 +72,157 @@
     <!-- Navigation -->
     {% if request.user.is_authenticated %}
 
-        <nav class="navbar navbar-light bg-light">
-            <a class="btn btn-light" href="{% url 'home' %}">Home</a>
-            <div class="dropdown">
-                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    Me
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="btn btn-light" href="{% url 'add_trip' %}" style="">Add a New Trip</a></li>
-                    <li><a class="btn btn-light" href="{% url 'view_profile' request.user.username %}">My Profile</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-light" href="{% url 'home' %}">Home</a>
                     </li>
-                    <li><a class="btn btn-light" href="{% url 'passport' %}">Passport</a></li>
-                    <li><a class="btn btn-light" href="{% url 'settings' %}">Settings</a></li>
+                    <li class="nav-item dropdown">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                Me
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="btn btn-light" href="{% url 'add_trip' %}" style="">Add a New Trip</a>
+                                </li>
+                                <li><a class="btn btn-light" href="{% url 'view_profile' request.user.username %}">My
+                                    Profile</a>
+                                </li>
+                                <li><a class="btn btn-light" href="{% url 'passport' %}">Passport</a></li>
+                                <li><a class="btn btn-light" href="{% url 'settings' %}">Settings</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                Trips
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
+                                <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                Travellers
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most
+                                    Active</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+
+                    <form class="nform-inline" action="{% url 'search' %}" method="get">
+                        <div class="input-group">
+                            <input required name="search-bar" type="text" class="form-control"
+                                   placeholder="Search for other users">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <li class="nav-item">
+                        <div style="text-align:right;">
+
+                            <a class="btn btn-primary" href="{% url 'logout' %}?next=/">Log out</a>
+
+
+                        </div>
+                    </li>
                 </ul>
-            </div>
-
-            <div class="dropdown">
-                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    Trips
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
-                    <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
-                </ul>
-            </div>
-
-            <div class="dropdown">
-                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    Travellers
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a></li>
-                    <li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
-                </ul>
-            </div>
-
-
-            <form class="nform-inline" action="{% url 'search' %}" method="get">
-                <div class="input-group">
-                    <input required name="search-bar" type="text" class="form-control"
-                           placeholder="Search for other users">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-            <div style="text-align:right;">
-
-                <a class="btn btn-primary" href="{% url 'logout' %}?next=/">Log out</a>
-
-
             </div>
         </nav>
 
     {% else %}
 
 
-        <nav class="navbar navbar-light bg-light static top">
-            <a class="btn btn-light" href="{% url 'home' %}">Home</a>
-            <a class="btn btn-light" href="{% url 'about' %}">Who are we</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-light" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-light" href="{% url 'about' %}">Who are we</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                Trips
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
+                                <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
+                            </ul>
+                        </div>
+                    </li>
 
-            <div class="dropdown">
-                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    Trips
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{% url 'pop_trips' %}">Popular Trips</a></li>
-                    <li><a class="dropdown-item" href="{% url 'recent_trips' %}">Most Recent Trips</a></li>
+                    <li class="nav-item dropdown">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                Travellers
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most
+                                    Active</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <form class="nform-inline" action="{% url 'search' %}" method="get">
+                        <div class="input-group">
+                            <input required name="search-bar" type="text" class="form-control"
+                                   placeholder="Search for other users">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <li class="nav-item">
+                        <div id="login">
+                            <a class="btn btn-primary" href="{% url 'login' %}?next=/">Log In</a>
+                        </div>
+                    </li>
                 </ul>
-            </div>
-
-
-            <div class="dropdown">
-                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    Travellers
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{% url 'best_travelled' %}">The Best-Travelled</a></li>
-                    <li><a class="dropdown-item" href="{% url 'most_active_travellers' %}">The Most Active</a></li>
-                </ul>
-            </div>
-
-            <form class="nform-inline" action="{% url 'search' %}" method="get">
-                <div class="input-group">
-                    <input required name="search-bar" type="text" class="form-control"
-                           placeholder="Search for other users">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-            <div id="login">
-                <a class="btn btn-primary" href="{% url 'login' %}?next=/">Log In</a>
-            </div>
         </nav>
 
     {% endif %}
+
     {% block body_block %}
 
     {% endblock %}
