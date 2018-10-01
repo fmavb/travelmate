@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from app import views as app_views
 from django.contrib.auth import views as auth_views
 from registration.backends.simple.views import RegistrationView
-
+from django.views.static import serve
 
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, user):
