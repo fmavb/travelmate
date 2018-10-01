@@ -16,6 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media').replace('\\', '/')
+STATIC_ROOT = os.path.join(BASE_DIR,'collectstatic')
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +26,7 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media').replace('\\', '/')
 SECRET_KEY = '(6ue79y1s+&1w2zwbg%3r)x740x&z+9a8pr9s!#m*6fxkk)=2='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -147,7 +148,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = [STATIC_DIR, ]
 
-STATIC_URL = '/static/'
+STATIC_URL = 'https://fmavb.pythonanywhere.com/collectstatic'
 
 MEDIA_ROOT = MEDIA_DIR
-MEDIA_URL = '/media/'
+MEDIA_URL = 'https://fmavb.pythonanywhere.com/media/'

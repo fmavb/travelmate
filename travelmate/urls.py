@@ -20,6 +20,8 @@ from django.conf.urls.static import static
 from app import views as app_views
 from django.contrib.auth import views as auth_views
 from registration.backends.simple.views import RegistrationView
+from . import settings
+from django.views.static import serve
 
 
 class MyRegistrationView(RegistrationView):
@@ -37,8 +39,9 @@ urlpatterns = [
                   url(r'^accounts/', include('registration.backends.simple.urls')),
 
                   url(r'^app/', include('app.urls')),
-                  url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-                  # url(r'^(?P<username>[\w\-]+)/$', app_views.view_profile, name='view_profile'),
+                  url(r'^collectstatic/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+                  url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
+                  url(r'^(?P<username>[\w\-]+)/$', app_views.view_profile, name='view_profile'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 LOGIN_URL = '/login'
