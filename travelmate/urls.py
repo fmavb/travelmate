@@ -37,7 +37,6 @@ urlpatterns = [
                   url(r'^accounts/', include('registration.backends.simple.urls')),
 
                   url(r'^app/', include('app.urls')),
-                  url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
                   # url(r'^(?P<username>[\w\-]+)/$', app_views.view_profile, name='view_profile'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
