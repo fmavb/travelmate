@@ -148,7 +148,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = [STATIC_DIR, ]
 
-STATIC_URL = 'https://fmavb.pythonanywhere.com/collectstatic'
+STATIC_URL = 'https://fmavb.pythonanywhere.com/collectstatic/'
 
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = 'https://fmavb.pythonanywhere.com/media/'
