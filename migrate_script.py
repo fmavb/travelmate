@@ -20,7 +20,8 @@ def migration():
     trips = Trip.objects.all()
     for trip in trips:
         owner = Trip.owner
-        trip.origin = owner.homeCountry
+        ownerProfile = UserProfile.objects.get(user=owner)
+        trip.origin = ownerProfile.homeCountry
 
 
 if __name__ == '__main__':
