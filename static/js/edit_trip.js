@@ -23,6 +23,15 @@ var endcheck = null;
                     start.datepicker("option", "maxDate", getDate(this));
                 });
 
+            $(".origin").autocomplete({
+                maxResults: 10,
+
+                source: function (request, response) {
+                    var results = $.ui.autocomplete.filter(availableTags, request.term);
+                    response(results.slice(0, this.options.maxResults));
+                }
+            }).val(trip.origin).data(availableTags);
+
             $(".destination").autocomplete({
                 //MaxResults is the number of results displayed when autocompleting
                 maxResults: 10,
@@ -31,7 +40,7 @@ var endcheck = null;
                     var results = $.ui.autocomplete.filter(availableTags, request.term);
                     response(results.slice(0, this.options.maxResults));
                 }
-            });
+            }).val(trip.name).data(availableTags);
 
             $("#submit-button").click(function(e){
               e.preventDefault();
@@ -52,7 +61,6 @@ var endcheck = null;
                 return date;
             }
 
-            $('#country').val(trip.name);
             $('#title').val(trip.title);
             $('.start').val(trip.sDate);
             $('.end').val(trip.eDate);
@@ -76,10 +84,20 @@ var endcheck = null;
             $("#EndLabel").removeClass("text-danger");
             $(".invalid-end").addClass("invisible");
 
-            var nameValue = document.getElementById("country").value;
+            var origin = document.getElementById("origin").value;
+            var destination = document.getElementById("destination").value;
             var title = $("#title").val();
-            flag = true
-            if (!availableTags.includes(nameValue)) {
+            flag = true;
+
+            if (!availableTags.includes(origin)) {
+                $(".origin").addClass("is-invalid");
+                $(".origin").val("");
+                $("#formGroupDestinationLabel").addClass("text-danger");
+                $(".invalid-feedback").removeClass("invisible");
+                flag = false;
+            }
+
+            if (!availableTags.includes(destination)) {
                 $(".destination").addClass("is-invalid");
                 $(".destination").val("");
                 $("#formGroupDestinationLabel").addClass("text-danger");

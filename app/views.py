@@ -490,8 +490,11 @@ def edit_trip(request, username, trip_name_slug):
         if form.is_valid():
             # AutoComplete works with TextInput, therefore we match a valid text input to Destination entity
             # Form Validation happens in JavaScript, only valid result accepted onSubmit
+            originText = form.cleaned_data['originText']
+            originObject = Destination.objects.get(name__exact=originText)
             destinationText = form.cleaned_data['destinationText']
             destinationObject = Destination.objects.get(name__exact=destinationText)
+            trip.origin = originObject
             trip.destination = destinationObject
             trip.title = form.cleaned_data['title']
             trip.startDate = form.cleaned_data['startDate']
