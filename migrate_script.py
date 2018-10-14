@@ -19,7 +19,7 @@ from app.models import Destination, UserProfile, Trip, BlogPost, Comment, Rating
 def migration():
     trips = Trip.objects.all()
     for trip in trips:
-        owner = Trip.owner
+        owner = trip.owner
         ownerProfile = UserProfile.objects.get(user=owner)
         trip.origin = ownerProfile.homeCountry
 
