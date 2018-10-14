@@ -33,7 +33,7 @@
 
             //Init the google map
             var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 5,
+                zoom: 3,
                 center: {lat: startLat, lng: startLng},
                 mapTypeId: 'terrain'
             });
@@ -48,6 +48,8 @@
                     "#ff00ff", "#ffd700", "#008000", "#4b0082", "#f0e68c", "#add8e6", "#e0ffff", "#f0ffff", "#90ee90", "#d3d3d3", "#ffb6c1", "#ffffe0", "#00ff00", "#ff00ff", "#800000", "#000080", "#808000", "#ffa500", "#000000", "#ffc0cb", "#800080", "#800080", "#ff0000", "#c0c0c0", "#ffffff", "#ffff00"]
 
                 var current = trips[i];
+                startLat = parseFloat(current["Olat"]);
+                startLng = parseFloat(current["Olng"]);
                 var endLat = parseFloat(current["lat"]);
                 var endLng = parseFloat(current["lng"]);
                 var route = [{lat: startLat, lng: startLng}, {lat: endLat, lng: endLng}];

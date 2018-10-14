@@ -18,23 +18,23 @@
     {% if not rating %}
         <script src="{% static 'js/rating.js' %}"></script>
         <script>
-          $(function () {
-            var href;
-            var title;
-            var elem = $(".deletestart");
-            elem.each(function(){
-              $(this).click(function(){
-                href = $(this).attr("data-href");
-                title = $(this).attr("data-title");
-                $("#title").text(title);
-              });
+            $(function () {
+                var href;
+                var title;
+                var elem = $(".deletestart");
+                elem.each(function () {
+                    $(this).click(function () {
+                        href = $(this).attr("data-href");
+                        title = $(this).attr("data-title");
+                        $("#title").text(title);
+                    });
+                });
+                $("#deletebutton").click(function () {
+                    if (href != "") {
+                        window.location.href = href;
+                    }
+                });
             });
-            $("#deletebutton").click(function(){
-              if(href != ""){
-                window.location.href = href;
-              }
-            });
-          });
         </script>
     {% endif %}
 {% endblock %}
@@ -44,7 +44,9 @@
     <div class="container">
         <h1>{{ trip.title }}</h1>
         <br>
-        You just landed on <a href="{% url 'view_profile' trip.owner %}">{{ trip.owner.username }}</a>'s trip to {{ trip.destination }} <br>
+        You just landed on <a href="{% url 'view_profile' trip.owner %}">{{ trip.owner.username }}</a>'s trip
+        from {{ trip.origin }}
+        to {{ trip.destination }} <br>
         Trip from {{ trip.startDate }} to {{ trip.endDate }} <br>
 
 
@@ -80,9 +82,9 @@
                         </button>
                     {% else %}
                         <span>You rated this Trip: </span>
-                            {% for o in rating %}
-                                <span class="fa fa-star fa-2x checked"></span>
-                            {% endfor %}
+                        {% for o in rating %}
+                            <span class="fa fa-star fa-2x checked"></span>
+                        {% endfor %}
                     {% endif %}
                 {% endif %}
             {% endif %}
@@ -110,11 +112,13 @@
                                 <td>{{ comments|get_item:elem.title }}</td>
                                 <td>
                                     {% if request.user == trip.owner %}
-                                        <a class="fa fa-times-circle deletestart" data-toggle="modal" data-target="#deletebox"
-                                           data-href="{% url 'delete_post' user.username trip.slug elem.slug %}" data-title="{{ elem.title }}"
+                                        <a class="fa fa-times-circle deletestart" data-toggle="modal"
+                                           data-target="#deletebox"
+                                           data-href="{% url 'delete_post' user.username trip.slug elem.slug %}"
+                                           data-title="{{ elem.title }}"
                                            href="#"></a>
                                         <a class="fa fa-edit"
-                                                   href="{% url 'edit_post' user.username trip.slug elem.slug %}"></a>
+                                           href="{% url 'edit_post' user.username trip.slug elem.slug %}"></a>
                                     {% endif %}
                                 </td>
 
@@ -160,23 +164,23 @@
     </div>
 
     <div id="deletebox" class="modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Confirm delete</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p id="modaltext">Are you sure you want to delete this blogpost?</p>
-            <p id="title"></p>
-          </div>
-          <div class="modal-footer">
-            <button id="deletebutton" type="button" class="btn btn-primary">Delete</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modaltext">Are you sure you want to delete this blogpost?</p>
+                    <p id="title"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="deletebutton" type="button" class="btn btn-primary">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 {% endblock %}

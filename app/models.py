@@ -63,8 +63,11 @@ class Trip(models.Model):
         return {
             "lat": self.destination.latitude,
             "lng": self.destination.longitude,
+            "Olat": self.origin.latitude,
+            "Olng": self.origin.longitude,
             "sDate": str(self.startDate),
             "eDate": str(self.endDate),
+            "origin": self.origin.name,
             "name": self.destination.name,
             'title': self.title,
             'slug': self.slug,
