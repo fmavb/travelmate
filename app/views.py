@@ -216,7 +216,7 @@ def add_trip(request):
     # and then dump into json so we can pass it on to settings.html for autocomplete
     # Ordered by alphabetical order
     dest = [destination.name for destination in Destination.objects.all().order_by('name')]
-    compile = {'names': dest}
+    compile = {'names': dest, 'home': UserProfile.objects.get(user=request.user).homeCountry.name}
     data = json.dumps(compile)
 
     try:
@@ -232,8 +232,11 @@ def add_trip(request):
             trip.owner = request.user
             # AutoComplete works with TextInput, therefore we match a valid text input to Destination entity
             # Form Validation happens in JavaScript, only valid result accepted onSubmit
+            originText = form.cleaned_data['originText']
             destinationText = form.cleaned_data['destinationText']
+            originObject = Destination.objects.get(name__exact=originText)
             destinationObject = Destination.objects.get(name__exact=destinationText)
+            trip.origin = originObject
             trip.destination = destinationObject
             trip.save()
             # Use Redirect so that URL in browser also changes

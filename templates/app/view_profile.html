@@ -47,6 +47,7 @@
                                 <thead>
                                 <tr>
                                     <th>Title</th>
+                                    <th>Origin</th>
                                     <th>Destination</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
@@ -58,6 +59,7 @@
                                     <tr>
                                         <td><a href="{% url 'view_trip' elem.owner elem.slug %}">{{ elem.title }}</a>
                                         </td>
+                                        <td>{{ elem.origin }}</td>
                                         <td>{{ elem.destination }}</td>
                                         <td>{{ elem.startDate }}</td>
                                         <td>{{ elem.endDate }}</td>

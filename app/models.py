@@ -43,7 +43,8 @@ class Trip(models.Model):
     startDate = models.DateField()
     endDate = models.DateField()
     public = models.BooleanField(default=False)
-    destination = models.ForeignKey(Destination, on_delete=models.CASCADE)
+    origin = models.ForeignKey(Destination, default="", related_name="Origin", null=True, blank=True)
+    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name="Destination")
     title = models.CharField(max_length=85)
     slug = models.SlugField(unique=True)
     score = models.IntegerField(default=0)
@@ -62,8 +63,11 @@ class Trip(models.Model):
         return {
             "lat": self.destination.latitude,
             "lng": self.destination.longitude,
+            "Olat": self.origin.latitude,
+            "Olng": self.origin.longitude,
             "sDate": str(self.startDate),
             "eDate": str(self.endDate),
+            "origin": self.origin.name,
             "name": self.destination.name,
             'title': self.title,
             'slug': self.slug,
