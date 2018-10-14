@@ -22,6 +22,7 @@ def migration():
         owner = trip.owner
         ownerProfile = UserProfile.objects.get(user=owner)
         trip.origin = ownerProfile.homeCountry
+        trip.save()
 
 
 if __name__ == '__main__':
