@@ -9,32 +9,44 @@
             <h1 class="card-header">Add a new Trip</h1>
             <form id="tripform" class="card-body" method="post" action="/app/add_trip/">
                 {% csrf_token %}
+                <div>
+                    <div class="form-group">
+                        <label id="TitleLabel">Title</label>
+                        {{ form.title }}
+                        {{ form.title.errors }}
+                        <div class="invalid-title invisible text-danger"></div>
+                    </div>
+                </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label id="StartLabel">Start of Trip</label>
+                        <label id="formGroupOriginLabel">Origin</label>
+                        {{ form.originText }}
+                        <div class="invalid-feedback invisible text-danger">
+                            Please enter a valid origin (select from Autocomplete)!
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label id="formGroupDestinationLabel">Destination</label>
+                        {{ form.destinationText }}
+                        <div class="invalid-feedback invisible text-danger">
+                            Please enter a valid destination (select from Autocomplete)!
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label id="StartLabel">Start Date</label>
                         {{ form.startDate }}
                         <div class="invalid-start invisible text-danger">Please select a start date!</div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label id="EndLabel">End of Trip</label>
+                        <label id="EndLabel">End Date</label>
                         {{ form.endDate }}
                         <div class="invalid-end invisible text-danger">Please select an end date!</div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label id="formGroupDestinationLabel">Destination</label>
-                    {{ form.destinationText }}
-                    <div class="invalid-feedback invisible text-danger">
-                        Please enter a valid destination (select from Autocomplete)!
-                    </div>
-                </div>
-                <div class="form-group">
-                  <label id="TitleLabel">Title</label>
-                    {{ form.title }}
-                    {{ form.title.errors}}
-                    <div class="invalid-title invisible text-danger"></div>
-                </div>
-                <input id="submit-button"class="btn btn-primary float-right" type="submit" name="validate" value="Add Trip"/>
+                <input id="submit-button" class="btn btn-primary float-right" type="submit" name="validate"
+                       value="Add Trip"/>
             </form>
         </div>
     </div>
@@ -62,6 +74,7 @@
         //Parse the available places from JSON
         var data = JSON.parse('{{ json_data | escapejs }}');
         var availableTags = data.names;
+        var home = data.home;
         //$ sign is shortcut for jQuery, and getElementById(), function that sets up start and end datepickers
     </script>
     <script src="{% static 'js/add_trip.js' %}"></script>

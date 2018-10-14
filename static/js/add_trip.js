@@ -22,6 +22,15 @@ $(function () {
                     start.datepicker("option", "maxDate", getDate(this));
                 });
 
+    $(".origin").autocomplete({
+        maxResults: 10,
+
+        source: function (request, response) {
+            var results = $.ui.autocomplete.filter(availableTags, request.term);
+            response(results.slice(0, this.options.maxResults));
+        }
+    }).val(home).data(availableTags)._trigger('select');
+
             $(".destination").autocomplete({
                 //MaxResults is the number of results displayed when autocompleting
                 maxResults: 10,
@@ -53,6 +62,7 @@ $(function () {
         //Check if entered destination is correct
         function validateForm() {
           //Clean Up
+            $(".origin").removeClass("is-invalid");
             $(".destination").removeClass("is-invalid");
             $("#formGroupDestinationLabel").removeClass("text-danger");
             $(".invalid-feedback").addClass("invisible");
@@ -69,6 +79,15 @@ $(function () {
             var nameValue = document.getElementById("country").value;
             var title = $("#title").val();
             flag = true
+
+            if (!availableTags.includes(nameValue)) {
+                $(".origin").addClass("is-invalid");
+                $(".origin").val("");
+                $("#formGroupOriginLabel").addClass("text-danger");
+                $(".invalid-feedback").removeClass("invisible");
+                flag = false;
+            }
+
             if (!availableTags.includes(nameValue)) {
                 $(".destination").addClass("is-invalid");
                 $(".destination").val("");
