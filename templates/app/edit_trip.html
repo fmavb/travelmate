@@ -9,34 +9,49 @@
             <h1 class="card-header">Edit Trip</h1>
             <form class="card-body" id="tripform" method="post" action="/app/{{ user.username }}/edit_trip/{{ slug }}/">
                 {% csrf_token %}
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                      <label id="StartLabel">Start of Trip</label>
-                      {{ form.startDate }}
-                      <div class="invalid-start invisible text-danger">Please select a start date!</div>
-                  </div>
-                  <div class="form-group col-md-6">
-                      <label id="EndLabel">End of Trip</label>
-                      {{ form.endDate }}
-                      <div class="invalid-end invisible text-danger">Please select an end date!</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                    <label id="formGroupDestinationLabel">Destination</label>
-                    {{ form.destinationText }}
-                    <div class="invalid-feedback invisible text-danger">
-                        Please enter a valid destination (select from Autocomplete)!
+                <div>
+                    <div class="form-group">
+                        <label id="TitleLabel">Title</label>
+                        {{ form.title }}
+                        {{ form.title.errors }}
+                        <div class="invalid-title invisible text-danger"></div>
                     </div>
                 </div>
-                <div class="form-group">
-                  <label id="TitleLabel">Title</label>
-                    {{ form.title }}
-                    {{ form.title.errors}}
-                    <div class="invalid-title invisible text-danger"></div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label id="formGroupOriginLabel">Origin</label>
+                        {{ form.originText }}
+                        <div class="invalid-feedback invisible text-danger">
+                            Please enter a valid origin (select from Autocomplete)!
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label id="formGroupDestinationLabel">Destination</label>
+                        {{ form.destinationText }}
+                        <div class="invalid-feedback invisible text-danger">
+                            Please enter a valid destination (select from Autocomplete)!
+                        </div>
+                    </div>
                 </div>
-                <input id="submit-button" class="btn btn-primary float-right" type="submit" name="validate" value="Edit Trip"/>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label id="StartLabel">Start Date</label>
+                        {{ form.startDate }}
+                        <div class="invalid-start invisible text-danger">Please select a start date!</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label id="EndLabel">End Date</label>
+                        {{ form.endDate }}
+                        <div class="invalid-end invisible text-danger">Please select an end date!</div>
+                    </div>
+                </div>
+                <input id="submit-button" class="btn btn-primary float-right" type="submit" name="validate"
+                       value="Add Trip"/>
             </form>
         </div>
+    </div>
+    </form>
+    </div>
     </div>
 {% endblock %}
 {% block footer_block %}
