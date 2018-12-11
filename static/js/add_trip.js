@@ -39,7 +39,9 @@ $(function () {
             var results = $.ui.autocomplete.filter(availableTags, request.term);
             response(results.slice(0, this.options.maxResults));
         }
-    });
+
+    }).val("").data(availableTags);
+
     $("#submit-button").click(function (e) {
         e.preventDefault();
         flag = validateForm();
@@ -82,6 +84,12 @@ function validateForm() {
     var title = $("#title").val();
     flag = true
 
+    const origin = document.getElementById("origin").value;
+    const destination = document.getElementById("destination").value;
+
+    var title = $("#title").val();
+    flag = true
+
     if (!availableTags.includes(origin)) {
         $(".origin").addClass("is-invalid");
         $(".origin").val("");
@@ -114,7 +122,9 @@ function validateForm() {
             type: 'GET',
             async: false,
             url: '/app/ajax/check_title/',
-            data: {title: title, type: "trip"},
+
+            data: { title: title, type: "trip" },
+    
             success: function (data) {
                 if (data == "False") {
                     flag = false;
