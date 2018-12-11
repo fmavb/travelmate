@@ -19,10 +19,10 @@ class Settings(forms.ModelForm):
 
 class TripForm(forms.ModelForm):
     originText = forms.CharField(required=True, widget=forms.TextInput(
-        attrs={'id': 'country', 'class': 'origin form-control',
+        attrs={'id': 'origin', 'class': 'origin form-control',
                'placeholder': 'Type your origin Country/State'}))
     destinationText = forms.CharField(required=True, widget=forms.TextInput(
-        attrs={'id': 'country', 'class': 'destination form-control',
+        attrs={'id': 'destination', 'class': 'destination form-control',
                'placeholder': 'Type your destination Country/State'}))
     title = forms.CharField(required=True, widget=forms.TextInput(
         attrs={'id': 'title', 'class': 'form-control', 'placeholder': 'Give your trip a title!'}))

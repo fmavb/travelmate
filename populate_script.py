@@ -38,7 +38,7 @@ def auto_migrations():
 
 
 def clear_media():
-	folder = 'media\\flags'
+	folder = 'media/flags'
 	for file in os.listdir(folder):
 		file_path = os.path.join(folder, file)
 		try:
@@ -114,7 +114,7 @@ def populate():
 			name = row[1]
 			latitude = float(row[2])
 			longitude = float(row[3])
-			picPath = "flags\\" + row[4]
+			picPath = "flags/" + row[4]
 			add_destination(cc, name, latitude, longitude,picPath)
 
 		for key, value in users.items():
