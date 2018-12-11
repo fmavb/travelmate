@@ -83,6 +83,7 @@
             //Create new InfoWindow, with trip details, and link
             var infowindow = new google.maps.InfoWindow({
                 content: dateString +
+                    "<br />From: " + trips.origin +
                     "<br />To: " + trips.name +
                     "<br />Title: <a href=" + urlString + ">" + trips.title
             });
@@ -111,7 +112,7 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh6NyV3XA60p9wjRd9mD3hllWfwAuKPkQ&callback=initMap">
     </script>
     <style>
-         html, body{
+        html, body {
             height: 100%;
             width: 100%;
         }

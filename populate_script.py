@@ -136,7 +136,7 @@ def populate():
 		for comment in comments:
 			print("Adding comment to blog post " + comment["posttitle"])
 			add_comment(comment)
-            
+
 
 def add_destination(cc, nam, lat, longi, path):
     d = Destination.objects.get_or_create(name=nam, latitude=lat, longitude=longi)[0]
